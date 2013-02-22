@@ -99,6 +99,7 @@
             this.label64 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.LidarOpenGlCheckBox = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
             this.LidarDeviceInfoStartAngleTxtBox = new System.Windows.Forms.TextBox();
@@ -291,7 +292,6 @@
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.CommunicationTimer = new System.Windows.Forms.Timer(this.components);
-            this.LidarOpenGlCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pBoxIpl1)).BeginInit();
@@ -330,7 +330,7 @@
             this.groupBox1.Size = new System.Drawing.Size(337, 269);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Received Data";
+            this.groupBox1.Text = "Measured Lidar Data";
             // 
             // zg1
             // 
@@ -1047,6 +1047,16 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Laser Range Finder";
             // 
+            // LidarOpenGlCheckBox
+            // 
+            this.LidarOpenGlCheckBox.AutoSize = true;
+            this.LidarOpenGlCheckBox.Location = new System.Drawing.Point(8, 247);
+            this.LidarOpenGlCheckBox.Name = "LidarOpenGlCheckBox";
+            this.LidarOpenGlCheckBox.Size = new System.Drawing.Size(64, 16);
+            this.LidarOpenGlCheckBox.TabIndex = 4;
+            this.LidarOpenGlCheckBox.Text = "OpenGL";
+            this.LidarOpenGlCheckBox.UseVisualStyleBackColor = true;
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.groupBox13);
@@ -1067,7 +1077,7 @@
             this.groupBox13.Controls.Add(this.label76);
             this.groupBox13.Controls.Add(this.label75);
             this.groupBox13.Controls.Add(this.label74);
-            this.groupBox13.Location = new System.Drawing.Point(349, 6);
+            this.groupBox13.Location = new System.Drawing.Point(6, 281);
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.Size = new System.Drawing.Size(208, 107);
             this.groupBox13.TabIndex = 2;
@@ -2960,16 +2970,6 @@
             // CommunicationTimer
             // 
             this.CommunicationTimer.Tick += new System.EventHandler(this.CommunicationTimer_Tick);
-            // 
-            // LidarOpenGlCheckBox
-            // 
-            this.LidarOpenGlCheckBox.AutoSize = true;
-            this.LidarOpenGlCheckBox.Location = new System.Drawing.Point(8, 247);
-            this.LidarOpenGlCheckBox.Name = "LidarOpenGlCheckBox";
-            this.LidarOpenGlCheckBox.Size = new System.Drawing.Size(64, 16);
-            this.LidarOpenGlCheckBox.TabIndex = 4;
-            this.LidarOpenGlCheckBox.Text = "OpenGL";
-            this.LidarOpenGlCheckBox.UseVisualStyleBackColor = true;
             // 
             // IntegratedForm
             // 

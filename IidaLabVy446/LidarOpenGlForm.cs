@@ -37,9 +37,12 @@ namespace IidaLabVy446
         private double angle { get; set; }
 
         /// <summary>
-        /// Crop points
+        /// Crop vertex points
         /// </summary>
-        private List<SickLidar.CartesianPoint> crop;
+        //private List<SickLidar.CartesianPoint> crop;
+        private Vector3[] points;
+        private int cropCnt { get; set; }
+        private int cropOffset { get; set; }
 
         #endregion
 
@@ -56,7 +59,9 @@ namespace IidaLabVy446
             this.transY = 0;
             this.transZ = 0;
 
-            this.crop = new List<SickLidar.CartesianPoint>();
+            //this.crop = new List<SickLidar.CartesianPoint>();
+            points = new Vector3[361 * 5000];
+            this.cropCnt = 0;
         }
 
         #endregion
@@ -140,11 +145,15 @@ namespace IidaLabVy446
         /// <param name="_list"></param>
         public void AddCrop(List<SickLidar.CartesianPoint> _list)
         {
+            this.cropOffset = this.cropCnt * 361;
 
             for (int i = 0; i < _list.Count; i++)
             {
-                this.crop.Add(new SickLidar.CartesianPoint(_list[i].x, _list[i].y, _list[i].z));
+                //this.crop.Add(new SickLidar.CartesianPoint(_list[i].x, _list[i].y, _list[i].z));
+                points[i + this.cropOffset] = new Vector3((float)_list[i].x, (float)_list[i].y, (float)_list[i].z);
             }
+
+            this.cropCnt++;
 
             glControl1.Invalidate();
         }
@@ -154,14 +163,22 @@ namespace IidaLabVy446
         /// </summary>
         private void DrawCrop()
         {
-            GL.Begin(BeginMode.Points);
-            GL.PointSize(2);
-            GL.Color3(Color.Violet);
-            for (int i = 0; i < this.crop.Count; i++)
-            {
-                GL.Vertex3(this.crop[i].x, this.crop[i].y, this.crop[i].z);
-            }
-            GL.End();
+            //// Immediate mode
+            //GL.Begin(BeginMode.Points);
+            //GL.PointSize(2);
+            //GL.Color3(Color.Violet);
+            //for (int i = 0; i < this.crop.Count; i++)
+            //{
+            //    GL.Vertex3(this.crop[i].x, this.crop[i].y, this.crop[i].z);
+            //}
+            //GL.End();
+
+            // Vertex array mode
+            GL.EnableClientState(ArrayCap.VertexArray);
+            GL.VertexPointer(3, VertexPointerType.Float, 0, points);
+            GL.Color3(Color.SandyBrown);
+            GL.DrawArrays(BeginMode.Points, 0, this.cropCnt * 361);
+            GL.DisableClientState(ArrayCap.VertexArray);
         }
 
         #endregion
@@ -232,6 +249,7 @@ namespace IidaLabVy446
             this.DrawCrop();
 
             glControl1.SwapBuffers();
+            //GL.Flush();
         }
 
         /// <summary>
@@ -244,52 +262,44 @@ namespace IidaLabVy446
             if (e.KeyCode == Keys.L)
             {
                 this.transX--;
-                glControl1.Invalidate();
             }
 
             if (e.KeyCode == Keys.J)
             {
                 this.transX++;
-                glControl1.Invalidate();
             }
 
             if (e.KeyCode == Keys.I)
             {
                 this.transZ--;
-                glControl1.Invalidate();
             }
 
             if (e.KeyCode == Keys.K)
             {
                 this.transZ++;
-                glControl1.Invalidate();
             }
 
             if (e.KeyCode == Keys.U)
             {
                 this.transY--;
-                glControl1.Invalidate();
             }
 
             if (e.KeyCode == Keys.O)
             {
                 this.transY++;
-                glControl1.Invalidate();
             }
 
             if (e.KeyCode == Keys.N)
             {
                 this.angle--;
-                glControl1.Invalidate();
             }
 
             if (e.KeyCode == Keys.M)
             {
                 this.angle++;
-                glControl1.Invalidate();
             }
 
-
+            //glControl1.Invalidate();
         }
         #endregion
 

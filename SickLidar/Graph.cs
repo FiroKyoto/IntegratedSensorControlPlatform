@@ -39,7 +39,7 @@ namespace SickLidar
             this.myPane = zgc.GraphPane;
 
             //--set the titles--//
-            this.myPane.Title.Text = "Measured LRF Data";
+            this.myPane.Title.Text = "YZ-plane data graph";
             this.myPane.XAxis.Title.Text = "Lateral distance (m)";
             this.myPane.YAxis.Title.Text = "Height (m)";
 
