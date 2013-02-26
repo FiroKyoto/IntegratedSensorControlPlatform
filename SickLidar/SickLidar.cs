@@ -22,6 +22,62 @@
     /// </summary>
     public class SickLidar
     {
+        #region Structs
+
+        /// <summary>
+        /// point of polar coordinates system
+        /// </summary>
+        public struct PolarPoint
+        {
+            public double row;
+            public double theta;
+
+            public PolarPoint(double _row, double _theta)
+            {
+                this.row = _row;
+                this.theta = _theta;
+            }
+        }
+
+        /// <summary>
+        /// point of cartesian coordinates system
+        /// </summary>
+        public struct CartesianPoint
+        {
+            public double x;
+            public double y;
+            public double z;
+
+            public CartesianPoint(double _x, double _y, double _z)
+            {
+                this.x = _x;
+                this.y = _y;
+                this.z = _z;
+            }
+        }
+
+        /// <summary>
+        /// profile of mesured lidar data
+        /// (most height of uncut crop and lowest height of ground)
+        /// </summary>
+        public struct Profile
+        {
+            public int cropIndex;
+            public double cropHeight;
+            public int groundIndex;
+            public double groundHeight;
+
+            public Profile(int _cropIndex, double _cropHeight, int _groundIndex, double _groundHeight)
+            {
+                this.cropIndex = _cropIndex;
+                this.cropHeight = _cropHeight;
+                this.groundIndex = _groundIndex;
+                this.groundHeight = _groundHeight;
+            }
+        }
+
+        #endregion
+
         #region fields
 
         /// <summary>
@@ -113,6 +169,11 @@
         /// gets or sets debug message
         /// </summary>
         public string debugMsg { get; set; }
+
+        /// <summary>
+        /// lowest height of ground and most height of uncut crop
+        /// </summary>
+        public Profile lidarProfile;
 
         #endregion
 
@@ -294,38 +355,6 @@
         }
 
         /// <summary>
-        /// point of polar coordinates system
-        /// </summary>
-        public struct PolarPoint
-        {
-            public double row;
-            public double theta;
-
-            public PolarPoint(double _row, double _theta)
-            {
-                this.row = _row;
-                this.theta = _theta;
-            }
-        }
-
-        /// <summary>
-        /// point of cartesian coordinates system
-        /// </summary>
-        public struct CartesianPoint
-        {
-            public double x;
-            public double y;
-            public double z;
-
-            public CartesianPoint(double _x, double _y, double _z)
-            {
-                this.x = _x;
-                this.y = _y;
-                this.z = _z;
-            }
-        }
-
-        /// <summary>
         /// Convert received data From Server
         /// </summary>
         /// <param name="data"></param>
@@ -463,6 +492,15 @@
             double y = 0;
             double z = 0;
 
+            double cropHeight = -100.0;
+            int cropIndex = 0;
+            double groundHeight = 100.0;
+            int groundIndex = 0;
+            lidarProfile.cropIndex = 0;
+            lidarProfile.cropHeight = 0;
+            lidarProfile.groundIndex = 0;
+            lidarProfile.groundHeight = 0;
+
             for (int i = 0; i < this.polarList.Count; i++)
             {
                 //--LMS111--//
@@ -490,7 +528,25 @@
                 c.z = z;
 
                 this.cartesianList.Add(c);
+
+                // get - most height of uncut crop and lowest height of ground
+                if (cropHeight < c.z)
+                {
+                    cropHeight = c.z;
+                    cropIndex = i;
+                }
+
+                if (groundHeight > c.z)
+                {
+                    groundHeight = c.z;
+                    groundIndex = i;
+                }
             }
+
+            lidarProfile.cropIndex = cropIndex;
+            lidarProfile.cropHeight = cropHeight;
+            lidarProfile.groundIndex = groundIndex;
+            lidarProfile.groundHeight = groundHeight;
         }
 
         /// <summary>

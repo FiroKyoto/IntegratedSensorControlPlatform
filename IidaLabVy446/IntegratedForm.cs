@@ -38,9 +38,14 @@ namespace IidaLabVy446
         private LidarOpenGlForm lidarOpenGlForm;
 
         /// <summary>
-        /// gets or sets adapt split and merge
+        /// gets or sets is openGL?
         /// </summary>
-        private bool isSam { get; set; }
+        private bool isOpenGL { get; set; }
+
+        /// <summary>
+        /// gets or sets index of discriminate between ground and uncut crop
+        /// </summary>
+        private int drawGlIndex { get; set; }
 
         /// <summary>
         /// gets or sets initialize lidar info
@@ -102,6 +107,7 @@ namespace IidaLabVy446
             // openGl display
             if (this.LidarOpenGlCheckBox.Checked == true)
             {
+                this.isOpenGL = true;
                 this.lidarOpenGlForm = new LidarOpenGlForm();
                 this.lidarOpenGlForm.Show();
             }
@@ -119,7 +125,7 @@ namespace IidaLabVy446
                 this.sickLidar.RequestScan();
                 this.sickLidar.ConvertHexToPolar();
                 this.sickLidar.ConvertPolarToCartesian();
-                this.graph.UpdateGraph(this.sickLidar.cartesianList, zg1, this.isSam);
+                this.graph.UpdateGraph(this.sickLidar.cartesianList, zg1, this.isOpenGL);
 
                 if (this.LidarSaveCheckBox.Checked == true)
                 {
@@ -132,7 +138,15 @@ namespace IidaLabVy446
                 {
                     this.sickLidar.ConvertReadDataToPolar(this.readCount, this.lidarFile.readData);
                     this.sickLidar.ConvertPolarToCartesian();
-                    this.graph.UpdateGraph(this.sickLidar.cartesianList, zg1, this.isSam);
+                    this.graph.UpdateGraph(this.sickLidar.cartesianList, zg1, this.isOpenGL);
+
+                    if (this.isOpenGL == true)
+                    {
+                        List<double> perpendicular =
+                            this.cropStand.CalculatePerpendicular(this.sickLidar.cartesianList, sickLidar.lidarProfile);
+                        this.graph.CutEdgePerpendicularGraph(perpendicular, zg1, this.isOpenGL);
+                        this.drawGlIndex = (int)perpendicular[8];
+                    }
 
                     this.isLidarData = true;
                     //this.readCount++;
@@ -1116,7 +1130,7 @@ namespace IidaLabVy446
                 this.sickLidar.ConvertTcpDataToPolar(this.tcpFile.lidarData);
                 this.sickLidar.ConvertPolarToCartesian();
                 //this.LidarPlaySplitAndMerge();
-                this.graph.UpdateGraph(this.sickLidar.cartesianList, zg1, this.isSam);
+                this.graph.UpdateGraph(this.sickLidar.cartesianList, zg1, this.isOpenGL);
 
                 this.toolStripStatusLabel4.Text = Convert.ToString(this.tcpFile.lidarReadCount);
             }
@@ -1266,7 +1280,7 @@ namespace IidaLabVy446
                 }
 
                 this.cropStand.CalculatePosition(this.sickLidar.cartesianList, this.tmX, this.tmY, this.tmZ, heading_angle);
-                this.lidarOpenGlForm.AddCrop(this.cropStand.result);
+                this.lidarOpenGlForm.AddCrop(this.cropStand.result, this.drawGlIndex);
             }
         }
 

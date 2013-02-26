@@ -62,7 +62,9 @@ namespace SickLidar
         /// Update Graph
         /// </summary>
         /// <param name="list"></param>
-        public void UpdateGraph(List<SickLidar.CartesianPoint> list, ZedGraphControl zgc, bool algorithm)
+        /// <param name="zgc"></param>
+        /// <param name="isOpenGL"></param>
+        public void UpdateGraph(List<SickLidar.CartesianPoint> list, ZedGraphControl zgc, bool isOpenGL)
         {
             if (this.ppList != null)
             {
@@ -86,36 +88,38 @@ namespace SickLidar
             //zgc.AxisChange();
 
             //--make sure the graph gets re-drawn--//
-            if (algorithm == false)
+            if (isOpenGL == false)
             {
                 zgc.Invalidate();
             }
         }
 
         /// <summary>
-        /// Update split-and-merge
+        /// Update Perpendicular graph
         /// </summary>
-        /// <param name="index"></param>
+        /// <param name="list"></param>
         /// <param name="zgc"></param>
-        public void UpdataSplitAndMergeGraph(double lateralIndex, double groundHeight, ZedGraphControl zgc, bool algorithm)
+        /// <param name="isOpenGL"></param>
+        public void CutEdgePerpendicularGraph(List<double> list, ZedGraphControl zgc, bool isOpenGL)
         {
-            if (algorithm == true)
+            if (this.myPane.GraphObjList != null)
             {
-                if (this.myPane.GraphObjList != null)
-                {
-                    this.myPane.GraphObjList.Clear();
-                }
+                this.myPane.GraphObjList.Clear();
+            }
 
-                // lateral index
-                this.myPane.GraphObjList.Add(
-                    new LineObj(Color.Blue, lateralIndex, myPane.YAxis.Scale.Min, lateralIndex, myPane.YAxis.Scale.Max)
-                   );
+            // generate a straight line
+            this.myPane.GraphObjList.Add(
+                new LineObj(Color.Blue, list[0], list[1], list[2], list[3])
+               );
 
-                // ground height
-                this.myPane.GraphObjList.Add(
-                    new LineObj(Color.DarkOliveGreen, myPane.XAxis.Scale.Min, groundHeight, myPane.XAxis.Scale.Max, groundHeight)
-                   );
-                
+            // generate a perpendicular line
+            this.myPane.GraphObjList.Add(
+                new LineObj(Color.Blue, list[4], list[5], list[6], list[7])
+               );
+
+            //--make sure the graph gets re-drawn--//
+            if (isOpenGL == true)
+            {
                 zgc.Invalidate();
             }
         }

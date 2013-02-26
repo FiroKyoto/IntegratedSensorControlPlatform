@@ -40,9 +40,11 @@ namespace IidaLabVy446
         /// Crop vertex points
         /// </summary>
         //private List<SickLidar.CartesianPoint> crop;
-        private Vector3[] points;
+        private Vector3[] cropPoints;
+        private Vector3[] groundPoints;
         private int cropCnt { get; set; }
         private int cropOffset { get; set; }
+        private int groundOffset { get; set; }
 
         #endregion
 
@@ -60,8 +62,11 @@ namespace IidaLabVy446
             this.transZ = 0;
 
             //this.crop = new List<SickLidar.CartesianPoint>();
-            points = new Vector3[361 * 5000];
+            cropPoints = new Vector3[361 * 5000];
+            groundPoints = new Vector3[361 * 5000];
             this.cropCnt = 0;
+            this.cropOffset = 0;
+            this.groundOffset = 0;
         }
 
         #endregion
@@ -143,15 +148,22 @@ namespace IidaLabVy446
         /// add crop points to list
         /// </summary>
         /// <param name="_list"></param>
-        public void AddCrop(List<SickLidar.CartesianPoint> _list)
+        public void AddCrop(List<SickLidar.CartesianPoint> _list, int _glIndex)
         {
-            this.cropOffset = this.cropCnt * 361;
-
-            for (int i = 0; i < _list.Count; i++)
+            for (int i = 0; i < _glIndex; i++)
             {
                 //this.crop.Add(new SickLidar.CartesianPoint(_list[i].x, _list[i].y, _list[i].z));
-                points[i + this.cropOffset] = new Vector3((float)_list[i].x, (float)_list[i].y, (float)_list[i].z);
+                cropPoints[i + this.cropOffset] = new Vector3((float)_list[i].x, (float)_list[i].y, (float)_list[i].z);
             }
+            this.cropOffset += _glIndex;
+
+            int gCnt = 0;
+            for (int i = _glIndex; i < _list.Count; i++)
+            {
+                groundPoints[gCnt + this.groundOffset] = new Vector3((float)_list[i].x, (float)_list[i].y, (float)_list[i].z);
+                gCnt++;
+            }
+            this.groundOffset += _list.Count - _glIndex;
 
             this.cropCnt++;
 
@@ -175,10 +187,17 @@ namespace IidaLabVy446
 
             // Vertex array mode
             GL.EnableClientState(ArrayCap.VertexArray);
-            GL.VertexPointer(3, VertexPointerType.Float, 0, points);
-            GL.Color3(Color.SandyBrown);
-            GL.DrawArrays(BeginMode.Points, 0, this.cropCnt * 361);
+            GL.VertexPointer(3, VertexPointerType.Float, 0, cropPoints);
+            GL.Color3(Color.LawnGreen);
+            GL.DrawArrays(BeginMode.Points, 0, this.cropOffset - 1);
             GL.DisableClientState(ArrayCap.VertexArray);
+
+            GL.EnableClientState(ArrayCap.VertexArray);
+            GL.VertexPointer(3, VertexPointerType.Float, 0, groundPoints);
+            GL.Color3(Color.SaddleBrown);
+            GL.DrawArrays(BeginMode.Points, 0, this.groundOffset - 1);
+            GL.DisableClientState(ArrayCap.VertexArray);
+
         }
 
         #endregion
