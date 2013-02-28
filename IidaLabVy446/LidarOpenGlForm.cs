@@ -10,6 +10,7 @@ namespace IidaLabVy446
     using System.Text;
     using System.Windows.Forms;
 
+    using System.Diagnostics;
     using OpenTK;
     using OpenTK.Graphics;
     using OpenTK.Graphics.OpenGL;
@@ -200,6 +201,22 @@ namespace IidaLabVy446
 
         }
 
+        /// <summary>
+        /// For debug
+        /// </summary>
+        /// <param name="_readCnt"></param>
+        /// <param name="_tmX"></param>
+        /// <param name="_tmY"></param>
+        /// <param name="_tmZ"></param>
+        public void Debug(int _readCnt, double _tmX, double _tmY, double _tmZ)
+        {
+            this.GlReadCntTxtBox.Text = Convert.ToString(_readCnt);
+            this.GlCurCntTxtBox.Text = Convert.ToString(this.cropCnt);
+            this.GlTmXTxtBox.Text = Convert.ToString(_tmX);
+            this.GlTmYTxtBox.Text = Convert.ToString(_tmY);
+            this.GlTmZTxtBox.Text = Convert.ToString(_tmZ);
+        }
+
         #endregion
 
         #region Event
@@ -243,6 +260,9 @@ namespace IidaLabVy446
         /// <param name="e"></param>
         private void glControl1_Paint(object sender, PaintEventArgs e)
         {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+
             // play nice
             if (!this.loaded)
             {
@@ -269,6 +289,10 @@ namespace IidaLabVy446
 
             glControl1.SwapBuffers();
             //GL.Flush();
+
+            watch.Stop();
+            this.GlElapsedTxtBox.Text =
+                Convert.ToString(watch.Elapsed.TotalMilliseconds) + " milliseconds";
         }
 
         /// <summary>
@@ -278,44 +302,39 @@ namespace IidaLabVy446
         /// <param name="e"></param>
         private void glControl1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.L)
+            switch (e.KeyCode)
             {
-                this.transX--;
-            }
+                case Keys.L:
+                    this.transX--;
+                    break;
 
-            if (e.KeyCode == Keys.J)
-            {
-                this.transX++;
-            }
+                case Keys.J:
+                    this.transX++;
+                    break;
 
-            if (e.KeyCode == Keys.I)
-            {
-                this.transZ--;
-            }
+                case Keys.I:
+                    this.transZ--;
+                    break;
 
-            if (e.KeyCode == Keys.K)
-            {
-                this.transZ++;
-            }
+                case Keys.K:
+                    this.transZ++;
+                    break;
 
-            if (e.KeyCode == Keys.U)
-            {
-                this.transY--;
-            }
+                case Keys.U:
+                    this.transY--;
+                    break;
 
-            if (e.KeyCode == Keys.O)
-            {
-                this.transY++;
-            }
+                case Keys.O:
+                    this.transY++;
+                    break;
 
-            if (e.KeyCode == Keys.N)
-            {
-                this.angle--;
-            }
+                case Keys.N:
+                    this.angle--;
+                    break;
 
-            if (e.KeyCode == Keys.M)
-            {
-                this.angle++;
+                case Keys.M:
+                    this.angle++;
+                    break;
             }
 
             //glControl1.Invalidate();

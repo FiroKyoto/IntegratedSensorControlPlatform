@@ -1281,6 +1281,7 @@ namespace IidaLabVy446
 
                 this.cropStand.CalculatePosition(this.sickLidar.cartesianList, this.tmX, this.tmY, this.tmZ, heading_angle);
                 this.lidarOpenGlForm.AddCrop(this.cropStand.result, this.drawGlIndex);
+                this.lidarOpenGlForm.Debug(this.readCount, this.tmX, this.tmY, this.tmZ);
             }
         }
 
