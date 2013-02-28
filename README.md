@@ -18,6 +18,8 @@ Introduction:
 
  2) http://youtu.be/27JU14tOgKg - Platform demonstration
 
+ 3) http://youtu.be/eL6cX5_9o-0 - Remote Monitoring 3D Crop Stand for Combine Harvester (Japanese)
+
 
 
 Field Robotics Lab., Kyoto University: 
