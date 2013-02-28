@@ -1115,7 +1115,13 @@ namespace IidaLabVy446
                 Convert.ToDouble(this.LidarScalingTxtBox.Text)
                    );
 
-            //this.LidarInitializeSplitAndMerge();
+            // openGl display
+            if (this.LidarOpenGlCheckBox.Checked == true)
+            {
+                this.isOpenGL = true;
+                this.lidarOpenGlForm = new LidarOpenGlForm();
+                this.lidarOpenGlForm.Show();
+            }
         }
 
         /// <summary>
@@ -1123,6 +1129,8 @@ namespace IidaLabVy446
         /// </summary>
         private void LidarPlayForClient()
         {
+            this.isLidarData = false;
+
             this.LidarInitializeInformation();
             
             if (this.tcpFile.lidarData.Count == this.sickLidar.dataLength)
@@ -1131,6 +1139,16 @@ namespace IidaLabVy446
                 this.sickLidar.ConvertPolarToCartesian();
                 //this.LidarPlaySplitAndMerge();
                 this.graph.UpdateGraph(this.sickLidar.cartesianList, zg1, this.isOpenGL);
+
+                if (this.isOpenGL == true)
+                {
+                    List<double> perpendicular =
+                        this.cropStand.CalculatePerpendicular(this.sickLidar.cartesianList, sickLidar.lidarProfile);
+                    this.graph.CutEdgePerpendicularGraph(perpendicular, zg1, this.isOpenGL);
+                    this.drawGlIndex = (int)perpendicular[8];
+                }
+
+                this.isLidarData = true;
 
                 this.toolStripStatusLabel4.Text = Convert.ToString(this.tcpFile.lidarReadCount);
             }
@@ -1150,6 +1168,18 @@ namespace IidaLabVy446
             {
                 this._vy446 = new CombineBody.Vy446();
             }
+
+            if (this.BodyWgs84ToCartesianCheckBox.Checked == true)
+            {
+                this.offLineInit = false;
+                this.offLineMapX = 0.0;
+                this.offLineMapY = 0.0;
+
+                this._cgps = new Cgps(5, 1);
+
+                this._offLineGraph = new FieldMap.Graph();
+                this._offLineGraph.CreateGraph(zg2);
+            }
         }
 
         /// <summary>
@@ -1157,6 +1187,8 @@ namespace IidaLabVy446
         /// </summary>
         private void CombinePlayForClient()
         {
+            this.isTmData = false;
+
             if (this.BodyModelComboBox.SelectedIndex == 0 && this.tcpFile.bodyData.Count == 82)
             {
                 this.CombineVy50Info(this.tcpFile.bodyData);
@@ -1324,6 +1356,16 @@ namespace IidaLabVy446
                 this.IntegratedTimer.Enabled = true;
             }
 
+            if (this.TcpIpClientCheckBox.Checked == true)
+            {
+                // check for crop stand
+                this.InitializeCropStand(
+                    this.LidarAvailableCheckBox.Checked,
+                    this.BodyAvailableCheckBox.Checked,
+                    this.LidarOpenGlCheckBox.Checked
+                    );
+            }
+
             if (this.TcpIpIsAvailableCheckBox.Checked == true)
             {
                 this.CommunicationConnect();
@@ -1456,6 +1498,12 @@ namespace IidaLabVy446
                     watch.Start();
 
                     this.CommunicationPlay();
+
+                    // for crop stand
+                    if ((this.LidarAvailableCheckBox.Checked == true) && (this.BodyAvailableCheckBox.Checked == true) && (this.LidarOpenGlCheckBox.Checked == true))
+                    {
+                        this.DrawCropStand(this.isLidarData, this.isTmData);
+                    }
 
                     watch.Stop();
                     this.toolStripStatusLabel2.Text =
