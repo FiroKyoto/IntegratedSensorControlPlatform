@@ -47,6 +47,12 @@ namespace IidaLabVy446
         private int cropOffset { get; set; }
         private int groundOffset { get; set; }
 
+        /// <summary>
+        /// transverse mecartor
+        /// </summary>
+        private float _tmX { get; set; }
+        private float _tmY { get; set; }
+
         #endregion
 
         #region Constructor
@@ -61,6 +67,7 @@ namespace IidaLabVy446
             this.transX = 0;
             this.transY = 0;
             this.transZ = 0;
+            this.angle = 0.0;
 
             //this.crop = new List<SickLidar.CartesianPoint>();
             cropPoints = new Vector3[361 * 5000];
@@ -212,9 +219,11 @@ namespace IidaLabVy446
         {
             this.GlReadCntTxtBox.Text = Convert.ToString(_readCnt);
             this.GlCurCntTxtBox.Text = Convert.ToString(this.cropCnt);
-            this.GlTmXTxtBox.Text = Convert.ToString(_tmX);
-            this.GlTmYTxtBox.Text = Convert.ToString(_tmY);
-            this.GlTmZTxtBox.Text = Convert.ToString(_tmZ);
+            this.GlTmXTxtBox.Text = _tmX.ToString("N3");
+            this._tmX = (float)_tmX;
+            this.GlTmYTxtBox.Text = _tmY.ToString("N3");
+            this._tmY = (float)_tmY;
+            this.GlTmZTxtBox.Text = _tmZ.ToString("N3");
         }
 
         #endregion
@@ -231,7 +240,7 @@ namespace IidaLabVy446
             this.loaded = true;
 
             // Yey! .NET Colors can be used directly!
-            GL.ClearColor(Color.White);
+            GL.ClearColor(Color.Black);
             GL.Enable(EnableCap.DepthTest);
 
             this.SetupViewport();
@@ -292,7 +301,7 @@ namespace IidaLabVy446
 
             watch.Stop();
             this.GlElapsedTxtBox.Text =
-                Convert.ToString(watch.Elapsed.TotalMilliseconds) + " milliseconds";
+                watch.Elapsed.TotalMilliseconds.ToString("N3") + " milliseconds";
         }
 
         /// <summary>
@@ -328,11 +337,11 @@ namespace IidaLabVy446
                     this.transY++;
                     break;
 
-                case Keys.N:
+                case Keys.A:
                     this.angle--;
                     break;
 
-                case Keys.M:
+                case Keys.S:
                     this.angle++;
                     break;
             }
