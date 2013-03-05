@@ -1274,7 +1274,12 @@ namespace IidaLabVy446
         #region Draw 3D CropStand state on OpenGL
         
         private Algorithm.CropStand cropStand;
-
+        private double backTmX { get; set; }
+        private double backTmY { get; set; }
+        private double backTmZ { get; set; }
+        private double backHeading { get; set; }
+        private double backSpeed { get; set; }
+        private bool isFirstBodyTm { get; set; }
         /// <summary>
         /// initialization of crop stand class
         /// </summary>
@@ -1286,6 +1291,7 @@ namespace IidaLabVy446
             if ((_isLidar == true) && (_isBody == true) && (_isOpenGl == true))
             {
                 this.cropStand = new CropStand(this.BodyModelComboBox.SelectedIndex);
+                this.isFirstBodyTm = false;
             }
         }
 
@@ -1296,24 +1302,42 @@ namespace IidaLabVy446
         /// <param name="_tm"></param>
         private void DrawCropStand(bool _lidar, bool _tm)
         {
-            if ((_lidar == true) && (_tm == true))
+            if (_tm == true)
             {
-                double heading_angle = 0.0;
+                this.isFirstBodyTm = true;
+            }
 
-                if (this.BodyModelComboBox.SelectedIndex == 0)
+            if (_lidar == true && this.isFirstBodyTm == true)
+            {
+                if (_tm == true)
                 {
-                    // vy50 model
-                    heading_angle = this._vy50.gps_Heading;
+                    if (this.BodyModelComboBox.SelectedIndex == 0)
+                    {
+                        // vy50 model
+                        this.backHeading = this._vy50.gps_Heading;
+                        this.backSpeed = this._vy50.d_Speed;
+                    }
+
+                    if (this.BodyModelComboBox.SelectedIndex == 1)
+                    {
+                        // Vy446 model
+                    }
+
+                    this.backTmX = this.tmX;
+                    this.backTmY = this.tmY;
+                    this.backTmZ = this.tmZ;
+                }
+                else
+                {
+                    this.cropStand.NewTm(this.backTmX, this.backTmY, this.backTmZ, this.backHeading, this.backSpeed, Convert.ToInt32(this.TimerIntervalTxtBox.Text));
+                    this.backTmX = this.cropStand.NewTmX;
+                    this.backTmY = this.cropStand.NewTmY;
+                    this.backTmZ = this.cropStand.NewTmZ;
                 }
 
-                if (this.BodyModelComboBox.SelectedIndex == 1)
-                {
-                    // Vy446 model
-                }
-
-                this.cropStand.CalculatePosition(this.sickLidar.cartesianList, this.tmX, this.tmY, this.tmZ, heading_angle);
+                this.cropStand.CalculatePosition(this.sickLidar.cartesianList, this.backTmX, this.backTmY, this.backTmZ, this.backHeading);
                 this.lidarOpenGlForm.AddCrop(this.cropStand.result, this.drawGlIndex);
-                this.lidarOpenGlForm.Debug(this.readCount, this.tmX, this.tmY, this.tmZ);
+                this.lidarOpenGlForm.Debug(this.readCount, this.backTmX, this.backTmY, this.backTmZ);
             }
         }
 
