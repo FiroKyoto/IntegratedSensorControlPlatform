@@ -53,6 +53,17 @@ namespace IidaLabVy446
         private float _tmX { get; set; }
         private float _tmY { get; set; }
 
+        /// <summary>
+        /// body information
+        /// </summary>
+        private double _heading_angle { get; set; }
+        private double _body_speed { get; set; }
+
+        /// <summary>
+        /// manual key control
+        /// </summary>
+        private bool isManualControl { get; set; }
+        
         #endregion
 
         #region Constructor
@@ -75,6 +86,8 @@ namespace IidaLabVy446
             this.cropCnt = 0;
             this.cropOffset = 0;
             this.groundOffset = 0;
+
+            this.isManualControl = false;
         }
 
         #endregion
@@ -153,6 +166,55 @@ namespace IidaLabVy446
         }
 
         /// <summary>
+        /// convert points using heading angle
+        /// </summary>
+        /// <param name="_x"></param>
+        /// <param name="_y"></param>
+        /// <param name="_angle"></param>
+        /// <returns></returns>
+        private List<double> ConvertPoint(double _x, double _y, double _angle)
+        {
+            List<double> points = new List<double>();
+
+            double bAngle = (180.0 - _angle) * (Math.PI / 180);
+            double rotX = (Math.Cos(bAngle) * _x) - (Math.Sin(bAngle) * _y);
+            double rotY = (Math.Sin(bAngle) * _x) + (Math.Cos(bAngle) * _y);
+
+            points.Add(rotX);
+            points.Add(rotY);
+
+            return points;
+        }
+
+        /// <summary>
+        /// Draw Arrow
+        /// </summary>
+        private void DrawArrow()
+        {
+            List<double> arrowLine = this.ConvertPoint(2.0, 0.0, this._heading_angle);
+            List<double> arrowA = this.ConvertPoint(1.5, 0.5, this._heading_angle);
+            List<double> arrowB = this.ConvertPoint(1.5, -0.5, this._heading_angle);
+
+            GL.LineWidth(3.0f);
+            GL.Begin(BeginMode.Lines);
+            GL.Color3(Color.Yellow);
+
+            GL.Vertex3(this._tmX, this._tmY, 0.0);
+            GL.Vertex3(this._tmX, this._tmY, 3.0);
+
+            GL.Vertex3(this._tmX, this._tmY, 2.0);
+            GL.Vertex3(this._tmX + arrowLine[0], this._tmY + arrowLine[1], 2.0);
+
+            GL.Vertex3(this._tmX + arrowLine[0], this._tmY + arrowLine[1], 2.0);
+            GL.Vertex3(this._tmX + arrowA[0], this._tmY + arrowA[1], 2.0);
+
+            GL.Vertex3(this._tmX + arrowLine[0], this._tmY + arrowLine[1], 2.0);
+            GL.Vertex3(this._tmX + arrowB[0], this._tmY + arrowB[1], 2.0);
+
+            GL.End(); 
+        }
+
+        /// <summary>
         /// add crop points to list
         /// </summary>
         /// <param name="_list"></param>
@@ -215,7 +277,9 @@ namespace IidaLabVy446
         /// <param name="_tmX"></param>
         /// <param name="_tmY"></param>
         /// <param name="_tmZ"></param>
-        public void Debug(int _readCnt, double _tmX, double _tmY, double _tmZ)
+        /// <param name="_heading_angle"></param>
+        /// <param name="_body_speed"></param>
+        public void Debug(int _readCnt, double _tmX, double _tmY, double _tmZ, double _heading_angle, double _body_speed)
         {
             this.GlReadCntTxtBox.Text = Convert.ToString(_readCnt);
             this.GlCurCntTxtBox.Text = Convert.ToString(this.cropCnt);
@@ -224,6 +288,10 @@ namespace IidaLabVy446
             this.GlTmYTxtBox.Text = _tmY.ToString("N3");
             this._tmY = (float)_tmY;
             this.GlTmZTxtBox.Text = _tmZ.ToString("N3");
+            this.GlBodyHeadingTxtBox.Text = _heading_angle.ToString("N3");
+            this._heading_angle = _heading_angle;
+            this.GlBodySpeedTxtBox.Text = _body_speed.ToString("N3");
+            this._body_speed = _body_speed;
         }
 
         #endregion
@@ -294,6 +362,7 @@ namespace IidaLabVy446
 
             this.DrawCoordinates();
             this.DrawGround();
+            this.DrawArrow();
             this.DrawCrop();
 
             glControl1.SwapBuffers();
@@ -344,13 +413,28 @@ namespace IidaLabVy446
                 case Keys.S:
                     this.angle++;
                     break;
+
+                case Keys.M:
+                    this.isManualControl = true;
+                    break;
             }
 
-            //glControl1.Invalidate();
+            if (this.isManualControl == true)
+            {
+                glControl1.Invalidate();
+            }
         }
+
+        /// <summary>
+        /// exit event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ExitButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
         #endregion
-
-
-
     }
 }

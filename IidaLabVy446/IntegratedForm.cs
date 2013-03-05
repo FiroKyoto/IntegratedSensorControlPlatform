@@ -1336,8 +1336,8 @@ namespace IidaLabVy446
                 }
 
                 this.cropStand.CalculatePosition(this.sickLidar.cartesianList, this.backTmX, this.backTmY, this.backTmZ, this.backHeading);
+                this.lidarOpenGlForm.Debug(this.readCount, this.backTmX, this.backTmY, this.backTmZ, this.backHeading, this.backSpeed);
                 this.lidarOpenGlForm.AddCrop(this.cropStand.result, this.drawGlIndex);
-                this.lidarOpenGlForm.Debug(this.readCount, this.backTmX, this.backTmY, this.backTmZ);
             }
         }
 
