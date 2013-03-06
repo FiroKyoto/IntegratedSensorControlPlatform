@@ -124,7 +124,6 @@ namespace IidaLabVy446
         {
             GL.LineWidth(2.0f);
             GL.Begin(BeginMode.Lines);
-
             GL.Color3(Color.Red);
             GL.Vertex3(0, 0, 0);
             GL.Vertex3(2, 0, 0);
@@ -136,7 +135,6 @@ namespace IidaLabVy446
             GL.Color3(Color.Blue);
             GL.Vertex3(0, 0, 0);
             GL.Vertex3(0, 0, 2);
-
             GL.End();
         }
 
@@ -191,6 +189,7 @@ namespace IidaLabVy446
         /// </summary>
         private void DrawArrow()
         {
+            // arrow
             List<double> arrowLine = this.ConvertPoint(2.0, 0.0, this._heading_angle);
             List<double> arrowA = this.ConvertPoint(1.5, 0.5, this._heading_angle);
             List<double> arrowB = this.ConvertPoint(1.5, -0.5, this._heading_angle);
@@ -211,31 +210,47 @@ namespace IidaLabVy446
             GL.Vertex3(this._tmX + arrowLine[0], this._tmY + arrowLine[1], 2.0);
             GL.Vertex3(this._tmX + arrowB[0], this._tmY + arrowB[1], 2.0);
 
-            GL.End(); 
+            GL.End();
+
+            // GPS circle
+            GL.Begin(BeginMode.LineLoop);
+            for (int i = 0; i <= 300; i++)
+            {
+                double angle = 2 * Math.PI * i / 300;
+                double x = Math.Cos(angle);
+                double y = Math.Sin(angle);
+                GL.Vertex3(this._tmX + x, this._tmY + y, 2.0);
+            }
+            GL.End();
         }
 
         /// <summary>
         /// add crop points to list
         /// </summary>
         /// <param name="_list"></param>
-        public void AddCrop(List<SickLidar.CartesianPoint> _list, int _glIndex)
+        /// <param name="_glIndex"></param>
+        /// <param name="_isCropData"></param>
+        public void AddCrop(List<SickLidar.CartesianPoint> _list, int _glIndex, bool _isCropData)
         {
-            for (int i = 0; i < _glIndex; i++)
+            if (_isCropData == true)
             {
-                //this.crop.Add(new SickLidar.CartesianPoint(_list[i].x, _list[i].y, _list[i].z));
-                cropPoints[i + this.cropOffset] = new Vector3((float)_list[i].x, (float)_list[i].y, (float)_list[i].z);
-            }
-            this.cropOffset += _glIndex;
+                for (int i = 0; i < _glIndex; i++)
+                {
+                    //this.crop.Add(new SickLidar.CartesianPoint(_list[i].x, _list[i].y, _list[i].z));
+                    cropPoints[i + this.cropOffset] = new Vector3((float)_list[i].x, (float)_list[i].y, (float)_list[i].z);
+                }
+                this.cropOffset += _glIndex;
 
-            int gCnt = 0;
-            for (int i = _glIndex; i < _list.Count; i++)
-            {
-                groundPoints[gCnt + this.groundOffset] = new Vector3((float)_list[i].x, (float)_list[i].y, (float)_list[i].z);
-                gCnt++;
-            }
-            this.groundOffset += _list.Count - _glIndex;
+                int gCnt = 0;
+                for (int i = _glIndex; i < _list.Count; i++)
+                {
+                    groundPoints[gCnt + this.groundOffset] = new Vector3((float)_list[i].x, (float)_list[i].y, (float)_list[i].z);
+                    gCnt++;
+                }
+                this.groundOffset += _list.Count - _glIndex;
 
-            this.cropCnt++;
+                this.cropCnt++;
+            }
 
             glControl1.Invalidate();
         }

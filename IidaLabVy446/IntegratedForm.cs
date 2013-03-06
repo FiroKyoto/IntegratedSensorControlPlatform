@@ -1335,9 +1335,20 @@ namespace IidaLabVy446
                     this.backTmZ = this.cropStand.NewTmZ;
                 }
 
-                this.cropStand.CalculatePosition(this.sickLidar.cartesianList, this.backTmX, this.backTmY, this.backTmZ, this.backHeading);
+                bool isCropData = false;
+                if (this.BodyModelComboBox.SelectedIndex == 0 && this._vy50.uc_HeaderPos < 100)
+                {
+                    isCropData = true;
+                }
+
+                if (isCropData == true)
+                {
+                    this.cropStand.CalculatePosition(this.sickLidar.cartesianList, this.backTmX, this.backTmY, this.backTmZ, this.backHeading);
+
+                }
+
                 this.lidarOpenGlForm.Debug(this.readCount, this.backTmX, this.backTmY, this.backTmZ, this.backHeading, this.backSpeed);
-                this.lidarOpenGlForm.AddCrop(this.cropStand.result, this.drawGlIndex);
+                this.lidarOpenGlForm.AddCrop(this.cropStand.result, this.drawGlIndex, isCropData);
             }
         }
 
