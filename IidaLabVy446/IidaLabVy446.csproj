@@ -87,6 +87,12 @@
     <Compile Include="BodyForm.Designer.cs">
       <DependentUpon>BodyForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DimagerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DimagerForm.Designer.cs">
+      <DependentUpon>DimagerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="IntegratedForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -121,6 +127,9 @@
     </Compile>
     <EmbeddedResource Include="BodyForm.resx">
       <DependentUpon>BodyForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DimagerForm.resx">
+      <DependentUpon>DimagerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="IntegratedForm.resx">
       <DependentUpon>IntegratedForm.cs</DependentUpon>

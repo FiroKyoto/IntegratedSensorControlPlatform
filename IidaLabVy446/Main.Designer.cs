@@ -36,11 +36,13 @@
             this.LrfCheckBox = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.DimagerCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.DimagerCheckBox);
             this.groupBox1.Controls.Add(this.IntegratedCheckBox);
             this.groupBox1.Controls.Add(this.GpsCheckBox);
             this.groupBox1.Controls.Add(this.BodyCheckBox);
@@ -50,7 +52,7 @@
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(193, 171);
+            this.groupBox1.Size = new System.Drawing.Size(299, 171);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Select Device";
@@ -125,11 +127,21 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // DimagerCheckBox
+            // 
+            this.DimagerCheckBox.AutoSize = true;
+            this.DimagerCheckBox.Location = new System.Drawing.Point(170, 41);
+            this.DimagerCheckBox.Name = "DimagerCheckBox";
+            this.DimagerCheckBox.Size = new System.Drawing.Size(72, 16);
+            this.DimagerCheckBox.TabIndex = 8;
+            this.DimagerCheckBox.Text = "D-Imager";
+            this.DimagerCheckBox.UseVisualStyleBackColor = true;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(290, 195);
+            this.ClientSize = new System.Drawing.Size(323, 195);
             this.Controls.Add(this.groupBox1);
             this.Name = "Main";
             this.Text = "VY446, Vy50 [ver 0.1]";
@@ -150,6 +162,7 @@
         private System.Windows.Forms.CheckBox MvCheckBox;
         private System.Windows.Forms.CheckBox LrfCheckBox;
         private System.Windows.Forms.CheckBox IntegratedCheckBox;
+        private System.Windows.Forms.CheckBox DimagerCheckBox;
     }
 }
 

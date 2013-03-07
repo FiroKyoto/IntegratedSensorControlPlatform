@@ -31,6 +31,12 @@ namespace IidaLabVy446
                 visionForm.Show();
             }
 
+            if (this.DimagerCheckBox.Checked == true)
+            {
+                DimagerForm dImagerForm = new DimagerForm();
+                dImagerForm.Show();
+            }
+
             if (this.IntegratedCheckBox.Checked == true)
             {
                 IntegratedForm integratedForm = new IntegratedForm();
