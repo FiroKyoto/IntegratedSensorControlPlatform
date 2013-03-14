@@ -6,7 +6,7 @@ InedaHime Project: Integrated Sensor Control Platform (ISCP) for Head-Feeding Co
 1.
 Objective:
 
- ISCP supports various types of sensors, such as machine vision (USB interface), LRF(SICK LMSxxx series), and GPS that are used for the automated guidance system of the head-feeding combine harvester.
+ ISCP supports various types of sensors, such as machine vision (USB interface, 3D-Imager[Panasonic]), LRF(SICK LMSxxx series), and GPS that are used for the automated guidance system of the head-feeding combine harvester.
  This platform can also express GUI-based real time data, and the open source platform can freely be modified and redistributed without any license restrictions.
 
 2.
@@ -22,6 +22,7 @@ Introduction:
 
 
 
+3.
 Field Robotics Lab., Kyoto University: 
 
 http://elam.kais.kyoto-u.ac.jp/
