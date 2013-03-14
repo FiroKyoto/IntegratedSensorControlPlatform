@@ -63,6 +63,12 @@ namespace IidaLabVy446
         /// manual key control
         /// </summary>
         private bool isManualControl { get; set; }
+
+        /// <summary>
+        /// edge points
+        /// </summary>
+        private Vector3[] edgePoints;
+        //private int edgeOffset { get; set; }
         
         #endregion
 
@@ -83,9 +89,12 @@ namespace IidaLabVy446
             //this.crop = new List<SickLidar.CartesianPoint>();
             cropPoints = new Vector3[361 * 5000];
             groundPoints = new Vector3[361 * 5000];
+            edgePoints = new Vector3[2 * 5000];
+
             this.cropCnt = 0;
             this.cropOffset = 0;
             this.groundOffset = 0;
+            //this.edgeOffset = 0;
 
             this.isManualControl = false;
         }
@@ -225,6 +234,24 @@ namespace IidaLabVy446
         }
 
         /// <summary>
+        /// add edge point to vertex array
+        /// </summary>
+        /// <param name="_list"></param>
+        /// <param name="_isRan"></param>
+        public void AddEdge(List<SickLidar.CartesianPoint> _list, bool _isRan)
+        {
+            if (_isRan == true)
+            {
+                for (int i = 0; i < _list.Count; i++)
+                {
+                    //edgePoints[i + this.edgeOffset] = new Vector3((float)_list[i].x, (float)_list[i].y, (float)_list[i].z);
+                    edgePoints[i] = new Vector3((float)_list[i].x, (float)_list[i].y, (float)_list[i].z);
+                }
+                //this.edgeOffset += _list.Count;
+            }
+        }
+
+        /// <summary>
         /// add crop points to list
         /// </summary>
         /// <param name="_list"></param>
@@ -283,6 +310,20 @@ namespace IidaLabVy446
             GL.DrawArrays(BeginMode.Points, 0, this.groundOffset - 1);
             GL.DisableClientState(ArrayCap.VertexArray);
 
+        }
+
+        /// <summary>
+        /// draw edge
+        /// </summary>
+        private void DrawEdge()
+        {
+            // Vertex array mode
+            GL.EnableClientState(ArrayCap.VertexArray);
+            GL.VertexPointer(3, VertexPointerType.Float, 0, edgePoints);
+            GL.Color3(Color.Red);
+            //GL.DrawArrays(BeginMode.Lines, 0, this.edgeOffset - 1);
+            GL.DrawArrays(BeginMode.Lines, 0, 3);
+            GL.DisableClientState(ArrayCap.VertexArray);
         }
 
         /// <summary>
@@ -379,6 +420,7 @@ namespace IidaLabVy446
             this.DrawGround();
             this.DrawArrow();
             this.DrawCrop();
+            this.DrawEdge();
 
             glControl1.SwapBuffers();
             //GL.Flush();

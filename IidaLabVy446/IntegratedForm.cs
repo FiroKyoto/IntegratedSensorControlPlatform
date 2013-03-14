@@ -1347,8 +1347,16 @@ namespace IidaLabVy446
 
                 }
 
+                // send debug information to lidarForm
                 this.lidarOpenGlForm.Debug(this.readCount, this.backTmX, this.backTmY, this.backTmZ, this.backHeading, this.backSpeed);
+
+                // add edge
+                this.cropStand.AddDiscriminatePoints(this.cropStand.result, this.drawGlIndex, isCropData);
+                this.lidarOpenGlForm.AddEdge(this.cropStand.ran_result, this.cropStand.isRan);
+
+                // add crop
                 this.lidarOpenGlForm.AddCrop(this.cropStand.result, this.drawGlIndex, isCropData);
+
             }
         }
 
