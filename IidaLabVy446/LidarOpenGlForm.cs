@@ -194,30 +194,55 @@ namespace IidaLabVy446
         }
 
         /// <summary>
-        /// Draw Arrow
+        /// Draw Body
+        /// if _bodyModel is 0 then body model is vy50.
+        /// else if _bodyModel is 1 then body model is vy446.
         /// </summary>
-        private void DrawArrow()
+        /// <param name="_bodyModel"></param>
+        private void DrawBody(int _bodyModel)
         {
             // arrow
             List<double> arrowLine = this.ConvertPoint(2.0, 0.0, this._heading_angle);
             List<double> arrowA = this.ConvertPoint(1.5, 0.5, this._heading_angle);
             List<double> arrowB = this.ConvertPoint(1.5, -0.5, this._heading_angle);
 
+            // end of right header
+            List<double> rHeaderA = new List<double>();
+            List<double> rHeaderB = new List<double>();
+            
+            // VY50
+            if (_bodyModel == 0)
+            {
+                double La = 0.45;
+                double Lc = 0.6;
+                double Lbe = -0.59 - 0.073;
+                rHeaderA = this.ConvertPoint(La, Lbe, this._heading_angle);
+                rHeaderB = this.ConvertPoint(La + Lc, Lbe, this._heading_angle);
+            }
+
             GL.LineWidth(3.0f);
             GL.Begin(BeginMode.Lines);
             GL.Color3(Color.Yellow);
 
+            // arrow
             GL.Vertex3(this._tmX, this._tmY, 0.0);
             GL.Vertex3(this._tmX, this._tmY, 3.0);
 
-            GL.Vertex3(this._tmX, this._tmY, 2.0);
-            GL.Vertex3(this._tmX + arrowLine[0], this._tmY + arrowLine[1], 2.0);
+            GL.Vertex3(this._tmX, this._tmY, 2.5);
+            GL.Vertex3(this._tmX + arrowLine[0], this._tmY + arrowLine[1], 2.5);
 
-            GL.Vertex3(this._tmX + arrowLine[0], this._tmY + arrowLine[1], 2.0);
-            GL.Vertex3(this._tmX + arrowA[0], this._tmY + arrowA[1], 2.0);
+            GL.Vertex3(this._tmX + arrowLine[0], this._tmY + arrowLine[1], 2.5);
+            GL.Vertex3(this._tmX + arrowA[0], this._tmY + arrowA[1], 2.5);
 
-            GL.Vertex3(this._tmX + arrowLine[0], this._tmY + arrowLine[1], 2.0);
-            GL.Vertex3(this._tmX + arrowB[0], this._tmY + arrowB[1], 2.0);
+            GL.Vertex3(this._tmX + arrowLine[0], this._tmY + arrowLine[1], 2.5);
+            GL.Vertex3(this._tmX + arrowB[0], this._tmY + arrowB[1], 2.5);
+
+            // end of right header
+            if (_bodyModel == 0)
+            {
+                GL.Vertex3(this._tmX + rHeaderA[0], this._tmY + rHeaderA[1], 0.0);
+                GL.Vertex3(this._tmX + rHeaderB[0], this._tmY + rHeaderB[1], 0.0);
+            }
 
             GL.End();
 
@@ -228,7 +253,7 @@ namespace IidaLabVy446
                 double angle = 2 * Math.PI * i / 300;
                 double x = Math.Cos(angle);
                 double y = Math.Sin(angle);
-                GL.Vertex3(this._tmX + x, this._tmY + y, 2.0);
+                GL.Vertex3(this._tmX + x, this._tmY + y, 2.5);
             }
             GL.End();
         }
@@ -418,7 +443,7 @@ namespace IidaLabVy446
 
             this.DrawCoordinates();
             this.DrawGround();
-            this.DrawArrow();
+            this.DrawBody(0);
             this.DrawCrop();
             this.DrawEdge();
 
