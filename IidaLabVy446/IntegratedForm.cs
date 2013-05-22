@@ -960,8 +960,8 @@ namespace IidaLabVy446
                 this.offLineInit = true;
             }
 
-            this.tmY = this._cgps.result.x - this.offLineMapX;
-            this.tmX = this._cgps.result.y - this.offLineMapY;
+            this.tmY = this.offLineMapX - this._cgps.result.x;
+            this.tmX = this.offLineMapY - this._cgps.result.y;
             this.tmZ = this._cgps.result.c;
 
             this._offLineGraph.AddDataToGraph(zg2, this.tmX, this.tmY);
@@ -1280,6 +1280,7 @@ namespace IidaLabVy446
         private double backHeading { get; set; }
         private double backSpeed { get; set; }
         private bool isFirstBodyTm { get; set; }
+        //private bool isSaveLidarData { get; set; }
         /// <summary>
         /// initialization of crop stand class
         /// </summary>
@@ -1292,6 +1293,7 @@ namespace IidaLabVy446
             {
                 this.cropStand = new CropStand(this.BodyModelComboBox.SelectedIndex);
                 this.isFirstBodyTm = false;
+                //this.isSaveLidarData = true;
             }
         }
 
@@ -1345,6 +1347,12 @@ namespace IidaLabVy446
                 {
                     this.cropStand.CalculatePosition(this.sickLidar.cartesianList, this.backTmX, this.backTmY, this.backTmZ, this.backHeading);
 
+                    // save cartesian lidar data
+                    //if (this.isSaveLidarData == true)
+                    //{
+                    //    this.cropStand.SaveLidarData(this.sickLidar.cartesianList);
+                    //    this.isSaveLidarData = false;
+                    //}
                 }
 
                 // send debug information to lidarForm

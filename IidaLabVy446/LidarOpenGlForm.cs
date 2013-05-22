@@ -10,6 +10,7 @@ namespace IidaLabVy446
     using System.Text;
     using System.Windows.Forms;
 
+    using System.IO;
     using System.Diagnostics;
     using OpenTK;
     using OpenTK.Graphics;
@@ -69,6 +70,34 @@ namespace IidaLabVy446
         /// </summary>
         private Vector3[] edgePoints;
         //private int edgeOffset { get; set; }
+
+        /// <summary>
+        /// save data to txt file
+        /// </summary>
+        private StreamWriter saveTxt;
+
+        /// <summary>
+        /// gets or sets bool value of save mode
+        /// </summary>
+        private bool isSave { get; set; }
+
+        /// <summary>
+        /// gets or sets divider of header position
+        /// </summary>
+        private double headerX { get; set; }
+        private double headerY { get; set; }
+
+        /// <summary>
+        /// gets or sets result value of adopted RANSAC algorithm
+        /// </summary>
+        private double ranX1 { get; set; }
+        private double ranX2 { get; set; }
+        private double ranY1 { get; set; }
+        private double ranY2 { get; set; }
+
+        private double avgCropHgt { get; set; }
+        private double cropHgt { get; set; }
+        private int avgCropCnt { get; set; }
         
         #endregion
 
@@ -97,6 +126,9 @@ namespace IidaLabVy446
             //this.edgeOffset = 0;
 
             this.isManualControl = false;
+
+            // for debug
+            this.isSave = false;
         }
 
         #endregion
@@ -183,9 +215,9 @@ namespace IidaLabVy446
         {
             List<double> points = new List<double>();
 
-            double bAngle = (180.0 - _angle) * (Math.PI / 180);
-            double rotX = (Math.Cos(bAngle) * _x) - (Math.Sin(bAngle) * _y);
-            double rotY = (Math.Sin(bAngle) * _x) + (Math.Cos(bAngle) * _y);
+            double bAngle = (_angle - 270.0) * (Math.PI / 180);
+            double rotX = (Math.Sin(bAngle) * _y) + (Math.Cos(bAngle) * _x);
+            double rotY = (Math.Cos(bAngle) * _y) - (Math.Sin(bAngle) * _x);
 
             points.Add(rotX);
             points.Add(rotY);
@@ -202,9 +234,9 @@ namespace IidaLabVy446
         private void DrawBody(int _bodyModel)
         {
             // arrow
-            List<double> arrowLine = this.ConvertPoint(2.0, 0.0, this._heading_angle);
-            List<double> arrowA = this.ConvertPoint(1.5, 0.5, this._heading_angle);
-            List<double> arrowB = this.ConvertPoint(1.5, -0.5, this._heading_angle);
+            List<double> arrowLine = this.ConvertPoint(0.0, 2.0, this._heading_angle);
+            List<double> arrowA = this.ConvertPoint(0.5, 1.5, this._heading_angle);
+            List<double> arrowB = this.ConvertPoint(-0.5, 1.5, this._heading_angle);
 
             // end of right header
             List<double> rHeaderA = new List<double>();
@@ -215,9 +247,9 @@ namespace IidaLabVy446
             {
                 double La = 0.45;
                 double Lc = 0.6;
-                double Lbe = -0.59 - 0.073;
-                rHeaderA = this.ConvertPoint(La, Lbe, this._heading_angle);
-                rHeaderB = this.ConvertPoint(La + Lc, Lbe, this._heading_angle);
+                double Lbe = 0.59 + 0.073;
+                rHeaderA = this.ConvertPoint(Lbe, La, this._heading_angle);
+                rHeaderB = this.ConvertPoint(Lbe, La + Lc, this._heading_angle);
             }
 
             GL.LineWidth(3.0f);
@@ -240,6 +272,9 @@ namespace IidaLabVy446
             // end of right header
             if (_bodyModel == 0)
             {
+                this.headerX = this._tmX + rHeaderB[0];
+                this.headerY = this._tmY + rHeaderB[1];
+
                 GL.Vertex3(this._tmX + rHeaderA[0], this._tmY + rHeaderA[1], 0.0);
                 GL.Vertex3(this._tmX + rHeaderB[0], this._tmY + rHeaderB[1], 0.0);
             }
@@ -272,6 +307,14 @@ namespace IidaLabVy446
                     //edgePoints[i + this.edgeOffset] = new Vector3((float)_list[i].x, (float)_list[i].y, (float)_list[i].z);
                     edgePoints[i] = new Vector3((float)_list[i].x, (float)_list[i].y, (float)_list[i].z);
                 }
+
+                if (this.isSave == true)
+                {
+                    this.ranX1 = _list[0].x;
+                    this.ranX2 = _list[1].x;
+                    this.ranY1 = _list[0].y;
+                    this.ranY2 = _list[1].y;
+                }
                 //this.edgeOffset += _list.Count;
             }
         }
@@ -286,10 +329,25 @@ namespace IidaLabVy446
         {
             if (_isCropData == true)
             {
+                // For save mode
+                if ((this.isSave == true) && (_glIndex != 0))
+                {
+                    string edgePointData = Convert.ToString(_list[_glIndex - 1].x) + " " + Convert.ToString(_list[_glIndex - 1].y);
+                    this.saveTxt.WriteLine(edgePointData);
+                }
+
                 for (int i = 0; i < _glIndex; i++)
                 {
                     //this.crop.Add(new SickLidar.CartesianPoint(_list[i].x, _list[i].y, _list[i].z));
                     cropPoints[i + this.cropOffset] = new Vector3((float)_list[i].x, (float)_list[i].y, (float)_list[i].z);
+
+                    // save mode for debug
+                    if (this.isSave == true)
+                    {
+                        this.avgCropCnt++;
+                        this.cropHgt += _list[i].z;
+                        this.avgCropHgt = this.cropHgt / (double)this.avgCropCnt;
+                    }
                 }
                 this.cropOffset += _glIndex;
 
@@ -375,6 +433,18 @@ namespace IidaLabVy446
             this._body_speed = _body_speed;
         }
 
+        /// <summary>
+        /// For save debug
+        /// </summary>
+        private void SaveDebug()
+        {
+            this.GlAvgCropHgtTxtBox.Text = this.avgCropHgt.ToString("N3");
+            this.GlRanPosX1TxtBox.Text = this.ranX1.ToString("N3");
+            this.GlRanPosY1TxtBox.Text = this.ranY1.ToString("N3");
+            this.GlRanPosX2TxtBox.Text = this.ranX1.ToString("N3");
+            this.GlRanPosY2TxtBox.Text = this.ranY2.ToString("N3");
+        }
+
         #endregion
 
         #region Event
@@ -430,7 +500,7 @@ namespace IidaLabVy446
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             float eyeVal = 5.0f;
-            Matrix4 lookat = Matrix4.LookAt(-eyeVal * (float)Math.Sin(MathHelper.DegreesToRadians(45)), eyeVal, eyeVal, 0, 0, 0, 0, 1, 0);
+            Matrix4 lookat = Matrix4.LookAt(eyeVal * (float)Math.Sin(MathHelper.DegreesToRadians(135)), eyeVal, eyeVal, 0, 0, 0, 0, 1, 0);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref lookat);
 
@@ -446,6 +516,11 @@ namespace IidaLabVy446
             this.DrawBody(0);
             this.DrawCrop();
             this.DrawEdge();
+
+            if (this.isSave == true)
+            {
+                this.SaveDebug();
+            }
 
             glControl1.SwapBuffers();
             //GL.Flush();
@@ -515,6 +590,51 @@ namespace IidaLabVy446
         private void ExitButton_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        /// <summary>
+        /// Save to data : cut edge point, header position, ransac line
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (this.isSave == false)
+            {
+                this.saveTxt = new StreamWriter("result.txt");
+                this.avgCropCnt = 0;
+                this.avgCropHgt = 0.0;
+                this.cropHgt = 0.0;
+                this.isSave = true;
+
+                //add initial header position
+                string iniHeaderPos = Convert.ToString(this.headerX) + " " + Convert.ToString(this.headerY);
+                this.saveTxt.WriteLine(iniHeaderPos);
+                this.saveTxt.WriteLine();
+            }
+            else
+            {
+                // add initial header position
+                this.saveTxt.WriteLine();
+                string lastHeaderPos = Convert.ToString(this.headerX) + " " + Convert.ToString(this.headerY);
+                this.saveTxt.WriteLine(lastHeaderPos);
+
+                // add ransac position
+                this.saveTxt.WriteLine();
+                string ranStart = Convert.ToString(this.ranX1) + " " + Convert.ToString(this.ranY1);
+                this.saveTxt.WriteLine(ranStart);
+                string ranEnd = Convert.ToString(this.ranX2) + " " + Convert.ToString(this.ranY2);
+                this.saveTxt.WriteLine(ranEnd);
+                
+                // add average crop height
+                this.saveTxt.WriteLine();
+                string avgCropHgtStr = Convert.ToString(this.avgCropHgt);
+                this.saveTxt.WriteLine(avgCropHgtStr);
+
+                // dispose
+                this.saveTxt.Close();
+                this.isSave = false;
+            }
         }
 
         #endregion

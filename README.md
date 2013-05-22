@@ -20,7 +20,7 @@ Introduction:
 
  3) http://youtu.be/eL6cX5_9o-0 - Remote Monitoring 3D Crop Stand for Combine Harvester (Japanese)
 
- 4) http://youtu.be/ouzz1KfprJ8 - Uncut Crop Edge Detection and 3D Terrain Generation in paddy field
+ 4) http://youtu.be/juyYuQfvgkk - A multi-sensor based uncut crop edge detection method for head-feeding combine harvester.
 
 
 

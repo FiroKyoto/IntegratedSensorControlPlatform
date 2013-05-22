@@ -508,9 +508,9 @@
                 {
                     int index = this.polarList.Count - 1 - i;
                     
-                    //--height = 2.47m, tilt angle = 49.284--//
-                    x = -(this.polarList[index].row * Math.Sin(this.polarList[index].theta) * Math.Sin(49.284 * this.piBy180));
-                    y = this.polarList[i].row * Math.Cos(this.polarList[i].theta);
+                    //before--height = 2.47m, tilt angle = 49.284--//
+                    x = this.polarList[i].row * Math.Cos(this.polarList[i].theta);
+                    y = -(this.polarList[index].row * Math.Sin(this.polarList[index].theta) * Math.Sin(49.284 * this.piBy180));
                     z = 2.47 + (this.polarList[index].row * Math.Sin(this.polarList[index].theta) * Math.Cos(49.284 * this.piBy180));
                 }
 
@@ -518,8 +518,8 @@
                 if (this.selectDevice == 1)
                 {
                     //--height = 2.257m, tilt angle = 35--//
-                    x = -(this.polarList[i].row * Math.Sin(this.polarList[i].theta) * Math.Sin(35 * this.piBy180));
-                    y = this.polarList[i].row * Math.Cos(this.polarList[i].theta);
+                    x = this.polarList[i].row * Math.Cos(this.polarList[i].theta);
+                    y = -(this.polarList[i].row * Math.Sin(this.polarList[i].theta) * Math.Sin(35 * this.piBy180));
                     z = 2.257 + (this.polarList[i].row * Math.Sin(this.polarList[i].theta) * Math.Cos(35 * this.piBy180));
                 }
 

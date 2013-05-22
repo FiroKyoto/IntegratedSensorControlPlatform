@@ -78,7 +78,7 @@ namespace SickLidar
 
             for (int i = 0; i < list.Count; i++)
             {
-                this.ppList.Add(list[i].y, list[i].z);
+                this.ppList.Add(list[i].x, list[i].z);
             }
 
             //--generate a red curve--//
