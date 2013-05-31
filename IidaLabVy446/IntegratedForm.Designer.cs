@@ -195,6 +195,8 @@
             this.label14 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.groupBox16 = new System.Windows.Forms.GroupBox();
+            this.Vy446_STARTSTOPFLAG_TxtBox = new System.Windows.Forms.TextBox();
+            this.label71 = new System.Windows.Forms.Label();
             this.Vy446_FgSitsuden_CheckBox = new System.Windows.Forms.CheckBox();
             this.Vy446_FgTofuku_CheckBox = new System.Windows.Forms.CheckBox();
             this.Vy446_FgKakikomi_CheckBox = new System.Windows.Forms.CheckBox();
@@ -226,6 +228,8 @@
             this.label83 = new System.Windows.Forms.Label();
             this.Vy446_RobotMode_CheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.Vy446_AD_FUEL_TxtBox = new System.Windows.Forms.TextBox();
+            this.label70 = new System.Windows.Forms.Label();
             this.Vy446_ReadCnt_TxtBox = new System.Windows.Forms.TextBox();
             this.label92 = new System.Windows.Forms.Label();
             this.label63 = new System.Windows.Forms.Label();
@@ -292,6 +296,7 @@
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.CommunicationTimer = new System.Windows.Forms.Timer(this.components);
+            this.zg3 = new ZedGraph.ZedGraphControl();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pBoxIpl1)).BeginInit();
@@ -324,10 +329,11 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.zg3);
             this.groupBox1.Controls.Add(this.zg1);
             this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(337, 269);
+            this.groupBox1.Size = new System.Drawing.Size(664, 269);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Measured Lidar Data";
@@ -2001,6 +2007,8 @@
             // 
             // groupBox16
             // 
+            this.groupBox16.Controls.Add(this.Vy446_STARTSTOPFLAG_TxtBox);
+            this.groupBox16.Controls.Add(this.label71);
             this.groupBox16.Controls.Add(this.Vy446_FgSitsuden_CheckBox);
             this.groupBox16.Controls.Add(this.Vy446_FgTofuku_CheckBox);
             this.groupBox16.Controls.Add(this.Vy446_FgKakikomi_CheckBox);
@@ -2037,6 +2045,25 @@
             this.groupBox16.TabIndex = 4;
             this.groupBox16.TabStop = false;
             this.groupBox16.Text = "Send Command data to Combine ECU";
+            // 
+            // Vy446_STARTSTOPFLAG_TxtBox
+            // 
+            this.Vy446_STARTSTOPFLAG_TxtBox.BackColor = System.Drawing.Color.GreenYellow;
+            this.Vy446_STARTSTOPFLAG_TxtBox.Location = new System.Drawing.Point(254, 23);
+            this.Vy446_STARTSTOPFLAG_TxtBox.Name = "Vy446_STARTSTOPFLAG_TxtBox";
+            this.Vy446_STARTSTOPFLAG_TxtBox.Size = new System.Drawing.Size(100, 19);
+            this.Vy446_STARTSTOPFLAG_TxtBox.TabIndex = 31;
+            // 
+            // label71
+            // 
+            this.label71.AutoSize = true;
+            this.label71.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label71.ForeColor = System.Drawing.Color.Red;
+            this.label71.Location = new System.Drawing.Point(105, 28);
+            this.label71.Name = "label71";
+            this.label71.Size = new System.Drawing.Size(143, 12);
+            this.label71.TabIndex = 30;
+            this.label71.Text = "Remote Control(A, B): ";
             // 
             // Vy446_FgSitsuden_CheckBox
             // 
@@ -2319,15 +2346,19 @@
             // Vy446_RobotMode_CheckBox
             // 
             this.Vy446_RobotMode_CheckBox.AutoSize = true;
+            this.Vy446_RobotMode_CheckBox.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Vy446_RobotMode_CheckBox.ForeColor = System.Drawing.Color.Red;
             this.Vy446_RobotMode_CheckBox.Location = new System.Drawing.Point(6, 27);
             this.Vy446_RobotMode_CheckBox.Name = "Vy446_RobotMode_CheckBox";
-            this.Vy446_RobotMode_CheckBox.Size = new System.Drawing.Size(86, 16);
+            this.Vy446_RobotMode_CheckBox.Size = new System.Drawing.Size(93, 16);
             this.Vy446_RobotMode_CheckBox.TabIndex = 0;
             this.Vy446_RobotMode_CheckBox.Text = "ロボットモード";
             this.Vy446_RobotMode_CheckBox.UseVisualStyleBackColor = true;
             // 
             // groupBox9
             // 
+            this.groupBox9.Controls.Add(this.Vy446_AD_FUEL_TxtBox);
+            this.groupBox9.Controls.Add(this.label70);
             this.groupBox9.Controls.Add(this.Vy446_ReadCnt_TxtBox);
             this.groupBox9.Controls.Add(this.label92);
             this.groupBox9.Controls.Add(this.label63);
@@ -2362,6 +2393,23 @@
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Received Combine Body Data";
             // 
+            // Vy446_AD_FUEL_TxtBox
+            // 
+            this.Vy446_AD_FUEL_TxtBox.BackColor = System.Drawing.Color.GreenYellow;
+            this.Vy446_AD_FUEL_TxtBox.Location = new System.Drawing.Point(99, 370);
+            this.Vy446_AD_FUEL_TxtBox.Name = "Vy446_AD_FUEL_TxtBox";
+            this.Vy446_AD_FUEL_TxtBox.Size = new System.Drawing.Size(100, 19);
+            this.Vy446_AD_FUEL_TxtBox.TabIndex = 14;
+            // 
+            // label70
+            // 
+            this.label70.AutoSize = true;
+            this.label70.Location = new System.Drawing.Point(6, 373);
+            this.label70.Name = "label70";
+            this.label70.Size = new System.Drawing.Size(39, 12);
+            this.label70.TabIndex = 14;
+            this.label70.Text = "FUEL: ";
+            // 
             // Vy446_ReadCnt_TxtBox
             // 
             this.Vy446_ReadCnt_TxtBox.BackColor = System.Drawing.Color.GreenYellow;
@@ -2382,7 +2430,7 @@
             // label63
             // 
             this.label63.AutoSize = true;
-            this.label63.Location = new System.Drawing.Point(6, 371);
+            this.label63.Location = new System.Drawing.Point(6, 348);
             this.label63.Name = "label63";
             this.label63.Size = new System.Drawing.Size(35, 12);
             this.label63.TabIndex = 4;
@@ -2391,7 +2439,7 @@
             // Vy446_RESERVE_B_TxtBox
             // 
             this.Vy446_RESERVE_B_TxtBox.BackColor = System.Drawing.Color.GreenYellow;
-            this.Vy446_RESERVE_B_TxtBox.Location = new System.Drawing.Point(99, 368);
+            this.Vy446_RESERVE_B_TxtBox.Location = new System.Drawing.Point(99, 345);
             this.Vy446_RESERVE_B_TxtBox.Name = "Vy446_RESERVE_B_TxtBox";
             this.Vy446_RESERVE_B_TxtBox.Size = new System.Drawing.Size(100, 19);
             this.Vy446_RESERVE_B_TxtBox.TabIndex = 19;
@@ -2400,7 +2448,7 @@
             // 
             this.label62.AutoSize = true;
             this.label62.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label62.Location = new System.Drawing.Point(6, 346);
+            this.label62.Location = new System.Drawing.Point(6, 323);
             this.label62.Name = "label62";
             this.label62.Size = new System.Drawing.Size(44, 12);
             this.label62.TabIndex = 4;
@@ -2409,7 +2457,7 @@
             // label61
             // 
             this.label61.AutoSize = true;
-            this.label61.Location = new System.Drawing.Point(6, 321);
+            this.label61.Location = new System.Drawing.Point(6, 302);
             this.label61.Name = "label61";
             this.label61.Size = new System.Drawing.Size(55, 12);
             this.label61.TabIndex = 4;
@@ -2418,7 +2466,7 @@
             // label60
             // 
             this.label60.AutoSize = true;
-            this.label60.Location = new System.Drawing.Point(6, 296);
+            this.label60.Location = new System.Drawing.Point(6, 277);
             this.label60.Name = "label60";
             this.label60.Size = new System.Drawing.Size(55, 12);
             this.label60.TabIndex = 4;
@@ -2427,7 +2475,7 @@
             // Vy446_AUGER_CLD_TxtBox
             // 
             this.Vy446_AUGER_CLD_TxtBox.BackColor = System.Drawing.Color.GreenYellow;
-            this.Vy446_AUGER_CLD_TxtBox.Location = new System.Drawing.Point(99, 318);
+            this.Vy446_AUGER_CLD_TxtBox.Location = new System.Drawing.Point(99, 299);
             this.Vy446_AUGER_CLD_TxtBox.Name = "Vy446_AUGER_CLD_TxtBox";
             this.Vy446_AUGER_CLD_TxtBox.Size = new System.Drawing.Size(100, 19);
             this.Vy446_AUGER_CLD_TxtBox.TabIndex = 4;
@@ -2435,7 +2483,7 @@
             // Vy446_AUGER_MTR_TxtBox
             // 
             this.Vy446_AUGER_MTR_TxtBox.BackColor = System.Drawing.Color.GreenYellow;
-            this.Vy446_AUGER_MTR_TxtBox.Location = new System.Drawing.Point(99, 293);
+            this.Vy446_AUGER_MTR_TxtBox.Location = new System.Drawing.Point(99, 274);
             this.Vy446_AUGER_MTR_TxtBox.Name = "Vy446_AUGER_MTR_TxtBox";
             this.Vy446_AUGER_MTR_TxtBox.Size = new System.Drawing.Size(100, 19);
             this.Vy446_AUGER_MTR_TxtBox.TabIndex = 4;
@@ -2444,7 +2492,7 @@
             // 
             this.label59.AutoSize = true;
             this.label59.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label59.Location = new System.Drawing.Point(6, 271);
+            this.label59.Location = new System.Drawing.Point(6, 252);
             this.label59.Name = "label59";
             this.label59.Size = new System.Drawing.Size(63, 12);
             this.label59.TabIndex = 17;
@@ -2453,7 +2501,7 @@
             // label58
             // 
             this.label58.AutoSize = true;
-            this.label58.Location = new System.Drawing.Point(6, 246);
+            this.label58.Location = new System.Drawing.Point(6, 227);
             this.label58.Name = "label58";
             this.label58.Size = new System.Drawing.Size(54, 12);
             this.label58.TabIndex = 16;
@@ -2462,7 +2510,7 @@
             // label57
             // 
             this.label57.AutoSize = true;
-            this.label57.Location = new System.Drawing.Point(6, 221);
+            this.label57.Location = new System.Drawing.Point(6, 202);
             this.label57.Name = "label57";
             this.label57.Size = new System.Drawing.Size(54, 12);
             this.label57.TabIndex = 15;
@@ -2471,7 +2519,7 @@
             // label56
             // 
             this.label56.AutoSize = true;
-            this.label56.Location = new System.Drawing.Point(6, 196);
+            this.label56.Location = new System.Drawing.Point(6, 177);
             this.label56.Name = "label56";
             this.label56.Size = new System.Drawing.Size(60, 12);
             this.label56.TabIndex = 14;
@@ -2480,7 +2528,7 @@
             // Vy446_AD_SUI_L_TxtBox
             // 
             this.Vy446_AD_SUI_L_TxtBox.BackColor = System.Drawing.Color.GreenYellow;
-            this.Vy446_AD_SUI_L_TxtBox.Location = new System.Drawing.Point(99, 243);
+            this.Vy446_AD_SUI_L_TxtBox.Location = new System.Drawing.Point(99, 224);
             this.Vy446_AD_SUI_L_TxtBox.Name = "Vy446_AD_SUI_L_TxtBox";
             this.Vy446_AD_SUI_L_TxtBox.Size = new System.Drawing.Size(100, 19);
             this.Vy446_AD_SUI_L_TxtBox.TabIndex = 13;
@@ -2488,7 +2536,7 @@
             // Vy446_AD_SUI_R_TxtBox
             // 
             this.Vy446_AD_SUI_R_TxtBox.BackColor = System.Drawing.Color.GreenYellow;
-            this.Vy446_AD_SUI_R_TxtBox.Location = new System.Drawing.Point(99, 218);
+            this.Vy446_AD_SUI_R_TxtBox.Location = new System.Drawing.Point(99, 199);
             this.Vy446_AD_SUI_R_TxtBox.Name = "Vy446_AD_SUI_R_TxtBox";
             this.Vy446_AD_SUI_R_TxtBox.Size = new System.Drawing.Size(100, 19);
             this.Vy446_AD_SUI_R_TxtBox.TabIndex = 12;
@@ -2496,7 +2544,7 @@
             // Vy446_AD_SUI_K_TxtBox
             // 
             this.Vy446_AD_SUI_K_TxtBox.BackColor = System.Drawing.Color.GreenYellow;
-            this.Vy446_AD_SUI_K_TxtBox.Location = new System.Drawing.Point(99, 193);
+            this.Vy446_AD_SUI_K_TxtBox.Location = new System.Drawing.Point(99, 174);
             this.Vy446_AD_SUI_K_TxtBox.Name = "Vy446_AD_SUI_K_TxtBox";
             this.Vy446_AD_SUI_K_TxtBox.Size = new System.Drawing.Size(100, 19);
             this.Vy446_AD_SUI_K_TxtBox.TabIndex = 11;
@@ -2505,7 +2553,7 @@
             // 
             this.label55.AutoSize = true;
             this.label55.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label55.Location = new System.Drawing.Point(6, 171);
+            this.label55.Location = new System.Drawing.Point(6, 152);
             this.label55.Name = "label55";
             this.label55.Size = new System.Drawing.Size(57, 12);
             this.label55.TabIndex = 10;
@@ -2971,6 +3019,20 @@
             // 
             this.CommunicationTimer.Tick += new System.EventHandler(this.CommunicationTimer_Tick);
             // 
+            // zg3
+            // 
+            this.zg3.Location = new System.Drawing.Point(334, 18);
+            this.zg3.Name = "zg3";
+            this.zg3.ScrollGrace = 0D;
+            this.zg3.ScrollMaxX = 0D;
+            this.zg3.ScrollMaxY = 0D;
+            this.zg3.ScrollMaxY2 = 0D;
+            this.zg3.ScrollMinX = 0D;
+            this.zg3.ScrollMinY = 0D;
+            this.zg3.ScrollMinY2 = 0D;
+            this.zg3.Size = new System.Drawing.Size(320, 240);
+            this.zg3.TabIndex = 7;
+            // 
             // IntegratedForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -3294,5 +3356,10 @@
         private System.Windows.Forms.Label label96;
         private System.Windows.Forms.Label label95;
         private System.Windows.Forms.CheckBox LidarOpenGlCheckBox;
+        private System.Windows.Forms.Label label70;
+        private System.Windows.Forms.TextBox Vy446_AD_FUEL_TxtBox;
+        private System.Windows.Forms.TextBox Vy446_STARTSTOPFLAG_TxtBox;
+        private System.Windows.Forms.Label label71;
+        private ZedGraph.ZedGraphControl zg3;
     }
 }

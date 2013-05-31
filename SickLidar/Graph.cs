@@ -11,14 +11,24 @@ namespace SickLidar
     public class Graph
     {
         /// <summary>
-        /// GraphPane for zedGraph
+        /// GraphPane of XZ-plane for zedGraph
         /// </summary>
         private GraphPane myPane;
 
         /// <summary>
-        /// PointPairList for zedGraph
+        /// GraphPane of XY-plane for zedGraph
+        /// </summary>
+        private GraphPane myPane1;
+
+        /// <summary>
+        /// PointPairList of XZ-plane for zedGraph
         /// </summary>
         private PointPairList ppList;
+
+        /// <summary>
+        /// PointPairList of XY-plane for zedGraph
+        /// </summary>
+        private PointPairList ppList1;
 
         /// <summary>
         /// basic constructor
@@ -27,21 +37,24 @@ namespace SickLidar
         {
             //make up some data points based on the column average value in image
             this.ppList = new PointPairList();
+            this.ppList1 = new PointPairList();
         }
-        
+
         /// <summary>
         /// build the chart
         /// </summary>
-        /// <param name="zgc"></param>
-        public void CreateGraph(ZedGraphControl zgc)
+        /// <param name="zgc">XZ plane</param>
+        /// <param name="zgc1">XY Plane</param>
+        public void CreateGraph(ZedGraphControl zgc, ZedGraphControl zgc1)
         {
+            // YZ Plane
             //--get a reference to the graphPane--//
             this.myPane = zgc.GraphPane;
 
             //--set the titles--//
-            this.myPane.Title.Text = "YZ-plane data graph";
-            this.myPane.XAxis.Title.Text = "Lateral distance (m)";
-            this.myPane.YAxis.Title.Text = "Height (m)";
+            this.myPane.Title.Text = "XZ-plane data graph";
+            this.myPane.XAxis.Title.Text = "X (m)";
+            this.myPane.YAxis.Title.Text = "Z (m)";
 
             //--manually set the x axis range--//
             this.myPane.XAxis.Scale.Min = -4.0;
@@ -56,6 +69,30 @@ namespace SickLidar
 
             //--scale the axes--//
             zgc.AxisChange();
+
+            // XY Plane
+            //--get a reference to the graphPane--//
+            this.myPane1 = zgc1.GraphPane;
+
+            //--set the titles--//
+            this.myPane1.Title.Text = "XY-plane data graph";
+            this.myPane1.XAxis.Title.Text = "X (m)";
+            this.myPane1.YAxis.Title.Text = "Y (m)";
+
+            //--manually set the x axis range--//
+            this.myPane1.XAxis.Scale.Min = -4.0;
+            this.myPane1.XAxis.Scale.Max = 4.0;
+            this.myPane1.XAxis.MajorGrid.IsVisible = true;
+
+            //--manually set the y axis range--//
+            this.myPane1.YAxis.Scale.Min = 0.0;
+            this.myPane1.YAxis.Scale.Max = 4.0;
+            this.myPane1.YAxis.MajorGrid.IsVisible = true;
+            this.myPane1.YAxis.MajorGrid.IsZeroLine = false;
+
+            //--scale the axes--//
+            zgc1.AxisChange();
+
         }
 
         /// <summary>
@@ -63,12 +100,18 @@ namespace SickLidar
         /// </summary>
         /// <param name="list"></param>
         /// <param name="zgc"></param>
+        /// <param name="zgc1"></param>
         /// <param name="isOpenGL"></param>
-        public void UpdateGraph(List<SickLidar.CartesianPoint> list, ZedGraphControl zgc, bool isOpenGL)
+        public void UpdateGraph(List<SickLidar.CartesianPoint> list, ZedGraphControl zgc, ZedGraphControl zgc1, bool isOpenGL)
         {
             if (this.ppList != null)
             {
                 this.ppList.Clear();
+            }
+
+            if (this.ppList1 != null)
+            {
+                this.ppList1.Clear();
             }
 
             if (zgc.GraphPane.CurveList != null)
@@ -76,13 +119,20 @@ namespace SickLidar
                 zgc.GraphPane.CurveList.Clear();
             }
 
+            if (zgc1.GraphPane.CurveList != null)
+            {
+                zgc1.GraphPane.CurveList.Clear();
+            }
+
             for (int i = 0; i < list.Count; i++)
             {
                 this.ppList.Add(list[i].x, list[i].z);
+                this.ppList1.Add(list[i].x, list[i].y);
             }
 
             //--generate a red curve--//
             this.myPane.AddCurve(null, this.ppList, Color.Red, SymbolType.None);
+            this.myPane1.AddCurve(null, this.ppList1, Color.Red, SymbolType.None);
 
             //--tell zedgraph to refigure the axes since the data have changed--//
             //zgc.AxisChange();
@@ -92,6 +142,8 @@ namespace SickLidar
             {
                 zgc.Invalidate();
             }
+
+            zgc1.Invalidate();
         }
 
         /// <summary>

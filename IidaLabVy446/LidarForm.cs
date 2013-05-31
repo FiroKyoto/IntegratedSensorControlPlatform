@@ -28,7 +28,7 @@ namespace IidaLabVy446
         {
             this.graph = new Graph();
             InitializeComponent();
-            this.graph.CreateGraph(zg1);
+            this.graph.CreateGraph(zg1, zg3);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace IidaLabVy446
                 this.sickLidar.RequestScan();
                 this.sickLidar.ConvertHexToPolar();
                 this.sickLidar.ConvertPolarToCartesian();
-                this.graph.UpdateGraph(this.sickLidar.cartesianList, zg1, false);
+                this.graph.UpdateGraph(this.sickLidar.cartesianList, zg1, zg3, false);
 
                 if (this.SaveCheckBox.Checked == true)
                 {
@@ -96,7 +96,7 @@ namespace IidaLabVy446
                 {
                     this.sickLidar.ConvertReadDataToPolar(this.readLidarCount, this.lidarFile.readData);
                     this.sickLidar.ConvertPolarToCartesian();
-                    this.graph.UpdateGraph(this.sickLidar.cartesianList, zg1, false);
+                    this.graph.UpdateGraph(this.sickLidar.cartesianList, zg1, zg3, false);
                     this.readLidarCount++;
                 }
                 else

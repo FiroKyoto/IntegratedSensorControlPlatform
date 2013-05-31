@@ -70,7 +70,7 @@ namespace IidaLabVy446
             this.isIniLidarInfo = false;
 
             this.graph = new SickLidar.Graph();
-            this.graph.CreateGraph(zg1);
+            this.graph.CreateGraph(zg1, zg3);
 
             if (this.LidarReadCheckBox.Checked == false)
             {
@@ -125,7 +125,7 @@ namespace IidaLabVy446
                 this.sickLidar.RequestScan();
                 this.sickLidar.ConvertHexToPolar();
                 this.sickLidar.ConvertPolarToCartesian();
-                this.graph.UpdateGraph(this.sickLidar.cartesianList, zg1, this.isOpenGL);
+                this.graph.UpdateGraph(this.sickLidar.cartesianList, zg1, zg3, this.isOpenGL);
 
                 if (this.LidarSaveCheckBox.Checked == true)
                 {
@@ -138,7 +138,7 @@ namespace IidaLabVy446
                 {
                     this.sickLidar.ConvertReadDataToPolar(this.readCount, this.lidarFile.readData);
                     this.sickLidar.ConvertPolarToCartesian();
-                    this.graph.UpdateGraph(this.sickLidar.cartesianList, zg1, this.isOpenGL);
+                    this.graph.UpdateGraph(this.sickLidar.cartesianList, zg1, zg3, this.isOpenGL);
 
                     if (this.isOpenGL == true)
                     {
@@ -382,14 +382,14 @@ namespace IidaLabVy446
                 // 操向ポテンショ--ok
                 this.Vy446_DT_SOKO_TxtBox.Text = Convert.ToString(this._vy446.AD_SOKO_A);
 
-                // フィーダ回転数
-                this.Vy446_feed_rpm_TxtBox.Text = Convert.ToString(this._vy446.feed_rpm);
+                // フィーダ回転数 - revised 2013-05-30
+                this.Vy446_feed_rpm_TxtBox.Text = Convert.ToString(this._vy446.fFeed_Rpm);
 
-                // エンジン回転数
-                this.Vy446_rpm_TxtBox.Text = Convert.ToString(this._vy446.rpm);
+                // エンジン回転数 - revised 2013-05-30
+                this.Vy446_rpm_TxtBox.Text = Convert.ToString(this._vy446.fRpm);
 
-                // ミッション速度
-                this.Vy446_speed_TxtBox.Text = Convert.ToString(this._vy446.speed);
+                // ミッション速度 - revised 2013-05-30
+                this.Vy446_speed_TxtBox.Text = Convert.ToString(this._vy446.fSpeed);
 
                 // 排出オーガの左右旋回ポテンショ--ok
                 this.Vy446_AUGER_MTR_TxtBox.Text = Convert.ToString(this._vy446.DT_AUG_MTR);
@@ -400,6 +400,13 @@ namespace IidaLabVy446
                 // 刈高さポテンショ--ok
                 this.Vy446_RESERVE_B_TxtBox.Text = Convert.ToString(this._vy446.AD_KARI_L);
 
+                // FUEL - revised 2013-05-30
+                this.Vy446_AD_FUEL_TxtBox.Text = Convert.ToString(this._vy446.AD_FUEL);
+
+                // Start Stop Flag - revised 2013-05-30
+                this.Vy446_STARTSTOPFLAG_TxtBox.Text = Convert.ToString(this._vy446.m_ucStartStopFlag);
+
+                // RTK-GPS and GPS Compass
                 this.Vy446_avilability_TxtBox.Text = Convert.ToString(this._vy446.avilability);
                 this.Vy446_compass_TxtBox.Text = Convert.ToString(this._vy446.compass);
                 this.Vy446_gps_Altitude_TxtBox.Text = Convert.ToString(this._vy446.gps_Altitude);
@@ -1108,7 +1115,7 @@ namespace IidaLabVy446
             this.isIniLidarInfo = false;
 
             this.graph = new SickLidar.Graph();
-            this.graph.CreateGraph(zg1);
+            this.graph.CreateGraph(zg1, zg3);
 
             this.sickLidar = new SickLidar.SickLidar(
                 this.LidarSelectComboBox.SelectedIndex,
@@ -1138,7 +1145,7 @@ namespace IidaLabVy446
                 this.sickLidar.ConvertTcpDataToPolar(this.tcpFile.lidarData);
                 this.sickLidar.ConvertPolarToCartesian();
                 //this.LidarPlaySplitAndMerge();
-                this.graph.UpdateGraph(this.sickLidar.cartesianList, zg1, this.isOpenGL);
+                this.graph.UpdateGraph(this.sickLidar.cartesianList, zg1, zg3, this.isOpenGL);
 
                 if (this.isOpenGL == true)
                 {

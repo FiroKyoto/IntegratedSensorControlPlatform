@@ -500,13 +500,14 @@ namespace IidaLabVy446
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             float eyeVal = 5.0f;
-            Matrix4 lookat = Matrix4.LookAt(eyeVal * (float)Math.Sin(MathHelper.DegreesToRadians(135)), eyeVal, eyeVal, 0, 0, 0, 0, 1, 0);
+            Matrix4 lookat = Matrix4.LookAt(-eyeVal * (float)Math.Sin(MathHelper.DegreesToRadians(135)), eyeVal, eyeVal, 0, 0, 0, 0, 1, 0);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref lookat);
 
             //GL.MatrixMode(MatrixMode.Modelview);
             //GL.LoadIdentity();
             GL.Rotate(-90.0f, 1.0f, 0.0f, 0.0f);
+            GL.Rotate(180.0f, 0.0f, 0.0f, 1.0f);
 
             GL.Translate(this.transX, this.transY, this.transZ);
             GL.Rotate(angle, 0.0f, 0.0f, 1.0f);

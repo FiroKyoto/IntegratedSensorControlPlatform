@@ -34,18 +34,18 @@
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.HostTxtBox = new System.Windows.Forms.TextBox();
-            this.PortTxtBox = new System.Windows.Forms.TextBox();
-            this.SelectDeviceComBox = new System.Windows.Forms.ComboBox();
-            this.IntervalTxtBox = new System.Windows.Forms.TextBox();
             this.ScalingFactorTxtBox = new System.Windows.Forms.TextBox();
+            this.IntervalTxtBox = new System.Windows.Forms.TextBox();
+            this.SelectDeviceComBox = new System.Windows.Forms.ComboBox();
+            this.PortTxtBox = new System.Windows.Forms.TextBox();
+            this.HostTxtBox = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.SaveCheckBox = new System.Windows.Forms.CheckBox();
             this.ReadCheckBox = new System.Windows.Forms.CheckBox();
+            this.SaveCheckBox = new System.Windows.Forms.CheckBox();
             this.ConnectButton = new System.Windows.Forms.Button();
             this.DisconnectButton = new System.Windows.Forms.Button();
             this.ExitButton = new System.Windows.Forms.Button();
@@ -55,6 +55,7 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.SickTimer = new System.Windows.Forms.Timer(this.components);
+            this.zg3 = new ZedGraph.ZedGraphControl();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -97,10 +98,11 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.zg3);
             this.groupBox1.Controls.Add(this.zg1);
             this.groupBox1.Location = new System.Drawing.Point(12, 24);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(415, 326);
+            this.groupBox1.Size = new System.Drawing.Size(415, 635);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Graph";
@@ -124,57 +126,21 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Setting";
             // 
-            // label3
+            // ScalingFactorTxtBox
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 43);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(58, 12);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "TCP Port: ";
+            this.ScalingFactorTxtBox.Location = new System.Drawing.Point(102, 119);
+            this.ScalingFactorTxtBox.Name = "ScalingFactorTxtBox";
+            this.ScalingFactorTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.ScalingFactorTxtBox.TabIndex = 11;
+            this.ScalingFactorTxtBox.Text = "2";
             // 
-            // label4
+            // IntervalTxtBox
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(7, 69);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(82, 12);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "Select Device: ";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(7, 95);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(49, 12);
-            this.label5.TabIndex = 5;
-            this.label5.Text = "Interval: ";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(7, 122);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(85, 12);
-            this.label6.TabIndex = 6;
-            this.label6.Text = "Scaling Factor: ";
-            // 
-            // HostTxtBox
-            // 
-            this.HostTxtBox.Location = new System.Drawing.Point(102, 15);
-            this.HostTxtBox.Name = "HostTxtBox";
-            this.HostTxtBox.Size = new System.Drawing.Size(100, 19);
-            this.HostTxtBox.TabIndex = 7;
-            this.HostTxtBox.Text = "192.168.0.1";
-            // 
-            // PortTxtBox
-            // 
-            this.PortTxtBox.Location = new System.Drawing.Point(102, 40);
-            this.PortTxtBox.Name = "PortTxtBox";
-            this.PortTxtBox.Size = new System.Drawing.Size(100, 19);
-            this.PortTxtBox.TabIndex = 8;
-            this.PortTxtBox.Text = "2111";
+            this.IntervalTxtBox.Location = new System.Drawing.Point(102, 92);
+            this.IntervalTxtBox.Name = "IntervalTxtBox";
+            this.IntervalTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.IntervalTxtBox.TabIndex = 10;
+            this.IntervalTxtBox.Text = "100";
             // 
             // SelectDeviceComBox
             // 
@@ -187,21 +153,57 @@
             this.SelectDeviceComBox.Size = new System.Drawing.Size(100, 20);
             this.SelectDeviceComBox.TabIndex = 9;
             // 
-            // IntervalTxtBox
+            // PortTxtBox
             // 
-            this.IntervalTxtBox.Location = new System.Drawing.Point(102, 92);
-            this.IntervalTxtBox.Name = "IntervalTxtBox";
-            this.IntervalTxtBox.Size = new System.Drawing.Size(100, 19);
-            this.IntervalTxtBox.TabIndex = 10;
-            this.IntervalTxtBox.Text = "100";
+            this.PortTxtBox.Location = new System.Drawing.Point(102, 40);
+            this.PortTxtBox.Name = "PortTxtBox";
+            this.PortTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.PortTxtBox.TabIndex = 8;
+            this.PortTxtBox.Text = "2111";
             // 
-            // ScalingFactorTxtBox
+            // HostTxtBox
             // 
-            this.ScalingFactorTxtBox.Location = new System.Drawing.Point(102, 119);
-            this.ScalingFactorTxtBox.Name = "ScalingFactorTxtBox";
-            this.ScalingFactorTxtBox.Size = new System.Drawing.Size(100, 19);
-            this.ScalingFactorTxtBox.TabIndex = 11;
-            this.ScalingFactorTxtBox.Text = "2";
+            this.HostTxtBox.Location = new System.Drawing.Point(102, 15);
+            this.HostTxtBox.Name = "HostTxtBox";
+            this.HostTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.HostTxtBox.TabIndex = 7;
+            this.HostTxtBox.Text = "192.168.0.1";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(7, 122);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(85, 12);
+            this.label6.TabIndex = 6;
+            this.label6.Text = "Scaling Factor: ";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(7, 95);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(49, 12);
+            this.label5.TabIndex = 5;
+            this.label5.Text = "Interval: ";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(7, 69);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(82, 12);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "Select Device: ";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 43);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(58, 12);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "TCP Port: ";
             // 
             // groupBox3
             // 
@@ -214,16 +216,6 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "File I/O";
             // 
-            // SaveCheckBox
-            // 
-            this.SaveCheckBox.AutoSize = true;
-            this.SaveCheckBox.Location = new System.Drawing.Point(9, 18);
-            this.SaveCheckBox.Name = "SaveCheckBox";
-            this.SaveCheckBox.Size = new System.Drawing.Size(49, 16);
-            this.SaveCheckBox.TabIndex = 0;
-            this.SaveCheckBox.Text = "Save";
-            this.SaveCheckBox.UseVisualStyleBackColor = true;
-            // 
             // ReadCheckBox
             // 
             this.ReadCheckBox.AutoSize = true;
@@ -233,6 +225,16 @@
             this.ReadCheckBox.TabIndex = 1;
             this.ReadCheckBox.Text = "Read";
             this.ReadCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // SaveCheckBox
+            // 
+            this.SaveCheckBox.AutoSize = true;
+            this.SaveCheckBox.Location = new System.Drawing.Point(9, 18);
+            this.SaveCheckBox.Name = "SaveCheckBox";
+            this.SaveCheckBox.Size = new System.Drawing.Size(49, 16);
+            this.SaveCheckBox.TabIndex = 0;
+            this.SaveCheckBox.Text = "Save";
+            this.SaveCheckBox.UseVisualStyleBackColor = true;
             // 
             // ConnectButton
             // 
@@ -271,45 +273,59 @@
             this.toolStripStatusLabel2,
             this.toolStripStatusLabel3,
             this.toolStripStatusLabel4});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 362);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 670);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(653, 23);
+            this.statusStrip1.Size = new System.Drawing.Size(653, 22);
             this.statusStrip1.TabIndex = 9;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(95, 18);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(94, 17);
             this.toolStripStatusLabel1.Text = "Elapsed Time: ";
             // 
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(78, 18);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(77, 17);
             this.toolStripStatusLabel2.Text = "milliseconds";
             // 
             // toolStripStatusLabel3
             // 
             this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(108, 18);
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(107, 17);
             this.toolStripStatusLabel3.Text = "Debug Message: ";
             // 
             // toolStripStatusLabel4
             // 
             this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
-            this.toolStripStatusLabel4.Size = new System.Drawing.Size(58, 18);
+            this.toolStripStatusLabel4.Size = new System.Drawing.Size(57, 17);
             this.toolStripStatusLabel4.Text = "Message";
             // 
             // SickTimer
             // 
             this.SickTimer.Tick += new System.EventHandler(this.SickTimer_Tick);
             // 
+            // zg3
+            // 
+            this.zg3.Location = new System.Drawing.Point(6, 324);
+            this.zg3.Name = "zg3";
+            this.zg3.ScrollGrace = 0D;
+            this.zg3.ScrollMaxX = 0D;
+            this.zg3.ScrollMaxY = 0D;
+            this.zg3.ScrollMaxY2 = 0D;
+            this.zg3.ScrollMinX = 0D;
+            this.zg3.ScrollMinY = 0D;
+            this.zg3.ScrollMinY2 = 0D;
+            this.zg3.Size = new System.Drawing.Size(400, 300);
+            this.zg3.TabIndex = 2;
+            // 
             // LidarForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(653, 385);
+            this.ClientSize = new System.Drawing.Size(653, 692);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.DisconnectButton);
@@ -360,5 +376,6 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
         private System.Windows.Forms.Timer SickTimer;
+        private ZedGraph.ZedGraphControl zg3;
     }
 }
