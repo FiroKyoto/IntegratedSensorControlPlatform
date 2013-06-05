@@ -530,7 +530,7 @@
                 this.cartesianList.Add(c);
 
                 // get - most height of uncut crop and lowest height of ground
-                if (cropHeight < c.z)
+                if ((cropHeight < c.z) && (c.z < 1.0))
                 {
                     cropHeight = c.z;
                     cropIndex = i;

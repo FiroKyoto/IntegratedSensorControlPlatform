@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.zg3 = new ZedGraph.ZedGraphControl();
             this.zg1 = new ZedGraph.ZedGraphControl();
             this.LidarReadCheckBox = new System.Windows.Forms.CheckBox();
             this.LidarSaveCheckBox = new System.Windows.Forms.CheckBox();
@@ -296,7 +297,7 @@
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.CommunicationTimer = new System.Windows.Forms.Timer(this.components);
-            this.zg3 = new ZedGraph.ZedGraphControl();
+            this.Vy446_AutonomousMode_CheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pBoxIpl1)).BeginInit();
@@ -337,6 +338,20 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Measured Lidar Data";
+            // 
+            // zg3
+            // 
+            this.zg3.Location = new System.Drawing.Point(334, 18);
+            this.zg3.Name = "zg3";
+            this.zg3.ScrollGrace = 0D;
+            this.zg3.ScrollMaxX = 0D;
+            this.zg3.ScrollMaxY = 0D;
+            this.zg3.ScrollMaxY2 = 0D;
+            this.zg3.ScrollMinX = 0D;
+            this.zg3.ScrollMinY = 0D;
+            this.zg3.ScrollMinY2 = 0D;
+            this.zg3.Size = new System.Drawing.Size(320, 240);
+            this.zg3.TabIndex = 7;
             // 
             // zg1
             // 
@@ -1549,9 +1564,11 @@
             // Vy50_ROBOTMODE_CheckBox
             // 
             this.Vy50_ROBOTMODE_CheckBox.AutoSize = true;
+            this.Vy50_ROBOTMODE_CheckBox.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Vy50_ROBOTMODE_CheckBox.ForeColor = System.Drawing.Color.Red;
             this.Vy50_ROBOTMODE_CheckBox.Location = new System.Drawing.Point(6, 24);
             this.Vy50_ROBOTMODE_CheckBox.Name = "Vy50_ROBOTMODE_CheckBox";
-            this.Vy50_ROBOTMODE_CheckBox.Size = new System.Drawing.Size(86, 16);
+            this.Vy50_ROBOTMODE_CheckBox.Size = new System.Drawing.Size(93, 16);
             this.Vy50_ROBOTMODE_CheckBox.TabIndex = 0;
             this.Vy50_ROBOTMODE_CheckBox.Text = "ロボットモード";
             this.Vy50_ROBOTMODE_CheckBox.UseVisualStyleBackColor = true;
@@ -2007,6 +2024,7 @@
             // 
             // groupBox16
             // 
+            this.groupBox16.Controls.Add(this.Vy446_AutonomousMode_CheckBox);
             this.groupBox16.Controls.Add(this.Vy446_STARTSTOPFLAG_TxtBox);
             this.groupBox16.Controls.Add(this.label71);
             this.groupBox16.Controls.Add(this.Vy446_FgSitsuden_CheckBox);
@@ -2049,7 +2067,7 @@
             // Vy446_STARTSTOPFLAG_TxtBox
             // 
             this.Vy446_STARTSTOPFLAG_TxtBox.BackColor = System.Drawing.Color.GreenYellow;
-            this.Vy446_STARTSTOPFLAG_TxtBox.Location = new System.Drawing.Point(254, 23);
+            this.Vy446_STARTSTOPFLAG_TxtBox.Location = new System.Drawing.Point(219, 22);
             this.Vy446_STARTSTOPFLAG_TxtBox.Name = "Vy446_STARTSTOPFLAG_TxtBox";
             this.Vy446_STARTSTOPFLAG_TxtBox.Size = new System.Drawing.Size(100, 19);
             this.Vy446_STARTSTOPFLAG_TxtBox.TabIndex = 31;
@@ -2061,14 +2079,14 @@
             this.label71.ForeColor = System.Drawing.Color.Red;
             this.label71.Location = new System.Drawing.Point(105, 28);
             this.label71.Name = "label71";
-            this.label71.Size = new System.Drawing.Size(143, 12);
+            this.label71.Size = new System.Drawing.Size(108, 12);
             this.label71.TabIndex = 30;
-            this.label71.Text = "Remote Control(A, B): ";
+            this.label71.Text = "RC Check(A+B): ";
             // 
             // Vy446_FgSitsuden_CheckBox
             // 
             this.Vy446_FgSitsuden_CheckBox.AutoSize = true;
-            this.Vy446_FgSitsuden_CheckBox.Location = new System.Drawing.Point(205, 289);
+            this.Vy446_FgSitsuden_CheckBox.Location = new System.Drawing.Point(205, 320);
             this.Vy446_FgSitsuden_CheckBox.Name = "Vy446_FgSitsuden_CheckBox";
             this.Vy446_FgSitsuden_CheckBox.Size = new System.Drawing.Size(82, 16);
             this.Vy446_FgSitsuden_CheckBox.TabIndex = 29;
@@ -2078,7 +2096,7 @@
             // Vy446_FgTofuku_CheckBox
             // 
             this.Vy446_FgTofuku_CheckBox.AutoSize = true;
-            this.Vy446_FgTofuku_CheckBox.Location = new System.Drawing.Point(205, 267);
+            this.Vy446_FgTofuku_CheckBox.Location = new System.Drawing.Point(205, 298);
             this.Vy446_FgTofuku_CheckBox.Name = "Vy446_FgTofuku_CheckBox";
             this.Vy446_FgTofuku_CheckBox.Size = new System.Drawing.Size(94, 16);
             this.Vy446_FgTofuku_CheckBox.TabIndex = 28;
@@ -2088,7 +2106,7 @@
             // Vy446_FgKakikomi_CheckBox
             // 
             this.Vy446_FgKakikomi_CheckBox.AutoSize = true;
-            this.Vy446_FgKakikomi_CheckBox.Location = new System.Drawing.Point(205, 245);
+            this.Vy446_FgKakikomi_CheckBox.Location = new System.Drawing.Point(205, 276);
             this.Vy446_FgKakikomi_CheckBox.Name = "Vy446_FgKakikomi_CheckBox";
             this.Vy446_FgKakikomi_CheckBox.Size = new System.Drawing.Size(106, 16);
             this.Vy446_FgKakikomi_CheckBox.TabIndex = 27;
@@ -2098,7 +2116,7 @@
             // Vy446_KARITORI_CheckBox
             // 
             this.Vy446_KARITORI_CheckBox.AutoSize = true;
-            this.Vy446_KARITORI_CheckBox.Location = new System.Drawing.Point(205, 196);
+            this.Vy446_KARITORI_CheckBox.Location = new System.Drawing.Point(205, 227);
             this.Vy446_KARITORI_CheckBox.Name = "Vy446_KARITORI_CheckBox";
             this.Vy446_KARITORI_CheckBox.Size = new System.Drawing.Size(66, 16);
             this.Vy446_KARITORI_CheckBox.TabIndex = 26;
@@ -2108,7 +2126,7 @@
             // Vy446_SAGYOKI_ON_CheckBox
             // 
             this.Vy446_SAGYOKI_ON_CheckBox.AutoSize = true;
-            this.Vy446_SAGYOKI_ON_CheckBox.Location = new System.Drawing.Point(205, 171);
+            this.Vy446_SAGYOKI_ON_CheckBox.Location = new System.Drawing.Point(205, 202);
             this.Vy446_SAGYOKI_ON_CheckBox.Name = "Vy446_SAGYOKI_ON_CheckBox";
             this.Vy446_SAGYOKI_ON_CheckBox.Size = new System.Drawing.Size(78, 16);
             this.Vy446_SAGYOKI_ON_CheckBox.TabIndex = 25;
@@ -2118,7 +2136,7 @@
             // Vy446_SAGYOKI_OFF_CheckBox
             // 
             this.Vy446_SAGYOKI_OFF_CheckBox.AutoSize = true;
-            this.Vy446_SAGYOKI_OFF_CheckBox.Location = new System.Drawing.Point(205, 146);
+            this.Vy446_SAGYOKI_OFF_CheckBox.Location = new System.Drawing.Point(205, 177);
             this.Vy446_SAGYOKI_OFF_CheckBox.Name = "Vy446_SAGYOKI_OFF_CheckBox";
             this.Vy446_SAGYOKI_OFF_CheckBox.Size = new System.Drawing.Size(70, 16);
             this.Vy446_SAGYOKI_OFF_CheckBox.TabIndex = 24;
@@ -2128,7 +2146,7 @@
             // label89
             // 
             this.label89.AutoSize = true;
-            this.label89.Location = new System.Drawing.Point(203, 128);
+            this.label89.Location = new System.Drawing.Point(203, 159);
             this.label89.Name = "label89";
             this.label89.Size = new System.Drawing.Size(73, 12);
             this.label89.TabIndex = 23;
@@ -2137,7 +2155,7 @@
             // Vy446_HAZARD_CheckBox
             // 
             this.Vy446_HAZARD_CheckBox.AutoSize = true;
-            this.Vy446_HAZARD_CheckBox.Location = new System.Drawing.Point(205, 102);
+            this.Vy446_HAZARD_CheckBox.Location = new System.Drawing.Point(205, 133);
             this.Vy446_HAZARD_CheckBox.Name = "Vy446_HAZARD_CheckBox";
             this.Vy446_HAZARD_CheckBox.Size = new System.Drawing.Size(63, 16);
             this.Vy446_HAZARD_CheckBox.TabIndex = 22;
@@ -2147,7 +2165,7 @@
             // Vy446_BUZZER_CheckBox
             // 
             this.Vy446_BUZZER_CheckBox.AutoSize = true;
-            this.Vy446_BUZZER_CheckBox.Location = new System.Drawing.Point(205, 77);
+            this.Vy446_BUZZER_CheckBox.Location = new System.Drawing.Point(205, 108);
             this.Vy446_BUZZER_CheckBox.Name = "Vy446_BUZZER_CheckBox";
             this.Vy446_BUZZER_CheckBox.Size = new System.Drawing.Size(53, 16);
             this.Vy446_BUZZER_CheckBox.TabIndex = 21;
@@ -2157,7 +2175,7 @@
             // Vy446_ENGINE_STOP_CheckBox
             // 
             this.Vy446_ENGINE_STOP_CheckBox.AutoSize = true;
-            this.Vy446_ENGINE_STOP_CheckBox.Location = new System.Drawing.Point(205, 52);
+            this.Vy446_ENGINE_STOP_CheckBox.Location = new System.Drawing.Point(205, 83);
             this.Vy446_ENGINE_STOP_CheckBox.Name = "Vy446_ENGINE_STOP_CheckBox";
             this.Vy446_ENGINE_STOP_CheckBox.Size = new System.Drawing.Size(85, 16);
             this.Vy446_ENGINE_STOP_CheckBox.TabIndex = 20;
@@ -2167,7 +2185,7 @@
             // Vy446_BUZZER2_CheckBox
             // 
             this.Vy446_BUZZER2_CheckBox.AutoSize = true;
-            this.Vy446_BUZZER2_CheckBox.Location = new System.Drawing.Point(6, 339);
+            this.Vy446_BUZZER2_CheckBox.Location = new System.Drawing.Point(6, 370);
             this.Vy446_BUZZER2_CheckBox.Name = "Vy446_BUZZER2_CheckBox";
             this.Vy446_BUZZER2_CheckBox.Size = new System.Drawing.Size(60, 16);
             this.Vy446_BUZZER2_CheckBox.TabIndex = 19;
@@ -2177,7 +2195,7 @@
             // Vy446_YELLOW_LAMP_CheckBox
             // 
             this.Vy446_YELLOW_LAMP_CheckBox.AutoSize = true;
-            this.Vy446_YELLOW_LAMP_CheckBox.Location = new System.Drawing.Point(6, 317);
+            this.Vy446_YELLOW_LAMP_CheckBox.Location = new System.Drawing.Point(6, 348);
             this.Vy446_YELLOW_LAMP_CheckBox.Name = "Vy446_YELLOW_LAMP_CheckBox";
             this.Vy446_YELLOW_LAMP_CheckBox.Size = new System.Drawing.Size(62, 16);
             this.Vy446_YELLOW_LAMP_CheckBox.TabIndex = 18;
@@ -2187,7 +2205,7 @@
             // Vy446_RED_LAMP_CheckBox
             // 
             this.Vy446_RED_LAMP_CheckBox.AutoSize = true;
-            this.Vy446_RED_LAMP_CheckBox.Location = new System.Drawing.Point(6, 295);
+            this.Vy446_RED_LAMP_CheckBox.Location = new System.Drawing.Point(6, 326);
             this.Vy446_RED_LAMP_CheckBox.Name = "Vy446_RED_LAMP_CheckBox";
             this.Vy446_RED_LAMP_CheckBox.Size = new System.Drawing.Size(62, 16);
             this.Vy446_RED_LAMP_CheckBox.TabIndex = 17;
@@ -2197,7 +2215,7 @@
             // label88
             // 
             this.label88.AutoSize = true;
-            this.label88.Location = new System.Drawing.Point(6, 271);
+            this.label88.Location = new System.Drawing.Point(6, 302);
             this.label88.Name = "label88";
             this.label88.Size = new System.Drawing.Size(48, 12);
             this.label88.TabIndex = 16;
@@ -2206,7 +2224,7 @@
             // Vy446_CLUTCH_CheckBox
             // 
             this.Vy446_CLUTCH_CheckBox.AutoSize = true;
-            this.Vy446_CLUTCH_CheckBox.Location = new System.Drawing.Point(6, 220);
+            this.Vy446_CLUTCH_CheckBox.Location = new System.Drawing.Point(6, 251);
             this.Vy446_CLUTCH_CheckBox.Name = "Vy446_CLUTCH_CheckBox";
             this.Vy446_CLUTCH_CheckBox.Size = new System.Drawing.Size(80, 16);
             this.Vy446_CLUTCH_CheckBox.TabIndex = 15;
@@ -2216,7 +2234,7 @@
             // Vy446_AUTO_RETURN_CheckBox
             // 
             this.Vy446_AUTO_RETURN_CheckBox.AutoSize = true;
-            this.Vy446_AUTO_RETURN_CheckBox.Location = new System.Drawing.Point(6, 195);
+            this.Vy446_AUTO_RETURN_CheckBox.Location = new System.Drawing.Point(6, 226);
             this.Vy446_AUTO_RETURN_CheckBox.Name = "Vy446_AUTO_RETURN_CheckBox";
             this.Vy446_AUTO_RETURN_CheckBox.Size = new System.Drawing.Size(72, 16);
             this.Vy446_AUTO_RETURN_CheckBox.TabIndex = 14;
@@ -2226,7 +2244,7 @@
             // Vy446_CMD_KARITAKA_TxtBox
             // 
             this.Vy446_CMD_KARITAKA_TxtBox.BackColor = System.Drawing.Color.Yellow;
-            this.Vy446_CMD_KARITAKA_TxtBox.Location = new System.Drawing.Point(99, 243);
+            this.Vy446_CMD_KARITAKA_TxtBox.Location = new System.Drawing.Point(99, 274);
             this.Vy446_CMD_KARITAKA_TxtBox.Name = "Vy446_CMD_KARITAKA_TxtBox";
             this.Vy446_CMD_KARITAKA_TxtBox.Size = new System.Drawing.Size(100, 19);
             this.Vy446_CMD_KARITAKA_TxtBox.TabIndex = 13;
@@ -2235,7 +2253,7 @@
             // Vy446_KARITAKA_CheckBox
             // 
             this.Vy446_KARITAKA_CheckBox.AutoSize = true;
-            this.Vy446_KARITAKA_CheckBox.Location = new System.Drawing.Point(6, 245);
+            this.Vy446_KARITAKA_CheckBox.Location = new System.Drawing.Point(6, 276);
             this.Vy446_KARITAKA_CheckBox.Name = "Vy446_KARITAKA_CheckBox";
             this.Vy446_KARITAKA_CheckBox.Size = new System.Drawing.Size(74, 16);
             this.Vy446_KARITAKA_CheckBox.TabIndex = 12;
@@ -2245,7 +2263,7 @@
             // Vy446_CMD_AUGER_CLD_TxtBox
             // 
             this.Vy446_CMD_AUGER_CLD_TxtBox.BackColor = System.Drawing.Color.Yellow;
-            this.Vy446_CMD_AUGER_CLD_TxtBox.Location = new System.Drawing.Point(99, 168);
+            this.Vy446_CMD_AUGER_CLD_TxtBox.Location = new System.Drawing.Point(99, 199);
             this.Vy446_CMD_AUGER_CLD_TxtBox.Name = "Vy446_CMD_AUGER_CLD_TxtBox";
             this.Vy446_CMD_AUGER_CLD_TxtBox.Size = new System.Drawing.Size(100, 19);
             this.Vy446_CMD_AUGER_CLD_TxtBox.TabIndex = 11;
@@ -2254,7 +2272,7 @@
             // Vy446_CMD_AUGER_MTR_TxtBox
             // 
             this.Vy446_CMD_AUGER_MTR_TxtBox.BackColor = System.Drawing.Color.Yellow;
-            this.Vy446_CMD_AUGER_MTR_TxtBox.Location = new System.Drawing.Point(99, 143);
+            this.Vy446_CMD_AUGER_MTR_TxtBox.Location = new System.Drawing.Point(99, 174);
             this.Vy446_CMD_AUGER_MTR_TxtBox.Name = "Vy446_CMD_AUGER_MTR_TxtBox";
             this.Vy446_CMD_AUGER_MTR_TxtBox.Size = new System.Drawing.Size(100, 19);
             this.Vy446_CMD_AUGER_MTR_TxtBox.TabIndex = 10;
@@ -2263,7 +2281,7 @@
             // label87
             // 
             this.label87.AutoSize = true;
-            this.label87.Location = new System.Drawing.Point(6, 171);
+            this.label87.Location = new System.Drawing.Point(6, 202);
             this.label87.Name = "label87";
             this.label87.Size = new System.Drawing.Size(55, 12);
             this.label87.TabIndex = 9;
@@ -2272,7 +2290,7 @@
             // label86
             // 
             this.label86.AutoSize = true;
-            this.label86.Location = new System.Drawing.Point(6, 146);
+            this.label86.Location = new System.Drawing.Point(6, 177);
             this.label86.Name = "label86";
             this.label86.Size = new System.Drawing.Size(55, 12);
             this.label86.TabIndex = 8;
@@ -2281,7 +2299,7 @@
             // Vy446_AUTOPOS_CheckBox
             // 
             this.Vy446_AUTOPOS_CheckBox.AutoSize = true;
-            this.Vy446_AUTOPOS_CheckBox.Location = new System.Drawing.Point(6, 127);
+            this.Vy446_AUTOPOS_CheckBox.Location = new System.Drawing.Point(6, 158);
             this.Vy446_AUTOPOS_CheckBox.Name = "Vy446_AUTOPOS_CheckBox";
             this.Vy446_AUTOPOS_CheckBox.Size = new System.Drawing.Size(94, 16);
             this.Vy446_AUTOPOS_CheckBox.TabIndex = 7;
@@ -2291,7 +2309,7 @@
             // label85
             // 
             this.label85.AutoSize = true;
-            this.label85.Location = new System.Drawing.Point(6, 103);
+            this.label85.Location = new System.Drawing.Point(6, 134);
             this.label85.Name = "label85";
             this.label85.Size = new System.Drawing.Size(58, 12);
             this.label85.TabIndex = 6;
@@ -2299,18 +2317,18 @@
             // 
             // Vy446_SendData_Button
             // 
-            this.Vy446_SendData_Button.Location = new System.Drawing.Point(6, 366);
+            this.Vy446_SendData_Button.Location = new System.Drawing.Point(6, 409);
             this.Vy446_SendData_Button.Name = "Vy446_SendData_Button";
             this.Vy446_SendData_Button.Size = new System.Drawing.Size(393, 23);
             this.Vy446_SendData_Button.TabIndex = 5;
-            this.Vy446_SendData_Button.Text = "Vy446 Send Data";
+            this.Vy446_SendData_Button.Text = "Vy446 Set Data";
             this.Vy446_SendData_Button.UseVisualStyleBackColor = true;
             this.Vy446_SendData_Button.Click += new System.EventHandler(this.Vy446_SendData_Button_Click);
             // 
             // Vy446_CMD_HST_TxtBox
             // 
             this.Vy446_CMD_HST_TxtBox.BackColor = System.Drawing.Color.Yellow;
-            this.Vy446_CMD_HST_TxtBox.Location = new System.Drawing.Point(99, 75);
+            this.Vy446_CMD_HST_TxtBox.Location = new System.Drawing.Point(99, 106);
             this.Vy446_CMD_HST_TxtBox.Name = "Vy446_CMD_HST_TxtBox";
             this.Vy446_CMD_HST_TxtBox.Size = new System.Drawing.Size(100, 19);
             this.Vy446_CMD_HST_TxtBox.TabIndex = 4;
@@ -2319,7 +2337,7 @@
             // Vy446_CMD_SOKO_TxtBox
             // 
             this.Vy446_CMD_SOKO_TxtBox.BackColor = System.Drawing.Color.Yellow;
-            this.Vy446_CMD_SOKO_TxtBox.Location = new System.Drawing.Point(99, 50);
+            this.Vy446_CMD_SOKO_TxtBox.Location = new System.Drawing.Point(99, 81);
             this.Vy446_CMD_SOKO_TxtBox.Name = "Vy446_CMD_SOKO_TxtBox";
             this.Vy446_CMD_SOKO_TxtBox.Size = new System.Drawing.Size(100, 19);
             this.Vy446_CMD_SOKO_TxtBox.TabIndex = 3;
@@ -2328,7 +2346,7 @@
             // label84
             // 
             this.label84.AutoSize = true;
-            this.label84.Location = new System.Drawing.Point(6, 78);
+            this.label84.Location = new System.Drawing.Point(6, 109);
             this.label84.Name = "label84";
             this.label84.Size = new System.Drawing.Size(87, 12);
             this.label84.TabIndex = 2;
@@ -2337,7 +2355,7 @@
             // label83
             // 
             this.label83.AutoSize = true;
-            this.label83.Location = new System.Drawing.Point(6, 53);
+            this.label83.Location = new System.Drawing.Point(6, 84);
             this.label83.Name = "label83";
             this.label83.Size = new System.Drawing.Size(75, 12);
             this.label83.TabIndex = 1;
@@ -3019,19 +3037,17 @@
             // 
             this.CommunicationTimer.Tick += new System.EventHandler(this.CommunicationTimer_Tick);
             // 
-            // zg3
+            // Vy446_AutonomousMode_CheckBox
             // 
-            this.zg3.Location = new System.Drawing.Point(334, 18);
-            this.zg3.Name = "zg3";
-            this.zg3.ScrollGrace = 0D;
-            this.zg3.ScrollMaxX = 0D;
-            this.zg3.ScrollMaxY = 0D;
-            this.zg3.ScrollMaxY2 = 0D;
-            this.zg3.ScrollMinX = 0D;
-            this.zg3.ScrollMinY = 0D;
-            this.zg3.ScrollMinY2 = 0D;
-            this.zg3.Size = new System.Drawing.Size(320, 240);
-            this.zg3.TabIndex = 7;
+            this.Vy446_AutonomousMode_CheckBox.AutoSize = true;
+            this.Vy446_AutonomousMode_CheckBox.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Vy446_AutonomousMode_CheckBox.ForeColor = System.Drawing.Color.Red;
+            this.Vy446_AutonomousMode_CheckBox.Location = new System.Drawing.Point(6, 49);
+            this.Vy446_AutonomousMode_CheckBox.Name = "Vy446_AutonomousMode_CheckBox";
+            this.Vy446_AutonomousMode_CheckBox.Size = new System.Drawing.Size(133, 16);
+            this.Vy446_AutonomousMode_CheckBox.TabIndex = 32;
+            this.Vy446_AutonomousMode_CheckBox.Text = "Autonomous Mode";
+            this.Vy446_AutonomousMode_CheckBox.UseVisualStyleBackColor = true;
             // 
             // IntegratedForm
             // 
@@ -3361,5 +3377,6 @@
         private System.Windows.Forms.TextBox Vy446_STARTSTOPFLAG_TxtBox;
         private System.Windows.Forms.Label label71;
         private ZedGraph.ZedGraphControl zg3;
+        private System.Windows.Forms.CheckBox Vy446_AutonomousMode_CheckBox;
     }
 }

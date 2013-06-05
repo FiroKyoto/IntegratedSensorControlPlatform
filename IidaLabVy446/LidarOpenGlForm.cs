@@ -98,7 +98,9 @@ namespace IidaLabVy446
         private double avgCropHgt { get; set; }
         private double cropHgt { get; set; }
         private int avgCropCnt { get; set; }
-        
+
+        private int bodyModelIndex { get; set; }
+
         #endregion
 
         #region Constructor
@@ -106,9 +108,11 @@ namespace IidaLabVy446
         /// <summary>
         /// basic constructor
         /// </summary>
-        public LidarOpenGlForm()
+        public LidarOpenGlForm(int _bodyModelIndex)
         {
             InitializeComponent();
+            this.bodyModelIndex = _bodyModelIndex;
+
             this.loaded = false;
             this.transX = 0;
             this.transY = 0;
@@ -230,8 +234,7 @@ namespace IidaLabVy446
         /// if _bodyModel is 0 then body model is vy50.
         /// else if _bodyModel is 1 then body model is vy446.
         /// </summary>
-        /// <param name="_bodyModel"></param>
-        private void DrawBody(int _bodyModel)
+        private void DrawBody()
         {
             // arrow
             List<double> arrowLine = this.ConvertPoint(0.0, 2.0, this._heading_angle);
@@ -243,11 +246,21 @@ namespace IidaLabVy446
             List<double> rHeaderB = new List<double>();
             
             // VY50
-            if (_bodyModel == 0)
+            if (this.bodyModelIndex == 0)
             {
                 double La = 0.45;
                 double Lc = 0.6;
                 double Lbe = 0.59 + 0.073;
+                rHeaderA = this.ConvertPoint(Lbe, La, this._heading_angle);
+                rHeaderB = this.ConvertPoint(Lbe, La + Lc, this._heading_angle);
+            }
+
+            // VY446
+            if (this.bodyModelIndex == 1)
+            {
+                double La = 0.15;
+                double Lc = 0.83;
+                double Lbe = 0.79 + 0.038;
                 rHeaderA = this.ConvertPoint(Lbe, La, this._heading_angle);
                 rHeaderB = this.ConvertPoint(Lbe, La + Lc, this._heading_angle);
             }
@@ -270,14 +283,11 @@ namespace IidaLabVy446
             GL.Vertex3(this._tmX + arrowB[0], this._tmY + arrowB[1], 2.5);
 
             // end of right header
-            if (_bodyModel == 0)
-            {
-                this.headerX = this._tmX + rHeaderB[0];
-                this.headerY = this._tmY + rHeaderB[1];
+            this.headerX = this._tmX + rHeaderB[0];
+            this.headerY = this._tmY + rHeaderB[1];
 
-                GL.Vertex3(this._tmX + rHeaderA[0], this._tmY + rHeaderA[1], 0.0);
-                GL.Vertex3(this._tmX + rHeaderB[0], this._tmY + rHeaderB[1], 0.0);
-            }
+            GL.Vertex3(this._tmX + rHeaderA[0], this._tmY + rHeaderA[1], 0.0);
+            GL.Vertex3(this._tmX + rHeaderB[0], this._tmY + rHeaderB[1], 0.0);
 
             GL.End();
 
@@ -324,10 +334,10 @@ namespace IidaLabVy446
         /// </summary>
         /// <param name="_list"></param>
         /// <param name="_glIndex"></param>
-        /// <param name="_isCropData"></param>
-        public void AddCrop(List<SickLidar.CartesianPoint> _list, int _glIndex, bool _isCropData)
+        /// <param name="_isHarvestMode"></param>
+        public void AddCrop(List<SickLidar.CartesianPoint> _list, int _glIndex, bool _isHarvestMode)
         {
-            if (_isCropData == true)
+            if (_isHarvestMode == true)
             {
                 // For save mode
                 if ((this.isSave == true) && (_glIndex != 0))
@@ -514,7 +524,7 @@ namespace IidaLabVy446
 
             this.DrawCoordinates();
             this.DrawGround();
-            this.DrawBody(0);
+            this.DrawBody();
             this.DrawCrop();
             this.DrawEdge();
 

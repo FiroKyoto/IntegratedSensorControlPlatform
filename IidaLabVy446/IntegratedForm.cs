@@ -108,7 +108,7 @@ namespace IidaLabVy446
             if (this.LidarOpenGlCheckBox.Checked == true)
             {
                 this.isOpenGL = true;
-                this.lidarOpenGlForm = new LidarOpenGlForm();
+                this.lidarOpenGlForm = new LidarOpenGlForm(this.BodyModelComboBox.SelectedIndex);
                 this.lidarOpenGlForm.Show();
             }
         }
@@ -126,6 +126,16 @@ namespace IidaLabVy446
                 this.sickLidar.ConvertHexToPolar();
                 this.sickLidar.ConvertPolarToCartesian();
                 this.graph.UpdateGraph(this.sickLidar.cartesianList, zg1, zg3, this.isOpenGL);
+
+                if (this.isOpenGL == true)
+                {
+                    List<double> perpendicular =
+                        this.cropStand.CalculatePerpendicular(this.sickLidar.cartesianList, sickLidar.lidarProfile);
+                    this.graph.CutEdgePerpendicularGraph(perpendicular, zg1, this.isOpenGL);
+                    this.drawGlIndex = (int)perpendicular[8];
+                }
+
+                this.isLidarData = true;
 
                 if (this.LidarSaveCheckBox.Checked == true)
                 {
@@ -248,6 +258,116 @@ namespace IidaLabVy446
         private double tmY { get; set; }
         private double tmZ { get; set; }
         private bool isTmData { get; set; }
+
+        /// <summary>
+        /// 1. ロボットモード切替のチェック取得
+        /// </summary>
+        private bool vy446_m_iRobotMode { get; set; }
+
+        /// <summary>
+        /// 2. 刈取クラッチのラジオボタン取得
+        /// </summary>
+        private bool vy446_KaritoriRadio { get; set; }
+
+        /// <summary>
+        /// 3. 作業機クラッチのラジオボタン取得
+        /// </summary>
+        private bool vy446_SagyokiRadio { get; set; }
+
+        /// <summary>
+        /// 4. クラッチオフのラジオボタン取得
+        /// </summary>
+        private bool vy446_SagyokiOffRadio { get; set; }
+
+        /// <summary>
+        /// 5. 強制掻込スイッチ
+        /// </summary>
+        private bool vy446_m_ucFgKakikomi { get; set; }
+
+        /// <summary>
+        /// 6. 倒伏刈スイッチ
+        /// </summary>
+        private bool vy446_m_ucFgTofuku { get; set; }
+
+        /// <summary>
+        /// 7. 湿田スイッチ
+        /// </summary>
+        private bool vy446_m_ucFgSitsuden { get; set; }
+
+        /// <summary>
+        /// 8. エンジン停止
+        /// </summary>
+        private bool vy446_m_ucFgEngineStop { get; set; }
+
+        /// <summary>
+        /// 9. 警告音のチェック取得
+        /// </summary>
+        private bool vy446_Buzzer2Chk { get; set; }
+
+        /// <summary>
+        /// 10. 黄ランプのチェック取得
+        /// </summary>
+        private bool vy446_YellowLampChk { get; set; }
+
+        /// <summary>
+        /// 11. 赤ランプのチェック取得
+        /// </summary>
+        private bool vy446_RedLampChk { get; set; }
+
+        /// <summary>
+        /// 12. 刈り高さ目標値
+        /// </summary>
+        private bool vy446_m_ucFgKaritakaPosCtrl { get; set; }
+
+        /// <summary>
+        /// 13. ブザーのチェック取得
+        /// </summary>
+        private bool vy446_m_ucFgBuzzer { get; set; }
+
+        /// <summary>
+        /// 14. ハザードのチェック取得
+        /// </summary>
+        private bool vy446_m_ucFgHazard { get; set; }
+
+        /// <summary>
+        /// 15. オーガ自動収納のチェック取得
+        /// </summary>
+        private bool vy446_m_ucFgAugerHomePos { get; set; }
+
+        /// <summary>
+        /// 16. オーガ自動位置決めのチェック取得
+        /// </summary>
+        private bool vy446_m_ucFgAugerAutoPos { get; set; }
+
+        /// <summary>
+        /// 17. オーガクラッチのチェック取得
+        /// </summary>
+        private bool vy446_m_ucFgAugerClutch { get; set; }
+
+        /// <summary>
+        /// 1. 操舵量コマンド：左操舵最大(250)，中立(430)，右操舵最大(660)
+        /// </summary>
+        private ushort vy446_usCmdSteer { get; set; }
+
+        /// <summary>
+        /// 2. HST_CMD(主変速HSTレバー):前進最大(2450), 中立(1405), 後進最大(360)
+        /// </summary>
+        private ushort vy446_usCmdHst { get; set; }
+
+        /// <summary>
+        /// 3. 排出オーガ左右旋回目標値
+        /// </summary>
+        private ushort vy446_usCmdLRPos { get; set; }
+
+        /// <summary>
+        /// 4. 排出オーガ上下旋回コマンド
+        /// </summary>
+        private ushort vy446_usCmdUDPos { get; set; }
+
+        /// <summary>
+        /// 5. 刈り高さ目標値
+        /// </summary>
+        private ushort vy446_usCmdKaritaka { get; set; }
 
         /// <summary>
         /// Connect Combine Body using RS-232C
@@ -481,197 +601,380 @@ namespace IidaLabVy446
 
             }
         }
+        
+        /// <summary>
+        /// Manual Set Command For Vy446
+        /// </summary>
+        private void CombineVy446ManualSetCommand()
+        {
+            // 1. ロボットモード切替のチェック取得 - ok
+            if (this.Vy446_RobotMode_CheckBox.Checked == true)
+            {
+                //this._vy446.m_iRobotMode = true;
+                this.vy446_m_iRobotMode = true;
+            }
+            else
+            {
+                //this._vy446.m_iRobotMode = false;
+                this.vy446_m_iRobotMode = false;
+            }
+
+            // 2. 刈取クラッチのラジオボタン取得 - ok
+            if (this.Vy446_KARITORI_CheckBox.Checked == true)
+            {
+                //this._vy446.KaritoriRadio = true;
+                this.vy446_KaritoriRadio = true;
+            }
+            else
+            {
+                //this._vy446.KaritoriRadio = false;
+                this.vy446_KaritoriRadio = false;
+            }
+
+            // 3. 作業機クラッチのラジオボタン取得 - ok
+            if (this.Vy446_SAGYOKI_ON_CheckBox.Checked == true)
+            {
+                //this._vy446.SagyokiRadio = true;
+                this.vy446_SagyokiRadio = true;
+            }
+            else
+            {
+                //this._vy446.SagyokiRadio = false;
+                this.vy446_SagyokiRadio = false;
+            }
+
+            // 4. クラッチオフのラジオボタン取得 - ok
+            if (this.Vy446_SAGYOKI_OFF_CheckBox.Checked == true)
+            {
+                //this._vy446.SagyokiOffRadio = true;
+                this.vy446_SagyokiOffRadio = true;
+            }
+            else
+            {
+                //this._vy446.SagyokiOffRadio = false;
+                this.vy446_SagyokiOffRadio = false;
+            }
+
+            // 5. 強制掻込スイッチ - ok
+            if (this.Vy446_FgKakikomi_CheckBox.Checked == true)
+            {
+                //this._vy446.m_ucFgKakikomi = true;
+                this.vy446_m_ucFgKakikomi = true;
+            }
+            else
+            {
+                //this._vy446.m_ucFgKakikomi = false;
+                this.vy446_m_ucFgKakikomi = false;
+            }
+
+            // 6. 倒伏刈スイッチ - ok
+            if (this.Vy446_FgTofuku_CheckBox.Checked == true)
+            {
+                //this._vy446.m_ucFgTofuku = true;
+                this.vy446_m_ucFgTofuku = true;
+            }
+            else
+            {
+                //this._vy446.m_ucFgTofuku = false;
+                this.vy446_m_ucFgTofuku = false;
+            }
+
+            // 7. 湿田スイッチ - ok
+            if (this.Vy446_FgSitsuden_CheckBox.Checked == true)
+            {
+                //this._vy446.m_ucFgSitsuden = true;
+                this.vy446_m_ucFgSitsuden = true;
+            }
+            else
+            {
+                //this._vy446.m_ucFgSitsuden = false;
+                this.vy446_m_ucFgSitsuden = false;
+            }
+
+            // 8. エンジン停止 - ok
+            if (this.Vy446_ENGINE_STOP_CheckBox.Checked == true)
+            {
+                //this._vy446.m_ucFgEngineStop = true;
+                this.vy446_m_ucFgEngineStop = true;
+            }
+            else
+            {
+                //this._vy446.m_ucFgEngineStop = false;
+                this.vy446_m_ucFgEngineStop = false;
+            }
+
+            // 9. 警告音のチェック取得 - ok
+            if (this.Vy446_BUZZER2_CheckBox.Checked == true)
+            {
+                //this._vy446.Buzzer2Chk = true;
+                this.vy446_Buzzer2Chk = true;
+            }
+            else
+            {
+                //this._vy446.Buzzer2Chk = false;
+                this.vy446_Buzzer2Chk = false;
+            }
+
+            // 10. 黄ランプのチェック取得 - ok
+            if (this.Vy446_YELLOW_LAMP_CheckBox.Checked == true)
+            {
+                //this._vy446.YellowLampChk = true;
+                this.vy446_YellowLampChk = true;
+            }
+            else
+            {
+                //this._vy446.YellowLampChk = false;
+                this.vy446_YellowLampChk = false;
+            }
+
+            // 11. 赤ランプのチェック取得 - ok
+            if (this.Vy446_RED_LAMP_CheckBox.Checked == true)
+            {
+                //this._vy446.RedLampChk = true;
+                this.vy446_RedLampChk = true;
+            }
+            else
+            {
+                //this._vy446.RedLampChk = false;
+                this.vy446_RedLampChk = false;
+            }
+
+            // 12. 刈り高さ目標値 - ok
+            if (this.Vy446_KARITAKA_CheckBox.Checked == true)
+            {
+                //this._vy446.m_ucFgKaritakaPosCtrl = true;
+                this.vy446_m_ucFgKaritakaPosCtrl = true;
+            }
+            else
+            {
+                //this._vy446.m_ucFgKaritakaPosCtrl = false;
+                this.vy446_m_ucFgKaritakaPosCtrl = false;
+            }
+
+            // 13. ブザーのチェック取得 - ok
+            if (this.Vy446_BUZZER_CheckBox.Checked == true)
+            {
+                //this._vy446.m_ucFgBuzzer = true;
+                this.vy446_m_ucFgBuzzer = true;
+            }
+            else
+            {
+                //this._vy446.m_ucFgBuzzer = false;
+                this.vy446_m_ucFgBuzzer = false;
+            }
+
+            // 14. ハザードのチェック取得 - ok
+            if (this.Vy446_HAZARD_CheckBox.Checked == true)
+            {
+                //this._vy446.m_ucFgHazard = true;
+                this.vy446_m_ucFgHazard = true;
+            }
+            else
+            {
+                //this._vy446.m_ucFgHazard = false;
+                this.vy446_m_ucFgHazard = false;
+            }
+
+            // 15. オーガ自動収納のチェック取得 - ok
+            if (this.Vy446_AUTO_RETURN_CheckBox.Checked == true)
+            {
+                //this._vy446.m_ucFgAugerHomePos = true;
+                this.vy446_m_ucFgAugerHomePos = true;
+            }
+            else
+            {
+                //this._vy446.m_ucFgAugerHomePos = false;
+                this.vy446_m_ucFgAugerHomePos = false;
+            }
+
+            // 16. オーガ自動位置決めのチェック取得 - ok
+            if (this.Vy446_AUTOPOS_CheckBox.Checked == true)
+            {
+                //this._vy446.m_ucFgAugerAutoPos = true;
+                this.vy446_m_ucFgAugerAutoPos = true;
+            }
+            else
+            {
+                //this._vy446.m_ucFgAugerAutoPos = false;
+                this.vy446_m_ucFgAugerAutoPos = false;
+            }
+
+            // 17. オーガクラッチのチェック取得 - ok
+            if (this.Vy446_CLUTCH_CheckBox.Checked == true)
+            {
+                //this._vy446.m_ucFgAugerClutch = true;
+                this.vy446_m_ucFgAugerClutch = true;
+            }
+            else
+            {
+                //this._vy446.m_ucFgAugerClutch = false;
+                this.vy446_m_ucFgAugerClutch = false;
+            }
+
+            // 1. 操舵量コマンド：左操舵最大(250)，中立(430)，右操舵最大(660) - ok
+            //this._vy446.usCmdSteer = Convert.ToUInt16(this.Vy446_CMD_SOKO_TxtBox.Text);
+            this.vy446_usCmdSteer = Convert.ToUInt16(this.Vy446_CMD_SOKO_TxtBox.Text);
+
+            // 2. HST_CMD(主変速HSTレバー):前進最大(2450), 中立(1405), 後進最大(360) - ok
+            //this._vy446.usCmdHst = Convert.ToUInt16(this.Vy446_CMD_HST_TxtBox.Text);
+            this.vy446_usCmdHst = Convert.ToUInt16(this.Vy446_CMD_HST_TxtBox.Text);
+
+            // 3. 排出オーガ左右旋回目標値
+            //this._vy446.usCmdLRPos = Convert.ToUInt16(this.Vy446_CMD_AUGER_MTR_TxtBox.Text);
+            this.vy446_usCmdLRPos = Convert.ToUInt16(this.Vy446_CMD_AUGER_MTR_TxtBox.Text);
+
+            // 4. 排出オーガ上下旋回コマンド
+            //this._vy446.usCmdUDPos = Convert.ToUInt16(this.Vy446_CMD_AUGER_CLD_TxtBox.Text);
+            this.vy446_usCmdUDPos = Convert.ToUInt16(this.Vy446_CMD_AUGER_CLD_TxtBox.Text);
+
+            // 5. 刈り高さ目標値
+            //this._vy446.usCmdKaritaka = Convert.ToUInt16(this.Vy446_CMD_KARITAKA_TxtBox.Text);
+            this.vy446_usCmdKaritaka = Convert.ToUInt16(this.Vy446_CMD_KARITAKA_TxtBox.Text);
+        }
+
+        /// <summary>
+        /// Vy446 Default Command Parameters
+        /// </summary>
+        private void CombineVy446DefaultCommand()
+        {
+            // 1. ロボットモード切替のチェック取得 - ok
+            this.vy446_m_iRobotMode = true;
+
+            // 2. 刈取クラッチのラジオボタン取得 - ok
+            this.vy446_KaritoriRadio = false;
+
+            // 3. 作業機クラッチのラジオボタン取得 - ok
+            this.vy446_SagyokiRadio = false;
+
+            // 4. クラッチオフのラジオボタン取得 - ok
+            this.vy446_SagyokiOffRadio = false;
+
+            // 5. 強制掻込スイッチ - ok
+            this.vy446_m_ucFgKakikomi = false;
+
+            // 6. 倒伏刈スイッチ - ok
+            this.vy446_m_ucFgTofuku = false;
+
+            // 7. 湿田スイッチ - ok
+            this.vy446_m_ucFgSitsuden = false;
+
+            // 8. エンジン停止 - ok
+            this.vy446_m_ucFgEngineStop = false;
+
+            // 9. 警告音のチェック取得 - ok
+            this.vy446_Buzzer2Chk = false;
+
+            // 10. 黄ランプのチェック取得 - ok
+            this.vy446_YellowLampChk = false;
+
+            // 11. 赤ランプのチェック取得 - ok
+            this.vy446_RedLampChk = false;
+
+            // 12. 刈り高さ目標値 - ok
+            this.vy446_m_ucFgKaritakaPosCtrl = false;
+
+            // 13. ブザーのチェック取得 - ok
+            this.vy446_m_ucFgBuzzer = false;
+
+            // 14. ハザードのチェック取得 - ok
+            this.vy446_m_ucFgHazard = false;
+
+            // 15. オーガ自動収納のチェック取得 - ok
+            this.vy446_m_ucFgAugerHomePos = false;
+
+            // 16. オーガ自動位置決めのチェック取得 - ok
+            this.vy446_m_ucFgAugerAutoPos = false;
+
+            // 17. オーガクラッチのチェック取得 - ok
+            this.vy446_m_ucFgAugerClutch = false;
+
+            // 1. 操舵量コマンド：左操舵最大(250)，中立(430)，右操舵最大(660) - ok
+            this.vy446_usCmdSteer = Convert.ToUInt16(430);
+
+            // 2. HST_CMD(主変速HSTレバー):前進最大(2450), 中立(1405), 後進最大(360) - ok
+            this.vy446_usCmdHst = Convert.ToUInt16(1405);
+
+            // 3. 排出オーガ左右旋回目標値
+            this.vy446_usCmdLRPos = Convert.ToUInt16(92);
+
+            // 4. 排出オーガ上下旋回コマンド
+            this.vy446_usCmdUDPos = Convert.ToUInt16(753);
+
+            // 5. 刈り高さ目標値
+            this.vy446_usCmdKaritaka = Convert.ToUInt16(680); 
+        }
 
         /// <summary>
         /// command data send to combine Vy446 ECU using serial
         /// </summary>
         private void CombineVy446CmdSend()
         {
-            // 1. ロボットモード切替のチェック取得 - ok
-            if (this.Vy446_RobotMode_CheckBox.Checked == true)
-            {
-                this._vy446.m_iRobotMode = true;
-            }
-            else
-            {
-                this._vy446.m_iRobotMode = false;
-            }
+            // 1. ロボットモード切替のチェック取得
+            this._vy446.m_iRobotMode = this.vy446_m_iRobotMode;
 
-            // 2. 刈取クラッチのラジオボタン取得 - ok
-            if (this.Vy446_KARITORI_CheckBox.Checked == true)
-            {
-                this._vy446.KaritoriRadio = true;
-            }
-            else
-            {
-                this._vy446.KaritoriRadio = false;
-            }
+            // 2. 刈取クラッチのラジオボタン取得
+            this._vy446.KaritoriRadio = this.vy446_KaritoriRadio;
 
-            // 3. 作業機クラッチのラジオボタン取得 - ok
-            if (this.Vy446_SAGYOKI_ON_CheckBox.Checked == true)
-            {
-                this._vy446.SagyokiRadio = true;
-            }
-            else
-            {
-                this._vy446.SagyokiRadio = false;
-            }
+            // 3. 作業機クラッチのラジオボタン取得
+            this._vy446.SagyokiRadio = this.vy446_SagyokiRadio;
 
-            // 4. クラッチオフのラジオボタン取得 - ok
-            if (this.Vy446_SAGYOKI_OFF_CheckBox.Checked == true)
-            {
-                this._vy446.SagyokiOffRadio = true;
-            }
-            else
-            {
-                this._vy446.SagyokiOffRadio = false;
-            }
+            // 4. クラッチオフのラジオボタン取得
+            this._vy446.SagyokiOffRadio = this.vy446_SagyokiOffRadio;
 
-            // 5. 強制掻込スイッチ - ok
-            if (this.Vy446_FgKakikomi_CheckBox.Checked == true)
-            {
-                this._vy446.m_ucFgKakikomi = true;
-            }
-            else
-            {
-                this._vy446.m_ucFgKakikomi = false;
-            }
+            // 5. 強制掻込スイッチ
+            this._vy446.m_ucFgKakikomi = this.vy446_m_ucFgKakikomi;
 
-            // 6. 倒伏刈スイッチ - ok
-            if (this.Vy446_FgTofuku_CheckBox.Checked == true)
-            {
-                this._vy446.m_ucFgTofuku = true;
-            }
-            else
-            {
-                this._vy446.m_ucFgTofuku = false;
-            }
+            // 6. 倒伏刈スイッチ
+            this._vy446.m_ucFgTofuku = this.vy446_m_ucFgTofuku;
 
-            // 7. 湿田スイッチ - ok
-            if (this.Vy446_FgSitsuden_CheckBox.Checked == true)
-            {
-                this._vy446.m_ucFgSitsuden = true;
-            }
-            else
-            {
-                this._vy446.m_ucFgSitsuden = false;
-            }
+            // 7. 湿田スイッチ
+            this._vy446.m_ucFgSitsuden = this.vy446_m_ucFgSitsuden;
 
-            // 8. エンジン停止 - ok
-            if (this.Vy446_ENGINE_STOP_CheckBox.Checked == true)
-            {
-                this._vy446.m_ucFgEngineStop = true;
-            }
-            else
-            {
-                this._vy446.m_ucFgEngineStop = false;
-            }
+            // 8. エンジン停止
+            this._vy446.m_ucFgEngineStop = this.vy446_m_ucFgEngineStop;
 
-            // 9. 警告音のチェック取得 - ok
-            if (this.Vy446_BUZZER2_CheckBox.Checked == true)
-            {
-                this._vy446.Buzzer2Chk = true;
-            }
-            else
-            {
-                this._vy446.Buzzer2Chk = false;
-            }
+            // 9. 警告音のチェック取得
+            this._vy446.Buzzer2Chk = this.vy446_Buzzer2Chk;
 
-            // 10. 黄ランプのチェック取得 - ok
-            if (this.Vy446_YELLOW_LAMP_CheckBox.Checked == true)
-            {
-                this._vy446.YellowLampChk = true;
-            }
-            else
-            {
-                this._vy446.YellowLampChk = false;
-            }
+            // 10. 黄ランプのチェック取得
+            this._vy446.YellowLampChk = this.vy446_YellowLampChk;
 
-            // 11. 赤ランプのチェック取得 - ok
-            if (this.Vy446_RED_LAMP_CheckBox.Checked == true)
-            {
-                this._vy446.RedLampChk = true;
-            }
-            else
-            {
-                this._vy446.RedLampChk = false;
-            }
+            // 11. 赤ランプのチェック取得
+            this._vy446.RedLampChk = this.vy446_RedLampChk;
 
-            // 12. 刈り高さ目標値 - ok
-            if (this.Vy446_KARITAKA_CheckBox.Checked == true)
-            {
-                this._vy446.m_ucFgKaritakaPosCtrl = true;
-            }
-            else
-            {
-                this._vy446.m_ucFgKaritakaPosCtrl = false;
-            }
+            // 12. 刈り高さ目標値
+            this._vy446.m_ucFgKaritakaPosCtrl = this.vy446_m_ucFgKaritakaPosCtrl;
 
-            // 13. ブザーのチェック取得 - ok
-            if (this.Vy446_BUZZER_CheckBox.Checked == true)
-            {
-                this._vy446.m_ucFgBuzzer = true;
-            }
-            else
-            {
-                this._vy446.m_ucFgBuzzer = false;
-            }
+            // 13. ブザーのチェック取得
+            this._vy446.m_ucFgBuzzer = this.vy446_m_ucFgBuzzer;
 
-            // 14. ハザードのチェック取得 - ok
-            if (this.Vy446_HAZARD_CheckBox.Checked == true)
-            {
-                this._vy446.m_ucFgHazard = true;
-            }
-            else
-            {
-                this._vy446.m_ucFgHazard = false;
-            }
+            // 14. ハザードのチェック取得
+            this._vy446.m_ucFgHazard = this.vy446_m_ucFgHazard;
 
-            // 15. オーガ自動収納のチェック取得 - ok
-            if (this.Vy446_AUTO_RETURN_CheckBox.Checked == true)
-            {
-                this._vy446.m_ucFgAugerHomePos = true;
-            }
-            else
-            {
-                this._vy446.m_ucFgAugerHomePos = false;
-            }
+            // 15. オーガ自動収納のチェック取得
+            this._vy446.m_ucFgAugerHomePos = this.vy446_m_ucFgAugerHomePos;
 
-            // 16. オーガ自動位置決めのチェック取得 - ok
-            if (this.Vy446_AUTOPOS_CheckBox.Checked == true)
-            {
-                this._vy446.m_ucFgAugerAutoPos = true;
-            }
-            else
-            {
-                this._vy446.m_ucFgAugerAutoPos = false;
-            }
+            // 16. オーガ自動位置決めのチェック取得
+            this._vy446.m_ucFgAugerAutoPos = this.vy446_m_ucFgAugerAutoPos;
 
-            // 17. オーガクラッチのチェック取得 - ok
-            if (this.Vy446_CLUTCH_CheckBox.Checked == true)
-            {
-                this._vy446.m_ucFgAugerClutch = true;
-            }
-            else
-            {
-                this._vy446.m_ucFgAugerClutch = false;
-            }
+            // 17. オーガクラッチのチェック取得
+            this._vy446.m_ucFgAugerClutch = this.vy446_m_ucFgAugerClutch;
 
 
-            // 1. 操舵量コマンド：左操舵最大(250)，中立(430)，右操舵最大(660) - ok
-            this._vy446.usCmdSteer = Convert.ToUInt16(this.Vy446_CMD_SOKO_TxtBox.Text);
+            // 1. 操舵量コマンド：左操舵最大(250)，中立(430)，右操舵最大(660)
+            this._vy446.usCmdSteer = this.vy446_usCmdSteer;
 
-            // 2. HST_CMD(主変速HSTレバー):前進最大(2450), 中立(1405), 後進最大(360) - ok
-            this._vy446.usCmdHst = Convert.ToUInt16(this.Vy446_CMD_HST_TxtBox.Text);
+            // 2. HST_CMD(主変速HSTレバー):前進最大(2450), 中立(1405), 後進最大(360)
+            this._vy446.usCmdHst = this.vy446_usCmdHst;
 
             // 3. 排出オーガ左右旋回目標値
-            this._vy446.usCmdLRPos = Convert.ToUInt16(this.Vy446_CMD_AUGER_MTR_TxtBox.Text);
+            this._vy446.usCmdLRPos = this.vy446_usCmdLRPos;
 
             // 4. 排出オーガ上下旋回コマンド
-            this._vy446.usCmdUDPos = Convert.ToUInt16(this.Vy446_CMD_AUGER_CLD_TxtBox.Text);
+            this._vy446.usCmdUDPos = this.vy446_usCmdUDPos;
 
             // 5. 刈り高さ目標値
-            this._vy446.usCmdKaritaka = Convert.ToUInt16(this.Vy446_CMD_KARITAKA_TxtBox.Text);
+            this._vy446.usCmdKaritaka = this.vy446_usCmdKaritaka;
 
             // write cmd
             this._vy446.SendCmdEcu();
@@ -980,95 +1283,6 @@ namespace IidaLabVy446
             this.isTmData = true;
         }
 
-        /// <summary>
-        /// Combine body header control - vy446
-        /// </summary>
-        /// <param name="_ifState"></param>
-        /// <param name="_thenState"></param>
-        private void CombineBodyHeaderControlVy446(bool _ifState, bool _thenState)
-        {
-            if (this.Vy446_RobotMode_CheckBox.Checked == _ifState)
-            {
-                this.Vy446_RobotMode_CheckBox.Checked = _thenState;
-            }
-
-            if (this.Vy446_SAGYOKI_ON_CheckBox.Checked == _ifState)
-            {
-                this.Vy446_SAGYOKI_ON_CheckBox.Checked = _thenState;
-            }
-
-            if (this.Vy446_KARITORI_CheckBox.Checked == _ifState)
-            {
-                this.Vy446_KARITORI_CheckBox.Checked = _thenState;
-            }
-
-            if (this.Vy446_KARITAKA_CheckBox.Checked == _ifState)
-            {
-                this.Vy446_KARITAKA_CheckBox.Checked = _thenState;
-            } 
-
-            //this.Vy446_CMD_KARITAKA_TxtBox.Text = Convert.ToString(this.hControl.groundHeightAD);
-
-            //// send lateral command
-            //if (this.LidarLateralControlCheckBox.Checked == true)
-            //{
-            //    // 1. 操舵量コマンド：左操舵最大(250)，中立(430)，右操舵最大(660) - ok
-            //    this.Vy446_CMD_SOKO_TxtBox.Text = Convert.ToString(this.hControl.lateralSegAD);
-            //}
-
-            this.CombineVy446CmdSend();
-        }
-
-        /// <summary>
-        /// Combine body header control - vy50
-        /// </summary>
-        /// <param name="_ifState"></param>
-        /// <param name="_thenState"></param>
-        private void CombineBodyHeaderControlVy50(bool _ifState, bool _thenState)
-        {
-            if (this.Vy50_ROBOTMODE_CheckBox.Checked == _ifState)
-            {
-                this.Vy50_ROBOTMODE_CheckBox.Checked = _thenState;
-            }
-
-            if (this.Vy50_SAGYOUKI_CheckBox.Checked == _ifState)
-            {
-                this.Vy50_SAGYOUKI_CheckBox.Checked = _thenState;
-            }
-
-            if (this.Vy50_KARITORI_CheckBox.Checked == _ifState)
-            {
-                this.Vy50_KARITORI_CheckBox.Checked = _thenState;
-            }
-
-            if (this.Vy50_KARITAKASA_CheckBox.Checked == _ifState)
-            {
-                this.Vy50_KARITAKASA_CheckBox.Checked = _thenState;
-            }
-
-            //this.Vy50_KARITAKASA_TxtBox.Text = Convert.ToString(this.hControl.groundHeightAD);
-
-            this.CombineVy50CmdSend();
-        }
-
-        /// <summary>
-        /// Combine body header control
-        /// </summary>
-        private void CombineBodyHeaderControl(bool _ifState, bool _thenState)
-        {
-            // vy50
-            if (this.BodyModelComboBox.SelectedIndex == 0)
-            {
-                this.CombineBodyHeaderControlVy50(_ifState, _thenState);
-            }
-
-            // vy446
-            if (this.BodyModelComboBox.SelectedIndex == 1)
-            {
-                this.CombineBodyHeaderControlVy446(_ifState, _thenState);
-            }
-        }
-
         #endregion
 
         #region Amedas Weather
@@ -1126,7 +1340,7 @@ namespace IidaLabVy446
             if (this.LidarOpenGlCheckBox.Checked == true)
             {
                 this.isOpenGL = true;
-                this.lidarOpenGlForm = new LidarOpenGlForm();
+                this.lidarOpenGlForm = new LidarOpenGlForm(this.BodyModelComboBox.SelectedIndex);
                 this.lidarOpenGlForm.Show();
             }
         }
@@ -1287,6 +1501,7 @@ namespace IidaLabVy446
         private double backHeading { get; set; }
         private double backSpeed { get; set; }
         private bool isFirstBodyTm { get; set; }
+        private bool isHarvestMode { get; set; }
         //private bool isSaveLidarData { get; set; }
         /// <summary>
         /// initialization of crop stand class
@@ -1330,6 +1545,9 @@ namespace IidaLabVy446
                     if (this.BodyModelComboBox.SelectedIndex == 1)
                     {
                         // Vy446 model
+                        this.backHeading = this._vy446.gps_Compass;
+                        //this.backHeading = this._vy446.compass;
+                        this.backSpeed = this._vy446.fSpeed;
                     }
 
                     this.backTmX = this.tmX;
@@ -1343,14 +1561,21 @@ namespace IidaLabVy446
                     this.backTmY = this.cropStand.NewTmY;
                     this.backTmZ = this.cropStand.NewTmZ;
                 }
-
-                bool isCropData = false;
-                if (this.BodyModelComboBox.SelectedIndex == 0 && this._vy50.uc_HeaderPos < 100)
+                
+                if ((this.BodyModelComboBox.SelectedIndex == 0) && (this._vy50.uc_HeaderPos < 100))
                 {
-                    isCropData = true;
+                    this.isHarvestMode = true;
+                }
+                else if ((this.BodyModelComboBox.SelectedIndex == 1) && (this._vy446.AD_KARI_L < 500))
+                {
+                    this.isHarvestMode = true;
+                }
+                else
+                {
+                    this.isHarvestMode = false;
                 }
 
-                if (isCropData == true)
+                if (this.isHarvestMode == true)
                 {
                     this.cropStand.CalculatePosition(this.sickLidar.cartesianList, this.backTmX, this.backTmY, this.backTmZ, this.backHeading);
 
@@ -1366,12 +1591,77 @@ namespace IidaLabVy446
                 this.lidarOpenGlForm.Debug(this.readCount, this.backTmX, this.backTmY, this.backTmZ, this.backHeading, this.backSpeed);
 
                 // add edge
-                this.cropStand.AddDiscriminatePoints(this.cropStand.result, this.drawGlIndex, isCropData);
+                this.cropStand.AddDiscriminatePoints(this.cropStand.result, this.drawGlIndex, this.isHarvestMode);
                 this.lidarOpenGlForm.AddEdge(this.cropStand.ran_result, this.cropStand.isRan);
 
                 // add crop
-                this.lidarOpenGlForm.AddCrop(this.cropStand.result, this.drawGlIndex, isCropData);
+                this.lidarOpenGlForm.AddCrop(this.cropStand.result, this.drawGlIndex, this.isHarvestMode);
 
+            }
+        }
+
+        #endregion
+
+        #region Guidance - Autonomous and Manual mode
+
+        /// <summary>
+        /// is Default Command of Vy446
+        /// </summary>
+        private bool isDefaultCmdVy446 = false;
+
+        /// <summary>
+        /// is initialize header position
+        /// </summary>
+        private bool isIniHeaderPos = false;
+
+        /// <summary>
+        /// initialization of header position
+        /// </summary>
+        private ushort iniHeaderPos { get; set; }
+
+        /// <summary>
+        /// Guidance Method for Combine Robot
+        /// </summary>
+        /// <param name="_isVy50RobotMode"></param>
+        /// <param name="_isVy446RobotMode"></param>
+        /// <param name="_bodyModelNum"></param>
+        private void GuidanceRun(bool _isVy50RobotMode, bool _isVy446RobotMode, int _bodyModelNum)
+        {
+            // VY446
+            if ((_bodyModelNum == 1) && (_isVy446RobotMode == true))
+            {
+                if (this.isDefaultCmdVy446 == false)
+                {
+                    this.CombineVy446DefaultCommand();
+                    this.isDefaultCmdVy446 = true;
+                }
+
+                // autonomous mode run
+                if (this.Vy446_AutonomousMode_CheckBox.Checked == true)
+                {
+                    // initialize of header position
+                    if (this.isIniHeaderPos == false)
+                    {
+                        this.iniHeaderPos = this.vy446_usCmdKaritaka;
+                        this.isIniHeaderPos = true;
+                    }
+
+                    // sakyoki on
+                    //this.vy446_SagyokiRadio = true;
+
+                    // karitakasa on
+                    this.vy446_m_ucFgKaritakaPosCtrl = true;
+
+                    // header control method
+                    this.cropStand.HeaderControl(this.sickLidar.cartesianList, this.drawGlIndex, 1, this.iniHeaderPos);
+
+                    if (this.cropStand.isHeaderControl == true)
+                    {
+                        this.vy446_usCmdKaritaka = this.cropStand.header_Potentiometer;
+                    }
+                }
+
+                this.CombineVy446CmdSend();
             }
         }
 
@@ -1605,6 +1895,9 @@ namespace IidaLabVy446
                 this.DrawCropStand(this.isLidarData, this.isTmData);
             }
 
+            // Guidance Method
+            this.GuidanceRun(this.Vy50_ROBOTMODE_CheckBox.Checked, this.Vy446_RobotMode_CheckBox.Checked, this.BodyModelComboBox.SelectedIndex);
+
             this.readCount++;
 
             watch.Stop();
@@ -1644,13 +1937,14 @@ namespace IidaLabVy446
         }
 
         /// <summary>
-        /// Send command to Combine ECU event
+        /// Set command to Combine ECU event
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Vy446_SendData_Button_Click(object sender, EventArgs e)
         {
-            this.CombineVy446CmdSend();
+            //this.CombineVy446CmdSend();
+            this.CombineVy446ManualSetCommand();
         }
 
         /// <summary>
