@@ -114,6 +114,7 @@ namespace IidaLabVy446
         }
 
         /// <summary>
+        /// Revised 2013-06-13
         /// Play Lidar Sensor
         /// </summary>
         private void LidarPlay()
@@ -127,6 +128,7 @@ namespace IidaLabVy446
                 this.sickLidar.ConvertPolarToCartesian();
                 this.graph.UpdateGraph(this.sickLidar.cartesianList, zg1, zg3, this.isOpenGL);
 
+                // revised 2013-06-13
                 if (this.isOpenGL == true)
                 {
                     List<double> perpendicular =
@@ -817,7 +819,9 @@ namespace IidaLabVy446
 
             // 2. HST_CMD(主変速HSTレバー):前進最大(2450), 中立(1405), 後進最大(360) - ok
             //this._vy446.usCmdHst = Convert.ToUInt16(this.Vy446_CMD_HST_TxtBox.Text);
-            this.vy446_usCmdHst = Convert.ToUInt16(this.Vy446_CMD_HST_TxtBox.Text);
+            //this.vy446_usCmdHst = Convert.ToUInt16(this.Vy446_CMD_HST_TxtBox.Text);
+            this.vy446_usCmdHst = this._vy446.SetHstCmd(Convert.ToDouble(this.Vy446_CMD_TravelSpeed_TxtBox.Text));
+            this.Vy446_DEBUG_HST_TxtBox.Text = Convert.ToString(this.vy446_usCmdHst);
 
             // 3. 排出オーガ左右旋回目標値
             //this._vy446.usCmdLRPos = Convert.ToUInt16(this.Vy446_CMD_AUGER_MTR_TxtBox.Text);
@@ -1501,8 +1505,9 @@ namespace IidaLabVy446
         private double backHeading { get; set; }
         private double backSpeed { get; set; }
         private bool isFirstBodyTm { get; set; }
-        private bool isHarvestMode { get; set; }
         //private bool isSaveLidarData { get; set; }
+        private bool isHarvestMode { get; set; }
+
         /// <summary>
         /// initialization of crop stand class
         /// </summary>
@@ -1520,6 +1525,7 @@ namespace IidaLabVy446
         }
 
         /// <summary>
+        /// Revised 2013-06-12
         /// Draw Crop stand on OpenGL
         /// </summary>
         /// <param name="_lidar"></param>
@@ -1561,19 +1567,19 @@ namespace IidaLabVy446
                     this.backTmY = this.cropStand.NewTmY;
                     this.backTmZ = this.cropStand.NewTmZ;
                 }
-                
+
+                this.isHarvestMode = false;
                 if ((this.BodyModelComboBox.SelectedIndex == 0) && (this._vy50.uc_HeaderPos < 100))
                 {
                     this.isHarvestMode = true;
                 }
-                else if ((this.BodyModelComboBox.SelectedIndex == 1) && (this._vy446.AD_KARI_L < 500))
+                else if ((this.BodyModelComboBox.SelectedIndex == 1) && (this._vy446.AD_KARI_L < 650))
                 {
                     this.isHarvestMode = true;
                 }
-                else
-                {
-                    this.isHarvestMode = false;
-                }
+
+                // send debug information to lidarForm
+                this.lidarOpenGlForm.BodyInformation(this.readCount, this.backTmX, this.backTmY, this.backTmZ, this.backHeading, this.backSpeed);
 
                 if (this.isHarvestMode == true)
                 {
@@ -1585,18 +1591,28 @@ namespace IidaLabVy446
                     //    this.cropStand.SaveLidarData(this.sickLidar.cartesianList);
                     //    this.isSaveLidarData = false;
                     //}
+
+                    // discriminate uncut crop and ground
+                    this.cropStand.AddDiscriminatePoints(this.cropStand.result, this.drawGlIndex);
+
+                    // calculate of Perpendicular distance between GPS xy position and Extracted Ransac
+                    this.cropStand.GpsToRansacDistance(this.backTmX, this.backTmY);
+
+                    // processing debug on OpenGlForm
+                    this.lidarOpenGlForm.ProcessingDebug(this.cropStand.isRan, this.cropStand.ran_angle, this.cropStand.ran_distance, this.cropStand.ran_standard_distance);
+
+                    // add crop
+                    this.lidarOpenGlForm.AddCrop(this.cropStand.result, this.drawGlIndex);
+
+                    // add edge into OpenGlForm
+                    this.lidarOpenGlForm.AddEdge(this.cropStand.ran_result, this.cropStand.isRan);
+                }
+                else
+                {
+                    this.cropStand.UnHarvestMode();
                 }
 
-                // send debug information to lidarForm
-                this.lidarOpenGlForm.Debug(this.readCount, this.backTmX, this.backTmY, this.backTmZ, this.backHeading, this.backSpeed);
-
-                // add edge
-                this.cropStand.AddDiscriminatePoints(this.cropStand.result, this.drawGlIndex, this.isHarvestMode);
-                this.lidarOpenGlForm.AddEdge(this.cropStand.ran_result, this.cropStand.isRan);
-
-                // add crop
-                this.lidarOpenGlForm.AddCrop(this.cropStand.result, this.drawGlIndex, this.isHarvestMode);
-
+                this.lidarOpenGlForm.GlUpdate();
             }
         }
 
@@ -1610,9 +1626,9 @@ namespace IidaLabVy446
         private bool isDefaultCmdVy446 = false;
 
         /// <summary>
-        /// is initialize header position
+        /// is initialization of header position
         /// </summary>
-        private bool isIniHeaderPos = false;
+        private bool isIniHeader = false;
 
         /// <summary>
         /// initialization of header position
@@ -1620,6 +1636,7 @@ namespace IidaLabVy446
         private ushort iniHeaderPos { get; set; }
 
         /// <summary>
+        /// Revised 2013-06-12
         /// Guidance Method for Combine Robot
         /// </summary>
         /// <param name="_isVy50RobotMode"></param>
@@ -1639,30 +1656,79 @@ namespace IidaLabVy446
                 // autonomous mode run
                 if (this.Vy446_AutonomousMode_CheckBox.Checked == true)
                 {
-                    // initialize of header position
-                    if (this.isIniHeaderPos == false)
-                    {
-                        this.iniHeaderPos = this.vy446_usCmdKaritaka;
-                        this.isIniHeaderPos = true;
-                    }
+                    // header control
+                    this.Vy446HeaderControl();
 
-                    // sakyoki on
-                    //this.vy446_SagyokiRadio = true;
-
-                    // karitakasa on
-                    this.vy446_m_ucFgKaritakaPosCtrl = true;
-
-                    // header control method
-                    this.cropStand.HeaderControl(this.sickLidar.cartesianList, this.drawGlIndex, 1, this.iniHeaderPos);
-
-                    if (this.cropStand.isHeaderControl == true)
-                    {
-                        this.vy446_usCmdKaritaka = this.cropStand.header_Potentiometer;
-                    }
+                    // forward control
+                    this.Vy446ForwardControl();
                 }
 
                 this.CombineVy446CmdSend();
             }
+
+            // VY50
+            if ((_bodyModelNum == 0) && (_isVy50RobotMode == true))
+            { 
+            }
+        }
+
+        /// <summary>
+        /// Revised 2013-06-12
+        /// Vy446 Header Control Method
+        /// Karitori, Karitakasa radios must be convert true state.
+        /// </summary>
+        private void Vy446HeaderControl()
+        { 
+            // initialization of header position, karitori and karitakasa state
+            if (this.isIniHeader == false)
+            {
+                // header position
+                this.iniHeaderPos = Convert.ToUInt16(this.Vy446_DEBUG_INI_HEADER_POS_TxtBox.Text);
+                
+                // karitori on
+                this.vy446_KaritoriRadio = true;
+
+                // karitakasa on
+                this.vy446_m_ucFgKaritakaPosCtrl = true;
+
+                // convert true state
+                this.isIniHeader = true;
+            }
+
+            // header control
+            this.cropStand.HeaderControl(this.sickLidar.cartesianList, this.drawGlIndex, 1, this.iniHeaderPos);
+            this.vy446_usCmdKaritaka = this.cropStand.header_potentiometer;
+
+            // header control debug
+            this.Vy446_isHeaderControl_TxtBox.Text = Convert.ToString(this.cropStand.isHeaderControl);
+            this.Vy446_HeaderPotentiometer_TxtBox.Text = Convert.ToString(this.vy446_usCmdKaritaka);
+        }
+
+        /// <summary>
+        /// Vy446 forward control method
+        /// </summary>
+        private void Vy446ForwardControl()
+        {
+            if (this.cropStand.isHeaderControl == true)
+            {
+                // forward on - 0.5 [m/s]
+                this.vy446_usCmdHst = this._vy446.SetHstCmd(0.5);
+
+                // steering
+                this.cropStand.Vy446ForwardSteer(this.backHeading);
+
+                // 操舵量コマンド：左操舵最大(250)，中立(430)，右操舵最大(660)
+                this.vy446_usCmdSteer = this.cropStand.vy446_usCmdSteer;
+            }
+            else
+            {
+                // forward off - nuetral
+                this.vy446_usCmdHst = this._vy446.SetHstCmd(0.1);
+            }
+
+            // debug message
+            this.Vy446_DEBUG_HST_TxtBox.Text = Convert.ToString(this.vy446_usCmdHst);
+            this.Vy446_DEBUG_SOKO_TxtBox.Text = Convert.ToString(this.vy446_usCmdSteer);
         }
 
         #endregion

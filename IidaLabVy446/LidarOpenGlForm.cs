@@ -334,45 +334,39 @@ namespace IidaLabVy446
         /// </summary>
         /// <param name="_list"></param>
         /// <param name="_glIndex"></param>
-        /// <param name="_isHarvestMode"></param>
-        public void AddCrop(List<SickLidar.CartesianPoint> _list, int _glIndex, bool _isHarvestMode)
+        public void AddCrop(List<SickLidar.CartesianPoint> _list, int _glIndex)
         {
-            if (_isHarvestMode == true)
+            // For save mode
+            if ((this.isSave == true) && (_glIndex != 0))
             {
-                // For save mode
-                if ((this.isSave == true) && (_glIndex != 0))
-                {
-                    string edgePointData = Convert.ToString(_list[_glIndex - 1].x) + " " + Convert.ToString(_list[_glIndex - 1].y);
-                    this.saveTxt.WriteLine(edgePointData);
-                }
-
-                for (int i = 0; i < _glIndex; i++)
-                {
-                    //this.crop.Add(new SickLidar.CartesianPoint(_list[i].x, _list[i].y, _list[i].z));
-                    cropPoints[i + this.cropOffset] = new Vector3((float)_list[i].x, (float)_list[i].y, (float)_list[i].z);
-
-                    // save mode for debug
-                    if (this.isSave == true)
-                    {
-                        this.avgCropCnt++;
-                        this.cropHgt += _list[i].z;
-                        this.avgCropHgt = this.cropHgt / (double)this.avgCropCnt;
-                    }
-                }
-                this.cropOffset += _glIndex;
-
-                int gCnt = 0;
-                for (int i = _glIndex; i < _list.Count; i++)
-                {
-                    groundPoints[gCnt + this.groundOffset] = new Vector3((float)_list[i].x, (float)_list[i].y, (float)_list[i].z);
-                    gCnt++;
-                }
-                this.groundOffset += _list.Count - _glIndex;
-
-                this.cropCnt++;
+                string edgePointData = Convert.ToString(_list[_glIndex - 1].x) + " " + Convert.ToString(_list[_glIndex - 1].y);
+                this.saveTxt.WriteLine(edgePointData);
             }
 
-            glControl1.Invalidate();
+            for (int i = 0; i < _glIndex; i++)
+            {
+                //this.crop.Add(new SickLidar.CartesianPoint(_list[i].x, _list[i].y, _list[i].z));
+                cropPoints[i + this.cropOffset] = new Vector3((float)_list[i].x, (float)_list[i].y, (float)_list[i].z);
+
+                // save mode for debug
+                if (this.isSave == true)
+                {
+                    this.avgCropCnt++;
+                    this.cropHgt += _list[i].z;
+                    this.avgCropHgt = this.cropHgt / (double)this.avgCropCnt;
+                }
+            }
+            this.cropOffset += _glIndex;
+
+            int gCnt = 0;
+            for (int i = _glIndex; i < _list.Count; i++)
+            {
+                groundPoints[gCnt + this.groundOffset] = new Vector3((float)_list[i].x, (float)_list[i].y, (float)_list[i].z);
+                gCnt++;
+            }
+            this.groundOffset += _list.Count - _glIndex;
+
+            this.cropCnt++;            
         }
 
         /// <summary>
@@ -420,7 +414,7 @@ namespace IidaLabVy446
         }
 
         /// <summary>
-        /// For debug
+        /// Body information debug method
         /// </summary>
         /// <param name="_readCnt"></param>
         /// <param name="_tmX"></param>
@@ -428,7 +422,7 @@ namespace IidaLabVy446
         /// <param name="_tmZ"></param>
         /// <param name="_heading_angle"></param>
         /// <param name="_body_speed"></param>
-        public void Debug(int _readCnt, double _tmX, double _tmY, double _tmZ, double _heading_angle, double _body_speed)
+        public void BodyInformation(int _readCnt, double _tmX, double _tmY, double _tmZ, double _heading_angle, double _body_speed)
         {
             this.GlReadCntTxtBox.Text = Convert.ToString(_readCnt);
             this.GlCurCntTxtBox.Text = Convert.ToString(this.cropCnt);
@@ -444,6 +438,21 @@ namespace IidaLabVy446
         }
 
         /// <summary>
+        /// Processing debug method
+        /// </summary>
+        /// <param name="_isRan"></param>
+        /// <param name="_ran_heading"></param>
+        /// <param name="_ran_distance"></param>
+        /// <param name="_std_distance"></param>
+        public void ProcessingDebug(bool _isRan, double _ran_heading, double _ran_distance, double _std_distance)
+        {
+            this.GlIsRanTxtBox.Text = Convert.ToString(_isRan);
+            this.GlRanHeadingTxtBox.Text = _ran_heading.ToString("N3");
+            this.GlRanDistanceTxtBox.Text = _ran_distance.ToString("N3");
+            this.GlRanStandDistanceTxtBox.Text = _std_distance.ToString("N3");
+        }
+
+        /// <summary>
         /// For save debug
         /// </summary>
         private void SaveDebug()
@@ -453,6 +462,14 @@ namespace IidaLabVy446
             this.GlRanPosY1TxtBox.Text = this.ranY1.ToString("N3");
             this.GlRanPosX2TxtBox.Text = this.ranX1.ToString("N3");
             this.GlRanPosY2TxtBox.Text = this.ranY2.ToString("N3");
+        }
+
+        /// <summary>
+        /// Form Update
+        /// </summary>
+        public void GlUpdate()
+        {
+            glControl1.Invalidate();
         }
 
         #endregion

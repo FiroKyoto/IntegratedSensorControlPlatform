@@ -50,19 +50,29 @@
             this.ExitButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.GlAvgCropHgtTxtBox = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.GlRanPosX1TxtBox = new System.Windows.Forms.TextBox();
-            this.GlRanPosY1TxtBox = new System.Windows.Forms.TextBox();
-            this.GlRanPosX2TxtBox = new System.Windows.Forms.TextBox();
-            this.GlRanPosY2TxtBox = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.GlRanPosY2TxtBox = new System.Windows.Forms.TextBox();
+            this.GlRanPosX2TxtBox = new System.Windows.Forms.TextBox();
+            this.GlRanPosY1TxtBox = new System.Windows.Forms.TextBox();
+            this.GlRanPosX1TxtBox = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.GlAvgCropHgtTxtBox = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.GlIsRanTxtBox = new System.Windows.Forms.TextBox();
+            this.GlRanHeadingTxtBox = new System.Windows.Forms.TextBox();
+            this.GlRanDistanceTxtBox = new System.Windows.Forms.TextBox();
+            this.GlRanStandDistanceTxtBox = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // glControl1
@@ -94,8 +104,6 @@
             this.groupBox2.Controls.Add(this.GlBodyHeadingTxtBox);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.GlElapsedTxtBox);
-            this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.label3);
@@ -111,10 +119,11 @@
             this.groupBox2.Size = new System.Drawing.Size(204, 239);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Debug";
+            this.groupBox2.Text = "Body Information";
             // 
             // GlBodySpeedTxtBox
             // 
+            this.GlBodySpeedTxtBox.BackColor = System.Drawing.Color.GreenYellow;
             this.GlBodySpeedTxtBox.Location = new System.Drawing.Point(92, 182);
             this.GlBodySpeedTxtBox.Name = "GlBodySpeedTxtBox";
             this.GlBodySpeedTxtBox.Size = new System.Drawing.Size(100, 19);
@@ -122,6 +131,7 @@
             // 
             // GlBodyHeadingTxtBox
             // 
+            this.GlBodyHeadingTxtBox.BackColor = System.Drawing.Color.GreenYellow;
             this.GlBodyHeadingTxtBox.Location = new System.Drawing.Point(92, 157);
             this.GlBodyHeadingTxtBox.Name = "GlBodyHeadingTxtBox";
             this.GlBodyHeadingTxtBox.Size = new System.Drawing.Size(100, 19);
@@ -147,7 +157,8 @@
             // 
             // GlElapsedTxtBox
             // 
-            this.GlElapsedTxtBox.Location = new System.Drawing.Point(92, 207);
+            this.GlElapsedTxtBox.BackColor = System.Drawing.Color.GreenYellow;
+            this.GlElapsedTxtBox.Location = new System.Drawing.Point(626, 482);
             this.GlElapsedTxtBox.Name = "GlElapsedTxtBox";
             this.GlElapsedTxtBox.Size = new System.Drawing.Size(100, 19);
             this.GlElapsedTxtBox.TabIndex = 11;
@@ -155,7 +166,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 210);
+            this.label6.Location = new System.Drawing.Point(540, 485);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(80, 12);
             this.label6.TabIndex = 10;
@@ -190,6 +201,7 @@
             // 
             // GlTmZTxtBox
             // 
+            this.GlTmZTxtBox.BackColor = System.Drawing.Color.GreenYellow;
             this.GlTmZTxtBox.Location = new System.Drawing.Point(92, 132);
             this.GlTmZTxtBox.Name = "GlTmZTxtBox";
             this.GlTmZTxtBox.Size = new System.Drawing.Size(100, 19);
@@ -197,6 +209,7 @@
             // 
             // GlTmYTxtBox
             // 
+            this.GlTmYTxtBox.BackColor = System.Drawing.Color.GreenYellow;
             this.GlTmYTxtBox.Location = new System.Drawing.Point(92, 107);
             this.GlTmYTxtBox.Name = "GlTmYTxtBox";
             this.GlTmYTxtBox.Size = new System.Drawing.Size(100, 19);
@@ -204,6 +217,7 @@
             // 
             // GlTmXTxtBox
             // 
+            this.GlTmXTxtBox.BackColor = System.Drawing.Color.GreenYellow;
             this.GlTmXTxtBox.Location = new System.Drawing.Point(92, 82);
             this.GlTmXTxtBox.Name = "GlTmXTxtBox";
             this.GlTmXTxtBox.Size = new System.Drawing.Size(100, 19);
@@ -211,6 +225,7 @@
             // 
             // GlCurCntTxtBox
             // 
+            this.GlCurCntTxtBox.BackColor = System.Drawing.Color.GreenYellow;
             this.GlCurCntTxtBox.Location = new System.Drawing.Point(92, 57);
             this.GlCurCntTxtBox.Name = "GlCurCntTxtBox";
             this.GlCurCntTxtBox.Size = new System.Drawing.Size(100, 19);
@@ -227,6 +242,7 @@
             // 
             // GlReadCntTxtBox
             // 
+            this.GlReadCntTxtBox.BackColor = System.Drawing.Color.GreenYellow;
             this.GlReadCntTxtBox.Location = new System.Drawing.Point(92, 32);
             this.GlReadCntTxtBox.Name = "GlReadCntTxtBox";
             this.GlReadCntTxtBox.Size = new System.Drawing.Size(100, 19);
@@ -243,12 +259,13 @@
             // 
             // ExitButton
             // 
-            this.ExitButton.Location = new System.Drawing.Point(534, 448);
+            this.ExitButton.BackColor = System.Drawing.Color.Yellow;
+            this.ExitButton.Location = new System.Drawing.Point(534, 507);
             this.ExitButton.Name = "ExitButton";
-            this.ExitButton.Size = new System.Drawing.Size(204, 23);
+            this.ExitButton.Size = new System.Drawing.Size(414, 23);
             this.ExitButton.TabIndex = 3;
             this.ExitButton.Text = "CLOSE FORM";
-            this.ExitButton.UseVisualStyleBackColor = true;
+            this.ExitButton.UseVisualStyleBackColor = false;
             this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
             // button1
@@ -275,83 +292,12 @@
             this.groupBox3.Controls.Add(this.label10);
             this.groupBox3.Controls.Add(this.GlAvgCropHgtTxtBox);
             this.groupBox3.Controls.Add(this.label9);
-            this.groupBox3.Location = new System.Drawing.Point(534, 257);
+            this.groupBox3.Location = new System.Drawing.Point(744, 12);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(204, 185);
             this.groupBox3.TabIndex = 5;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Save Information";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 30);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(85, 12);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "Crop Hgt(Avg): ";
-            // 
-            // GlAvgCropHgtTxtBox
-            // 
-            this.GlAvgCropHgtTxtBox.Location = new System.Drawing.Point(92, 27);
-            this.GlAvgCropHgtTxtBox.Name = "GlAvgCropHgtTxtBox";
-            this.GlAvgCropHgtTxtBox.Size = new System.Drawing.Size(100, 19);
-            this.GlAvgCropHgtTxtBox.TabIndex = 1;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(6, 55);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(71, 12);
-            this.label10.TabIndex = 2;
-            this.label10.Text = "Edge posX1: ";
-            // 
-            // GlRanPosX1TxtBox
-            // 
-            this.GlRanPosX1TxtBox.Location = new System.Drawing.Point(92, 52);
-            this.GlRanPosX1TxtBox.Name = "GlRanPosX1TxtBox";
-            this.GlRanPosX1TxtBox.Size = new System.Drawing.Size(100, 19);
-            this.GlRanPosX1TxtBox.TabIndex = 3;
-            // 
-            // GlRanPosY1TxtBox
-            // 
-            this.GlRanPosY1TxtBox.Location = new System.Drawing.Point(92, 77);
-            this.GlRanPosY1TxtBox.Name = "GlRanPosY1TxtBox";
-            this.GlRanPosY1TxtBox.Size = new System.Drawing.Size(100, 19);
-            this.GlRanPosY1TxtBox.TabIndex = 4;
-            // 
-            // GlRanPosX2TxtBox
-            // 
-            this.GlRanPosX2TxtBox.Location = new System.Drawing.Point(92, 102);
-            this.GlRanPosX2TxtBox.Name = "GlRanPosX2TxtBox";
-            this.GlRanPosX2TxtBox.Size = new System.Drawing.Size(100, 19);
-            this.GlRanPosX2TxtBox.TabIndex = 5;
-            // 
-            // GlRanPosY2TxtBox
-            // 
-            this.GlRanPosY2TxtBox.Location = new System.Drawing.Point(92, 127);
-            this.GlRanPosY2TxtBox.Name = "GlRanPosY2TxtBox";
-            this.GlRanPosY2TxtBox.Size = new System.Drawing.Size(100, 19);
-            this.GlRanPosY2TxtBox.TabIndex = 6;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(6, 80);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(71, 12);
-            this.label11.TabIndex = 7;
-            this.label11.Text = "Edge posY1: ";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(6, 105);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(71, 12);
-            this.label12.TabIndex = 8;
-            this.label12.Text = "Edge posX2: ";
             // 
             // label13
             // 
@@ -362,15 +308,179 @@
             this.label13.TabIndex = 9;
             this.label13.Text = "Edge posY2: ";
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(6, 105);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(71, 12);
+            this.label12.TabIndex = 8;
+            this.label12.Text = "Edge posX2: ";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(6, 80);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(71, 12);
+            this.label11.TabIndex = 7;
+            this.label11.Text = "Edge posY1: ";
+            // 
+            // GlRanPosY2TxtBox
+            // 
+            this.GlRanPosY2TxtBox.BackColor = System.Drawing.Color.GreenYellow;
+            this.GlRanPosY2TxtBox.Location = new System.Drawing.Point(92, 127);
+            this.GlRanPosY2TxtBox.Name = "GlRanPosY2TxtBox";
+            this.GlRanPosY2TxtBox.Size = new System.Drawing.Size(100, 19);
+            this.GlRanPosY2TxtBox.TabIndex = 6;
+            // 
+            // GlRanPosX2TxtBox
+            // 
+            this.GlRanPosX2TxtBox.BackColor = System.Drawing.Color.GreenYellow;
+            this.GlRanPosX2TxtBox.Location = new System.Drawing.Point(92, 102);
+            this.GlRanPosX2TxtBox.Name = "GlRanPosX2TxtBox";
+            this.GlRanPosX2TxtBox.Size = new System.Drawing.Size(100, 19);
+            this.GlRanPosX2TxtBox.TabIndex = 5;
+            // 
+            // GlRanPosY1TxtBox
+            // 
+            this.GlRanPosY1TxtBox.BackColor = System.Drawing.Color.GreenYellow;
+            this.GlRanPosY1TxtBox.Location = new System.Drawing.Point(92, 77);
+            this.GlRanPosY1TxtBox.Name = "GlRanPosY1TxtBox";
+            this.GlRanPosY1TxtBox.Size = new System.Drawing.Size(100, 19);
+            this.GlRanPosY1TxtBox.TabIndex = 4;
+            // 
+            // GlRanPosX1TxtBox
+            // 
+            this.GlRanPosX1TxtBox.BackColor = System.Drawing.Color.GreenYellow;
+            this.GlRanPosX1TxtBox.Location = new System.Drawing.Point(92, 52);
+            this.GlRanPosX1TxtBox.Name = "GlRanPosX1TxtBox";
+            this.GlRanPosX1TxtBox.Size = new System.Drawing.Size(100, 19);
+            this.GlRanPosX1TxtBox.TabIndex = 3;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 55);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(71, 12);
+            this.label10.TabIndex = 2;
+            this.label10.Text = "Edge posX1: ";
+            // 
+            // GlAvgCropHgtTxtBox
+            // 
+            this.GlAvgCropHgtTxtBox.BackColor = System.Drawing.Color.GreenYellow;
+            this.GlAvgCropHgtTxtBox.Location = new System.Drawing.Point(92, 27);
+            this.GlAvgCropHgtTxtBox.Name = "GlAvgCropHgtTxtBox";
+            this.GlAvgCropHgtTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.GlAvgCropHgtTxtBox.TabIndex = 1;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 30);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(85, 12);
+            this.label9.TabIndex = 0;
+            this.label9.Text = "Crop Hgt(Avg): ";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.label17);
+            this.groupBox4.Controls.Add(this.label16);
+            this.groupBox4.Controls.Add(this.label15);
+            this.groupBox4.Controls.Add(this.GlRanStandDistanceTxtBox);
+            this.groupBox4.Controls.Add(this.GlRanDistanceTxtBox);
+            this.groupBox4.Controls.Add(this.GlRanHeadingTxtBox);
+            this.groupBox4.Controls.Add(this.GlIsRanTxtBox);
+            this.groupBox4.Controls.Add(this.label14);
+            this.groupBox4.Location = new System.Drawing.Point(534, 257);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(204, 219);
+            this.groupBox4.TabIndex = 6;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Processing Debug";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(6, 26);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(44, 12);
+            this.label14.TabIndex = 0;
+            this.label14.Text = "Is Ran: ";
+            // 
+            // GlIsRanTxtBox
+            // 
+            this.GlIsRanTxtBox.BackColor = System.Drawing.Color.GreenYellow;
+            this.GlIsRanTxtBox.Location = new System.Drawing.Point(92, 23);
+            this.GlIsRanTxtBox.Name = "GlIsRanTxtBox";
+            this.GlIsRanTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.GlIsRanTxtBox.TabIndex = 1;
+            // 
+            // GlRanHeadingTxtBox
+            // 
+            this.GlRanHeadingTxtBox.BackColor = System.Drawing.Color.GreenYellow;
+            this.GlRanHeadingTxtBox.Location = new System.Drawing.Point(92, 48);
+            this.GlRanHeadingTxtBox.Name = "GlRanHeadingTxtBox";
+            this.GlRanHeadingTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.GlRanHeadingTxtBox.TabIndex = 2;
+            // 
+            // GlRanDistanceTxtBox
+            // 
+            this.GlRanDistanceTxtBox.BackColor = System.Drawing.Color.GreenYellow;
+            this.GlRanDistanceTxtBox.Location = new System.Drawing.Point(92, 73);
+            this.GlRanDistanceTxtBox.Name = "GlRanDistanceTxtBox";
+            this.GlRanDistanceTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.GlRanDistanceTxtBox.TabIndex = 3;
+            // 
+            // GlRanStandDistanceTxtBox
+            // 
+            this.GlRanStandDistanceTxtBox.BackColor = System.Drawing.Color.GreenYellow;
+            this.GlRanStandDistanceTxtBox.Location = new System.Drawing.Point(92, 98);
+            this.GlRanStandDistanceTxtBox.Name = "GlRanStandDistanceTxtBox";
+            this.GlRanStandDistanceTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.GlRanStandDistanceTxtBox.TabIndex = 4;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(6, 51);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(76, 12);
+            this.label15.TabIndex = 5;
+            this.label15.Text = "Ran Heading: ";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(6, 76);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(52, 12);
+            this.label16.TabIndex = 6;
+            this.label16.Text = "Distance:";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(6, 101);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(53, 12);
+            this.label17.TabIndex = 7;
+            this.label17.Text = "Std Dist: ";
+            // 
             // LidarOpenGlForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(748, 555);
+            this.ClientSize = new System.Drawing.Size(958, 555);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.GlElapsedTxtBox);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.label6);
             this.Name = "LidarOpenGlForm";
             this.Text = "3D terrain map (using LRF, RTK-GPS, GPS compass )";
             this.groupBox1.ResumeLayout(false);
@@ -378,7 +488,10 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -416,5 +529,14 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox GlRanStandDistanceTxtBox;
+        private System.Windows.Forms.TextBox GlRanDistanceTxtBox;
+        private System.Windows.Forms.TextBox GlRanHeadingTxtBox;
+        private System.Windows.Forms.TextBox GlIsRanTxtBox;
     }
 }
