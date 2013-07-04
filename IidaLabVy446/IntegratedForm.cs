@@ -1711,8 +1711,9 @@ namespace IidaLabVy446
         {
             if (this.cropStand.isHeaderControl == true)
             {
-                // forward on - 0.5 [m/s]
-                this.vy446_usCmdHst = this._vy446.SetHstCmd(0.5);
+                // forward on - Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox.text
+                double forward_Speed = Convert.ToDouble(this.Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox.Text);
+                this.vy446_usCmdHst = this._vy446.SetHstCmd(forward_Speed);
 
                 // steering
                 this.cropStand.Vy446ForwardSteer(this.backHeading);

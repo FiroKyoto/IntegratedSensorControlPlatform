@@ -196,6 +196,8 @@
             this.label14 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.Vy446_DEBUG_SOKO_TxtBox = new System.Windows.Forms.TextBox();
+            this.label91 = new System.Windows.Forms.Label();
             this.label90 = new System.Windows.Forms.Label();
             this.Vy446_HeaderPotentiometer_TxtBox = new System.Windows.Forms.TextBox();
             this.Vy446_isHeaderControl_TxtBox = new System.Windows.Forms.TextBox();
@@ -309,8 +311,9 @@
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.CommunicationTimer = new System.Windows.Forms.Timer(this.components);
-            this.label91 = new System.Windows.Forms.Label();
-            this.Vy446_DEBUG_SOKO_TxtBox = new System.Windows.Forms.TextBox();
+            this.Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox = new System.Windows.Forms.TextBox();
+            this.label93 = new System.Windows.Forms.Label();
+            this.label94 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pBoxIpl1)).BeginInit();
@@ -2044,6 +2047,9 @@
             // 
             // groupBox12
             // 
+            this.groupBox12.Controls.Add(this.label94);
+            this.groupBox12.Controls.Add(this.label93);
+            this.groupBox12.Controls.Add(this.Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox);
             this.groupBox12.Controls.Add(this.Vy446_DEBUG_SOKO_TxtBox);
             this.groupBox12.Controls.Add(this.label91);
             this.groupBox12.Controls.Add(this.label90);
@@ -2059,7 +2065,24 @@
             this.groupBox12.Size = new System.Drawing.Size(612, 106);
             this.groupBox12.TabIndex = 5;
             this.groupBox12.TabStop = false;
-            this.groupBox12.Text = "Autonomous Mode Debug";
+            this.groupBox12.Text = "Autonomous Mode Set and Debug";
+            // 
+            // Vy446_DEBUG_SOKO_TxtBox
+            // 
+            this.Vy446_DEBUG_SOKO_TxtBox.BackColor = System.Drawing.Color.GreenYellow;
+            this.Vy446_DEBUG_SOKO_TxtBox.Location = new System.Drawing.Point(306, 79);
+            this.Vy446_DEBUG_SOKO_TxtBox.Name = "Vy446_DEBUG_SOKO_TxtBox";
+            this.Vy446_DEBUG_SOKO_TxtBox.Size = new System.Drawing.Size(100, 19);
+            this.Vy446_DEBUG_SOKO_TxtBox.TabIndex = 12;
+            // 
+            // label91
+            // 
+            this.label91.AutoSize = true;
+            this.label91.Location = new System.Drawing.Point(213, 82);
+            this.label91.Name = "label91";
+            this.label91.Size = new System.Drawing.Size(75, 12);
+            this.label91.TabIndex = 11;
+            this.label91.Text = "操向ポテンショ:";
             // 
             // label90
             // 
@@ -2116,7 +2139,7 @@
             // label84
             // 
             this.label84.AutoSize = true;
-            this.label84.Location = new System.Drawing.Point(207, 32);
+            this.label84.Location = new System.Drawing.Point(213, 57);
             this.label84.Name = "label84";
             this.label84.Size = new System.Drawing.Size(87, 12);
             this.label84.TabIndex = 2;
@@ -2125,7 +2148,7 @@
             // Vy446_DEBUG_HST_TxtBox
             // 
             this.Vy446_DEBUG_HST_TxtBox.BackColor = System.Drawing.Color.GreenYellow;
-            this.Vy446_DEBUG_HST_TxtBox.Location = new System.Drawing.Point(300, 29);
+            this.Vy446_DEBUG_HST_TxtBox.Location = new System.Drawing.Point(306, 54);
             this.Vy446_DEBUG_HST_TxtBox.Name = "Vy446_DEBUG_HST_TxtBox";
             this.Vy446_DEBUG_HST_TxtBox.Size = new System.Drawing.Size(100, 19);
             this.Vy446_DEBUG_HST_TxtBox.TabIndex = 4;
@@ -3178,22 +3201,32 @@
             // 
             this.CommunicationTimer.Tick += new System.EventHandler(this.CommunicationTimer_Tick);
             // 
-            // label91
+            // Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox
             // 
-            this.label91.AutoSize = true;
-            this.label91.Location = new System.Drawing.Point(207, 57);
-            this.label91.Name = "label91";
-            this.label91.Size = new System.Drawing.Size(75, 12);
-            this.label91.TabIndex = 11;
-            this.label91.Text = "操向ポテンショ:";
+            this.Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox.BackColor = System.Drawing.Color.Yellow;
+            this.Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox.Location = new System.Drawing.Point(306, 29);
+            this.Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox.Name = "Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox";
+            this.Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox.Size = new System.Drawing.Size(47, 19);
+            this.Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox.TabIndex = 13;
+            this.Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox.Text = "0.5";
             // 
-            // Vy446_DEBUG_SOKO_TxtBox
+            // label93
             // 
-            this.Vy446_DEBUG_SOKO_TxtBox.BackColor = System.Drawing.Color.GreenYellow;
-            this.Vy446_DEBUG_SOKO_TxtBox.Location = new System.Drawing.Point(300, 54);
-            this.Vy446_DEBUG_SOKO_TxtBox.Name = "Vy446_DEBUG_SOKO_TxtBox";
-            this.Vy446_DEBUG_SOKO_TxtBox.Size = new System.Drawing.Size(100, 19);
-            this.Vy446_DEBUG_SOKO_TxtBox.TabIndex = 12;
+            this.label93.AutoSize = true;
+            this.label93.Location = new System.Drawing.Point(213, 32);
+            this.label93.Name = "label93";
+            this.label93.Size = new System.Drawing.Size(78, 12);
+            this.label93.TabIndex = 14;
+            this.label93.Text = "Travel Speed: ";
+            // 
+            // label94
+            // 
+            this.label94.AutoSize = true;
+            this.label94.Location = new System.Drawing.Point(359, 32);
+            this.label94.Name = "label94";
+            this.label94.Size = new System.Drawing.Size(34, 12);
+            this.label94.TabIndex = 37;
+            this.label94.Text = "[m/s]";
             // 
             // IntegratedForm
             // 
@@ -3539,5 +3572,8 @@
         private System.Windows.Forms.TextBox Vy446_HeaderPotentiometer_TxtBox;
         private System.Windows.Forms.TextBox Vy446_DEBUG_SOKO_TxtBox;
         private System.Windows.Forms.Label label91;
+        private System.Windows.Forms.Label label94;
+        private System.Windows.Forms.Label label93;
+        private System.Windows.Forms.TextBox Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox;
     }
 }
