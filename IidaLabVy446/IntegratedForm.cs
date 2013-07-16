@@ -1507,6 +1507,7 @@ namespace IidaLabVy446
         private bool isFirstBodyTm { get; set; }
         //private bool isSaveLidarData { get; set; }
         private bool isHarvestMode { get; set; }
+        private bool isBackward { get; set; }
 
         /// <summary>
         /// initialization of crop stand class
@@ -1546,6 +1547,16 @@ namespace IidaLabVy446
                         // vy50 model
                         this.backHeading = this._vy50.gps_Heading;
                         this.backSpeed = this._vy50.d_Speed;
+
+                        // Potentiometer neutral = 125
+                        if (this._vy50.uc_MainPotentio < 125)
+                        {
+                            this.isBackward = true;
+                        }
+                        else
+                        {
+                            this.isBackward = false;
+                        }
                     }
 
                     if (this.BodyModelComboBox.SelectedIndex == 1)
@@ -1554,6 +1565,16 @@ namespace IidaLabVy446
                         this.backHeading = this._vy446.gps_Compass;
                         //this.backHeading = this._vy446.compass;
                         this.backSpeed = this._vy446.fSpeed;
+
+                        // Potentiometer neutral = 1405
+                        if (this._vy446.AD_FEED_M < 1405)
+                        {
+                            this.isBackward = true;
+                        }
+                        else
+                        {
+                            this.isBackward = false;
+                        }
                     }
 
                     this.backTmX = this.tmX;
@@ -1562,7 +1583,7 @@ namespace IidaLabVy446
                 }
                 else
                 {
-                    this.cropStand.NewTm(this.backTmX, this.backTmY, this.backTmZ, this.backHeading, this.backSpeed, Convert.ToInt32(this.TimerIntervalTxtBox.Text));
+                    this.cropStand.NewTm(this.isBackward, this.backTmX, this.backTmY, this.backTmZ, this.backHeading, this.backSpeed, Convert.ToInt32(this.TimerIntervalTxtBox.Text));
                     this.backTmX = this.cropStand.NewTmX;
                     this.backTmY = this.cropStand.NewTmY;
                     this.backTmZ = this.cropStand.NewTmZ;
