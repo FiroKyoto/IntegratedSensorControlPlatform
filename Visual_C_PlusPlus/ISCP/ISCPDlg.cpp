@@ -309,6 +309,8 @@ void CISCPDlg::OnTimer(UINT_PTR nIDEvent)
 {
 	// TODO: Add your message handler code here and/or call default
 	
+	this->m_Lrf_Tab.ExampleChart();
+
 	this->TimerDebug();
 	this->readCnt++;
 

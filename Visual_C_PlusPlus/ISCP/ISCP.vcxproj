@@ -54,10 +54,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>lib\chartdir51.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -101,6 +103,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="driver\ChartViewer.h" />
     <ClInclude Include="ISCP.h" />
     <ClInclude Include="ISCPDlg.h" />
     <ClInclude Include="Lrf.h" />
@@ -111,6 +114,7 @@
     <ClInclude Include="Vy446.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="driver\ChartViewer.cpp" />
     <ClCompile Include="ISCP.cpp" />
     <ClCompile Include="ISCPDlg.cpp" />
     <ClCompile Include="Lrf.cpp" />

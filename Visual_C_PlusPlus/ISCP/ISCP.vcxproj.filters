@@ -42,6 +42,9 @@
     <ClInclude Include="Lrf.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="driver\ChartViewer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ISCP.cpp">
@@ -60,6 +63,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Lrf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="driver\ChartViewer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

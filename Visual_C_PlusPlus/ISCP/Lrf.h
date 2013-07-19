@@ -1,5 +1,5 @@
 #pragma once
-
+#include "driver\ChartViewer.h"
 
 // CLrf dialog
 
@@ -18,4 +18,8 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 	DECLARE_MESSAGE_MAP()
+public:
+	CChartViewer m_lrfXzView;
+
+	void ExampleChart();
 };
