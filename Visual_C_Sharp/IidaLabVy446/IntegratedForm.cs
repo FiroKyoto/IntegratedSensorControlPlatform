@@ -1619,14 +1619,17 @@ namespace IidaLabVy446
                     // calculate of Perpendicular distance between GPS xy position and Extracted Ransac
                     this.cropStand.GpsToRansacDistance(this.backTmX, this.backTmY);
 
-                    // processing debug on OpenGlForm
-                    this.lidarOpenGlForm.ProcessingDebug(this.cropStand.isRan, this.cropStand.ran_angle, this.cropStand.ran_distance, this.cropStand.ran_standard_distance);
+                    // Ransac state debug
+                    this.lidarOpenGlForm.RansacStateDebug(this.cropStand.is_ransac_start, this.cropStand.is_ransac_running, this.cropStand.is_ransac_end);
+
+                    // Ransac result debug
+                    this.lidarOpenGlForm.RansacResultDebug(this.cropStand.ran_angle, this.cropStand.ran_distance, this.cropStand.ran_standard_distance);
 
                     // add crop
                     this.lidarOpenGlForm.AddCrop(this.cropStand.result, this.drawGlIndex);
 
                     // add edge into OpenGlForm
-                    this.lidarOpenGlForm.AddEdge(this.cropStand.ran_result, this.cropStand.isRan);
+                    this.lidarOpenGlForm.AddEdge(this.cropStand.ran_result, this.cropStand.is_ransac_running);
                 }
                 else
                 {
@@ -1680,11 +1683,16 @@ namespace IidaLabVy446
                     // header control
                     this.Vy446HeaderControl();
 
-                    // forward control
-                    this.Vy446ForwardControl();
+                    // forward steer control
+                    this.Vy446ForwardSteerControl();
                 }
 
-                this.CombineVy446CmdSend();
+                // if simulation test checkbox is checked
+                // then serial port cannot communication.
+                if (this.Vy446_SimulationTest_CheckBox.Checked == false)
+                {
+                    this.CombineVy446CmdSend();
+                }
             }
 
             // VY50
@@ -1728,26 +1736,35 @@ namespace IidaLabVy446
         /// <summary>
         /// Vy446 forward control method
         /// </summary>
-        private void Vy446ForwardControl()
+        private void Vy446ForwardSteerControl()
         {
-            if (this.cropStand.isHeaderControl == true)
+            if (this.cropStand.is_ransac_start == true)
             {
                 // forward on - Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox.text
                 double forward_Speed = Convert.ToDouble(this.Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox.Text);
                 this.vy446_usCmdHst = this._vy446.SetHstCmd(forward_Speed);
+                this.vy446_usCmdSteer = 430;
+            }
 
+            if (this.cropStand.is_ransac_running == true)
+            {
                 // steering
                 this.cropStand.Vy446ForwardSteer(this.backHeading);
 
                 // 操舵量コマンド：左操舵最大(250)，中立(430)，右操舵最大(660)
                 this.vy446_usCmdSteer = this.cropStand.vy446_usCmdSteer;
             }
-            else
+
+            if (this.cropStand.is_ransac_end == true)
             {
-                // forward off - nuetral
+                // forward off - speed is zero and steer is neutral
                 this.vy446_usCmdHst = this._vy446.SetHstCmd(0.1);
+                this.vy446_usCmdSteer = 430;
             }
 
+            // forward steering debug message
+            this.lidarOpenGlForm.ForwardSteerDebug(false, true, this.vy446_usCmdSteer, this.vy446_usCmdHst);
+            
             // debug message
             this.Vy446_DEBUG_HST_TxtBox.Text = Convert.ToString(this.vy446_usCmdHst);
             this.Vy446_DEBUG_SOKO_TxtBox.Text = Convert.ToString(this.vy446_usCmdSteer);
@@ -1763,6 +1780,7 @@ namespace IidaLabVy446
         private void ConnectMethod()
         {
             this.readCount = 0;
+            this.statusStrip1.BackColor = Color.OrangeRed;
 
             if (this.TcpIpClientCheckBox.Checked == false)
             {
@@ -1826,6 +1844,8 @@ namespace IidaLabVy446
         /// </summary>
         private void DisconnectMethod()
         {
+            this.statusStrip1.BackColor = Color.Transparent;
+
             if (this.IntegratedTimer.Enabled == true)
             {
                 this.IntegratedTimer.Enabled = false;

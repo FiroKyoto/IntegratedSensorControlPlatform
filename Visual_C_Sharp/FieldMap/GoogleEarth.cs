@@ -12,6 +12,7 @@ namespace FieldMap
     /// <summary>
     /// 1) If you want to learn about Google Earth API on .NET Framework, Please below the website.
     /// http://www.phetteplace.net/blog/embedding-google-earth-in-a-c-application/
+    /// http://code.google.com/p/winforms-geplugin-control-library/
     /// </summary>
     [ComVisibleAttribute(true)]
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
@@ -21,8 +22,8 @@ namespace FieldMap
         /// <summary>
         /// The Google Earth plugin instance (The plugin object)
         /// </summary>
-        //private dynamic ge = null;
-        private IGEPlugin ge = null;
+        private dynamic ge = null;
+        //private IGEPlugin ge = null;
 
         /// <summary>
         /// If the Google earth is started that value is true.
@@ -58,6 +59,7 @@ namespace FieldMap
         {
             this.ge = (dynamic)sender;
             this.ge.getWindow().setVisibility(this.ge.VISIBILITY_SHOW);
+            //this.ge.getWindow().setVisibility(1);
 
             //--Some Examples of things you can enable in Google Earth--//
             this.ge.getNavigationControl().setVisibility(this.ge.VISIBILITY_AUTO);

@@ -437,19 +437,62 @@ namespace IidaLabVy446
             this._body_speed = _body_speed;
         }
 
+
         /// <summary>
-        /// Processing debug method
+        /// Ransac state Debug
         /// </summary>
-        /// <param name="_isRan"></param>
-        /// <param name="_ran_heading"></param>
-        /// <param name="_ran_distance"></param>
-        /// <param name="_std_distance"></param>
-        public void ProcessingDebug(bool _isRan, double _ran_heading, double _ran_distance, double _std_distance)
+        /// <param name="_ran_start"></param>
+        /// <param name="_ran_running"></param>
+        /// <param name="_ran_end"></param>
+        public void RansacStateDebug(bool _ran_start, bool _ran_running, bool _ran_end)
         {
-            this.GlIsRanTxtBox.Text = Convert.ToString(_isRan);
+            this.GlRanStartTxtBox.Text = Convert.ToString(_ran_start);
+            this.GlIsRanTxtBox.Text = Convert.ToString(_ran_running);
+            this.GlRanEndTxtBox.Text = Convert.ToString(_ran_end);
+        }
+
+        /// <summary>
+        /// Ransac result debug
+        /// </summary>
+        /// <param name="_ran_heading"></param>
+        /// <param name="_ran_current_dist"></param>
+        /// <param name="_ran_average_dist"></param>
+        public void RansacResultDebug(double _ran_heading, double _ran_current_dist, double _ran_average_dist)
+        {
             this.GlRanHeadingTxtBox.Text = _ran_heading.ToString("N3");
-            this.GlRanDistanceTxtBox.Text = _ran_distance.ToString("N3");
-            this.GlRanStandDistanceTxtBox.Text = _std_distance.ToString("N3");
+            this.GlRanDistanceTxtBox.Text = _ran_current_dist.ToString("N3");
+            this.GlRanStandDistanceTxtBox.Text = _ran_average_dist.ToString("N3");
+        }
+
+        /// <summary>
+        /// Forward Steer Debug
+        /// </summary>
+        /// <param name="_vy50"></param>
+        /// <param name="_vy446"></param>
+        /// <param name="_cmd_steer"></param>
+        /// <param name="_cmd_hst"></param>
+        public void ForwardSteerDebug(bool _vy50, bool _vy446, ushort _cmd_steer, ushort _cmd_hst)
+        {
+            // vy446
+            if ((_vy50 == false) && (_vy446 == true))
+            {
+                ushort ini_cmd = 430;
+                this.GlSteerCmdTxtBox.Text = Convert.ToString(_cmd_steer);
+                this.GlHstCmdTxtBox.Text = Convert.ToString(_cmd_hst);
+
+                if (ini_cmd == _cmd_steer)
+                {
+                    this.GlSteerOperationTxtBox.Text = "None";
+                }
+                else if (ini_cmd < _cmd_steer)
+                {
+                    this.GlSteerOperationTxtBox.Text = "Right";
+                }
+                else if (ini_cmd > _cmd_steer)
+                {
+                    this.GlSteerOperationTxtBox.Text = "Left";
+                }
+            }
         }
 
         /// <summary>
