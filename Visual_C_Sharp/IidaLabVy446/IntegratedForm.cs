@@ -1526,6 +1526,11 @@ namespace IidaLabVy446
         }
 
         /// <summary>
+        /// ideal path count
+        /// </summary>
+        private int ideal_path_count = 0;
+
+        /// <summary>
         /// Revised 2013-06-12
         /// Draw Crop stand on OpenGL
         /// </summary>
@@ -1604,6 +1609,14 @@ namespace IidaLabVy446
 
                 if (this.isHarvestMode == true)
                 {
+                    // initialization of ideal path
+                    this.cropStand.QuadrantOfIdealPath(this.backHeading);
+                    if (this.ideal_path_count != this.cropStand.ideal_path_count)
+                    {
+                        this.cropStand.CreateIdealPath(this.backTmX, this.backTmY, this.backHeading);
+                        this.ideal_path_count = this.cropStand.ideal_path_count;
+                    }
+
                     this.cropStand.CalculatePosition(this.sickLidar.cartesianList, this.backTmX, this.backTmY, this.backTmZ, this.backHeading);
 
                     // save cartesian lidar data
@@ -1616,20 +1629,29 @@ namespace IidaLabVy446
                     // discriminate uncut crop and ground
                     this.cropStand.AddDiscriminatePoints(this.cropStand.result, this.drawGlIndex);
 
-                    // calculate of Perpendicular distance between GPS xy position and Extracted Ransac
-                    this.cropStand.GpsToRansacDistance(this.backTmX, this.backTmY);
+                    // calculate of Perpendicular distance between Header position and Extracted Ransac
+                    this.cropStand.HeaderToRansacDistance(this.backTmX, this.backTmY);
+
+                    // calculate perpendicular distance and angle of between Ideal path and Current Gps position
+                    this.cropStand.IdealPathToGps(this.backTmX, this.backTmY);
 
                     // Ransac state debug
-                    this.lidarOpenGlForm.RansacStateDebug(this.cropStand.is_ransac_start, this.cropStand.is_ransac_running, this.cropStand.is_ransac_end);
+                    this.lidarOpenGlForm.RansacStateDebug(this.cropStand.is_ransac_start, this.cropStand.is_ransac_running, this.cropStand.is_ransac_end, this.cropStand.ran_distance_between_points);
 
                     // Ransac result debug
-                    this.lidarOpenGlForm.RansacResultDebug(this.cropStand.ran_angle, this.cropStand.ran_distance, this.cropStand.ran_standard_distance);
+                    this.lidarOpenGlForm.RansacResultDebug(this.cropStand.ran_angle, this.cropStand.ran_distance, this.cropStand.ran_standard_distance, this.cropStand.ran_to_header_angle);
 
                     // add crop
                     this.lidarOpenGlForm.AddCrop(this.cropStand.result, this.drawGlIndex);
 
                     // add edge into OpenGlForm
                     this.lidarOpenGlForm.AddEdge(this.cropStand.ran_result, this.cropStand.is_ransac_running);
+
+                    // add ideal path into OpenGlForm
+                    this.lidarOpenGlForm.AddIdealPath(this.cropStand.ideal_path_result);
+
+                    // ideal path to gps debug
+                    this.lidarOpenGlForm.IdealToGpsResultDebug(this.cropStand.gps_distance, this.cropStand.gps_angle, this.cropStand.ideal_path_angle);
                 }
                 else
                 {
@@ -1678,13 +1700,11 @@ namespace IidaLabVy446
                 }
 
                 // autonomous mode run
+                this.lidarOpenGlForm.Vy446AutonomousModeCheckDebug(this.Vy446_AutonomousMode_CheckBox.Checked);
+
                 if (this.Vy446_AutonomousMode_CheckBox.Checked == true)
                 {
-                    // header control
-                    this.Vy446HeaderControl();
-
-                    // forward steer control
-                    this.Vy446ForwardSteerControl();
+                    this.Vy446ForwardHarvesting();
                 }
 
                 // if simulation test checkbox is checked
@@ -1702,18 +1722,43 @@ namespace IidaLabVy446
         }
 
         /// <summary>
-        /// Revised 2013-06-12
-        /// Vy446 Header Control Method
-        /// Karitori, Karitakasa radios must be convert true state.
+        /// Revised 2013-09-30
+        /// Forward Harvesting of Vy446
         /// </summary>
-        private void Vy446HeaderControl()
-        { 
+        private void Vy446ForwardHarvesting()
+        {
+            // device setup
+            this.Vy446InitializationDevice();
+
+            // header control
+            this.Vy446HeaderControl();
+
+            // forward steer control
+            if (this.is_forward_steer_start == true)
+            {
+                this.Vy446ForwardSteerControl();
+            }
+        }
+
+        /// <summary>
+        /// if forward steer count is 20 then excute forwardsteering method.
+        /// </summary>
+        private int forward_steer_start_count = 0;
+
+        /// <summary>
+        /// Revised 2013-09-30
+        /// Vy446 Initialization Device for forward harvesting control
+        /// </summary>
+        private void Vy446InitializationDevice()
+        {
+            // for header control
             // initialization of header position, karitori and karitakasa state
             if (this.isIniHeader == false)
             {
                 // header position
                 this.iniHeaderPos = Convert.ToUInt16(this.Vy446_DEBUG_INI_HEADER_POS_TxtBox.Text);
-                
+                this.vy446_usCmdKaritaka = this.iniHeaderPos;
+
                 // karitori on
                 this.vy446_KaritoriRadio = true;
 
@@ -1724,46 +1769,109 @@ namespace IidaLabVy446
                 this.isIniHeader = true;
             }
 
+            if (this.forward_steer_start_count < 20)
+            {
+                this.is_forward_steer_start = false;
+                this.forward_steer_start_count++;
+            }
+            else
+            {
+                this.is_forward_steer_start = true;
+            }
+
+            // for forward speed and steer control
+            // initialization of forward steer start state
+            if (this.is_forward_steer_start == true)
+            {
+                // forward on - Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox.text
+                this.forward_Speed = Convert.ToDouble(this.Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox.Text);
+                this.vy446_usCmdHst = this._vy446.SetHstCmd(forward_Speed);
+
+                // set steer nuetral
+                this.vy446_usCmdSteer = Convert.ToUInt16(430);
+            }
+        }
+
+        /// <summary>
+        /// Revised 2013-10-04
+        /// Vy446 Header Control Method
+        /// Karitori, Karitakasa radios must be convert true state.
+        /// </summary>
+        private void Vy446HeaderControl()
+        { 
             // header control
-            this.cropStand.HeaderControl(this.sickLidar.cartesianList, this.drawGlIndex, 1, this.iniHeaderPos);
-            this.vy446_usCmdKaritaka = this.cropStand.header_potentiometer;
+            if (this.Vy446_IS_AUTO_HEADER_CONTROL_CHECKBOX.Checked == true)
+            {
+                this.cropStand.HeaderControl(this.sickLidar.cartesianList, this.drawGlIndex, 1, this.iniHeaderPos, this.backTmX, this.backTmY);
+                this.vy446_usCmdKaritaka = this.cropStand.header_potentiometer;
+            }
+            else
+            {
+                this.vy446_usCmdKaritaka = this.iniHeaderPos;
+            }
+
+            // end of crop
+            if (this.cropStand.is_ransac_end == true)
+            {
+                this.vy446_usCmdKaritaka = Convert.ToUInt16(680);
+                this.cropStand.DisposeHeader();
+            }
 
             // header control debug
+            this.lidarOpenGlForm.HeaderControlDebug(this.vy446_usCmdKaritaka, this.cropStand.karitaka_start_distance, this.cropStand.karitaka_end_distance);
             this.Vy446_isHeaderControl_TxtBox.Text = Convert.ToString(this.cropStand.isHeaderControl);
             this.Vy446_HeaderPotentiometer_TxtBox.Text = Convert.ToString(this.vy446_usCmdKaritaka);
         }
 
         /// <summary>
+        /// gets or sets forward speed
+        /// </summary>
+        private double forward_Speed { get; set; }
+
+        /// <summary>
+        /// gets or sets is forward steer start state
+        /// </summary>
+        private bool is_forward_steer_start = false;
+
+        /// <summary>
+        /// gets or sets is vy446 operator on
+        /// </summary>
+        private bool is_vy446_operator_on { get; set; }
+
+        /// <summary>
+        /// Revised 2013-09-19
         /// Vy446 forward control method
         /// </summary>
         private void Vy446ForwardSteerControl()
         {
-            if (this.cropStand.is_ransac_start == true)
+            if ((this._vy446.SW_CLUTCH & 0x03) == 0)
             {
-                // forward on - Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox.text
-                double forward_Speed = Convert.ToDouble(this.Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox.Text);
-                this.vy446_usCmdHst = this._vy446.SetHstCmd(forward_Speed);
-                this.vy446_usCmdSteer = 430;
+                // 作業機がオフ
+                this.is_vy446_operator_on = false;
+            }
+            else
+            {
+                // 作業機がオン
+                this.is_vy446_operator_on = true;
             }
 
-            if (this.cropStand.is_ransac_running == true)
-            {
-                // steering
-                this.cropStand.Vy446ForwardSteer(this.backHeading);
+            // steering
+            this.cropStand.Vy446ForwardSteer(this.backHeading, this.forward_Speed, this.is_vy446_operator_on);
 
-                // 操舵量コマンド：左操舵最大(250)，中立(430)，右操舵最大(660)
-                this.vy446_usCmdSteer = this.cropStand.vy446_usCmdSteer;
-            }
+            // 操舵量コマンド：左操舵最大(250)，中立(430)，右操舵最大(660)
+            this.vy446_usCmdSteer = this.cropStand.vy446_usCmdSteer;
 
+            // end of crop
             if (this.cropStand.is_ransac_end == true)
             {
                 // forward off - speed is zero and steer is neutral
                 this.vy446_usCmdHst = this._vy446.SetHstCmd(0.1);
-                this.vy446_usCmdSteer = 430;
+                this.vy446_usCmdSteer = Convert.ToUInt16(430);
+                this.cropStand.forward_steer_debug_msg = "0";
             }
 
             // forward steering debug message
-            this.lidarOpenGlForm.ForwardSteerDebug(false, true, this.vy446_usCmdSteer, this.vy446_usCmdHst);
+            this.lidarOpenGlForm.ForwardSteerDebug(false, true, this.vy446_usCmdSteer, this.vy446_usCmdHst, this.cropStand.forward_steer_debug_msg);
             
             // debug message
             this.Vy446_DEBUG_HST_TxtBox.Text = Convert.ToString(this.vy446_usCmdHst);

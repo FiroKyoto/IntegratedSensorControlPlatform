@@ -16,10 +16,17 @@ namespace IidaLabVy446
     using OpenTK.Graphics;
     using OpenTK.Graphics.OpenGL;
     using SickLidar;
+    using FieldMap;
+    using ZedGraph;
 
     public partial class LidarOpenGlForm : Form
     {
         #region fields
+
+        /// <summary>
+        /// graph
+        /// </summary>
+        private FieldMap.Graph _graph;
 
         /// <summary>
         /// is loaded?
@@ -72,14 +79,9 @@ namespace IidaLabVy446
         //private int edgeOffset { get; set; }
 
         /// <summary>
-        /// save data to txt file
+        /// ideal path points
         /// </summary>
-        private StreamWriter saveTxt;
-
-        /// <summary>
-        /// gets or sets bool value of save mode
-        /// </summary>
-        private bool isSave { get; set; }
+        private Vector3[] idealPathPoints;
 
         /// <summary>
         /// gets or sets divider of header position
@@ -88,17 +90,8 @@ namespace IidaLabVy446
         private double headerY { get; set; }
 
         /// <summary>
-        /// gets or sets result value of adopted RANSAC algorithm
+        /// gets or sets combine model index
         /// </summary>
-        private double ranX1 { get; set; }
-        private double ranX2 { get; set; }
-        private double ranY1 { get; set; }
-        private double ranY2 { get; set; }
-
-        private double avgCropHgt { get; set; }
-        private double cropHgt { get; set; }
-        private int avgCropCnt { get; set; }
-
         private int bodyModelIndex { get; set; }
 
         #endregion
@@ -111,6 +104,12 @@ namespace IidaLabVy446
         public LidarOpenGlForm(int _bodyModelIndex)
         {
             InitializeComponent();
+
+            // initialization graph
+            this._graph = new FieldMap.Graph();
+            this._graph.CreateGraph(zgc1);
+
+            // initialization OpenGl variable
             this.bodyModelIndex = _bodyModelIndex;
 
             this.loaded = false;
@@ -120,9 +119,10 @@ namespace IidaLabVy446
             this.angle = 0.0;
 
             //this.crop = new List<SickLidar.CartesianPoint>();
-            cropPoints = new Vector3[361 * 5000];
-            groundPoints = new Vector3[361 * 5000];
-            edgePoints = new Vector3[2 * 5000];
+            cropPoints = new Vector3[361 * 50000];
+            groundPoints = new Vector3[361 * 50000];
+            edgePoints = new Vector3[2 * 50000];
+            idealPathPoints = new Vector3[2 * 50000];
 
             this.cropCnt = 0;
             this.cropOffset = 0;
@@ -130,14 +130,52 @@ namespace IidaLabVy446
             //this.edgeOffset = 0;
 
             this.isManualControl = false;
-
-            // for debug
-            this.isSave = false;
         }
 
         #endregion
 
-        #region Methods
+        #region Graph
+
+        /// <summary>
+        /// Draw traceability map
+        /// </summary>
+        private void DrawTraceabilityMap()
+        {
+            PointPairList pplist = new PointPairList();
+
+            // add arrow
+            pplist.Add(this._tmX, this._tmY);
+            List<double> arrow_end = this.ConvertPoint(0.0, 0.1, this._heading_angle);
+            pplist.Add(this._tmX + arrow_end[0], this._tmY + arrow_end[1]);
+
+            // add ideal path
+            pplist.Add(this.idealPathPoints[0].X, this.idealPathPoints[0].Y);
+            pplist.Add(this.idealPathPoints[1].X, this.idealPathPoints[1].Y);
+
+            // add extracted ransac line
+            if (this.ran_running == true)
+            {
+                pplist.Add(this.edgePoints[0].X, this.edgePoints[0].Y);
+                pplist.Add(this.edgePoints[1].X, this.edgePoints[1].Y);
+            }
+
+            // add body points
+            //List<double> body_a = this.ConvertPoint(-0.5, 1.0, this._heading_angle);
+            //pplist.Add(this._tmX + body_a[0], this._tmY + body_a[1]);
+            //List<double> body_b = this.ConvertPoint(0.5, 1.0, this._heading_angle);
+            //pplist.Add(this._tmX + body_b[0], this._tmY + body_b[1]);
+            //List<double> body_d = this.ConvertPoint(0.5, -1.0, this._heading_angle);
+            //pplist.Add(this._tmX + body_d[0], this._tmY + body_d[1]);
+            //List<double> body_c = this.ConvertPoint(-0.5, -1.0, this._heading_angle);
+            //pplist.Add(this._tmX + body_c[0], this._tmY + body_c[1]);
+
+            // draw traceability on the graph
+            this._graph.TraceabilityGraph(zgc1, pplist, this.ran_running);
+        }
+
+        #endregion
+
+        #region OpenGL Methods
 
         /// <summary>
         /// Setup view port
@@ -188,21 +226,22 @@ namespace IidaLabVy446
         /// </summary>
         private void DrawGround()
         {
+            GL.LineWidth(1.0f);
             GL.Begin(BeginMode.Lines);
             GL.Color3(Color.LightGray);
-            for (int i = 0; i <= 100; i++)
+            for (int i = 0; i <= 200; i++)
             {
-                GL.Vertex3(-100, (float)i, 0);
-                GL.Vertex3(100, (float)i, 0);
+                GL.Vertex3(-200, (float)i, 0);
+                GL.Vertex3(200, (float)i, 0);
 
-                GL.Vertex3(-100, -(float)i, 0);
-                GL.Vertex3(100, -(float)i, 0);
+                GL.Vertex3(-200, -(float)i, 0);
+                GL.Vertex3(200, -(float)i, 0);
 
-                GL.Vertex3((float)i, 100, 0);
-                GL.Vertex3((float)i, -100, 0);
+                GL.Vertex3((float)i, 200, 0);
+                GL.Vertex3((float)i, -200, 0);
 
-                GL.Vertex3(-(float)i, 100, 0);
-                GL.Vertex3(-(float)i, -100, 0);
+                GL.Vertex3(-(float)i, 200, 0);
+                GL.Vertex3(-(float)i, -200, 0);
 
             }
             GL.End();
@@ -303,6 +342,7 @@ namespace IidaLabVy446
             GL.End();
         }
 
+
         /// <summary>
         /// add edge point to vertex array
         /// </summary>
@@ -318,14 +358,19 @@ namespace IidaLabVy446
                     edgePoints[i] = new Vector3((float)_list[i].x, (float)_list[i].y, (float)_list[i].z);
                 }
 
-                if (this.isSave == true)
-                {
-                    this.ranX1 = _list[0].x;
-                    this.ranX2 = _list[1].x;
-                    this.ranY1 = _list[0].y;
-                    this.ranY2 = _list[1].y;
-                }
                 //this.edgeOffset += _list.Count;
+            }
+        }
+
+        /// <summary>
+        /// add ideal path point to vertex array
+        /// </summary>
+        /// <param name="_list"></param>
+        public void AddIdealPath(List<SickLidar.CartesianPoint> _list)
+        {
+            for (int i = 0; i < _list.Count; i++)
+            {
+                idealPathPoints[i] = new Vector3((float)_list[i].x, (float)_list[i].y, (float)_list[i].z);
             }
         }
 
@@ -336,32 +381,17 @@ namespace IidaLabVy446
         /// <param name="_glIndex"></param>
         public void AddCrop(List<SickLidar.CartesianPoint> _list, int _glIndex)
         {
-            // For save mode
-            if ((this.isSave == true) && (_glIndex != 0))
-            {
-                string edgePointData = Convert.ToString(_list[_glIndex - 1].x) + " " + Convert.ToString(_list[_glIndex - 1].y);
-                this.saveTxt.WriteLine(edgePointData);
-            }
-
             for (int i = 0; i < _glIndex; i++)
             {
                 //this.crop.Add(new SickLidar.CartesianPoint(_list[i].x, _list[i].y, _list[i].z));
-                cropPoints[i + this.cropOffset] = new Vector3((float)_list[i].x, (float)_list[i].y, (float)_list[i].z);
-
-                // save mode for debug
-                if (this.isSave == true)
-                {
-                    this.avgCropCnt++;
-                    this.cropHgt += _list[i].z;
-                    this.avgCropHgt = this.cropHgt / (double)this.avgCropCnt;
-                }
+                this.cropPoints[i + this.cropOffset] = new Vector3((float)_list[i].x, (float)_list[i].y, (float)_list[i].z);
             }
             this.cropOffset += _glIndex;
 
             int gCnt = 0;
             for (int i = _glIndex; i < _list.Count; i++)
             {
-                groundPoints[gCnt + this.groundOffset] = new Vector3((float)_list[i].x, (float)_list[i].y, (float)_list[i].z);
+                this.groundPoints[gCnt + this.groundOffset] = new Vector3((float)_list[i].x, (float)_list[i].y, (float)_list[i].z);
                 gCnt++;
             }
             this.groundOffset += _list.Count - _glIndex;
@@ -411,7 +441,131 @@ namespace IidaLabVy446
             //GL.DrawArrays(BeginMode.Lines, 0, this.edgeOffset - 1);
             GL.DrawArrays(BeginMode.Lines, 0, 3);
             GL.DisableClientState(ArrayCap.VertexArray);
+
+            // Vertex array mode
+            GL.EnableClientState(ArrayCap.VertexArray);
+            GL.VertexPointer(3, VertexPointerType.Float, 0, idealPathPoints);
+            GL.Color3(Color.Orange);
+            //GL.DrawArrays(BeginMode.Lines, 0, this.edgeOffset - 1);
+            GL.DrawArrays(BeginMode.Lines, 0, 3);
+            GL.DisableClientState(ArrayCap.VertexArray);
         }
+
+        /// <summary>
+        /// Form Update
+        /// </summary>
+        public void GlUpdate()
+        {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+
+            // glControl invalidate
+            glControl1.Invalidate();
+
+            // draw traceability map
+            this.DrawTraceabilityMap();
+
+            // save data
+            if (this.GlSaveDataCheckBox.Checked == true)
+            {
+                this.SaveData();
+            }
+
+            watch.Stop();
+            this.GlElapsedTxtBox.Text =
+                watch.Elapsed.TotalMilliseconds.ToString("N3") + " milliseconds";
+        }
+
+        #endregion
+
+        #region Debug methods
+
+        private StreamWriter save_to_txt;
+        private bool save_ready = false;
+        private int save_index = 0;
+
+        /// <summary>
+        /// save data to txt file
+        /// </summary>
+        private void SaveData()
+        {
+            // open and add data
+            if ((this.ran_start == true) && (this.ran_end == false))
+            {
+                // initialization
+                if (this.save_ready == false)
+                {
+                    this.save_index++;
+                    string save_file_name = "result" + Convert.ToString(this.save_index) + ".txt";
+                    this.save_to_txt = new StreamWriter(save_file_name);
+                    string title = 
+                        "Read_count" + " " +
+                        "Tm_X" + " " +
+                        "Tm_Y" + " " +
+                        "Body_angle" + " " +
+                        "Ideal_path_angle" + " " +
+                        "Current_position_to_ideal_path_angle" + " " +
+                        "Perpendicular_distance_Ideal" + " " +
+                        "Ransac_angle" + " " +
+                        "Header_to_ransac_angle" + " " +
+                        "Perpencicular_distance_ransac" + " " +
+                        "Steer_command" + " " +
+                        "Header_command";
+                    this.save_to_txt.WriteLine(title);
+
+                    this.save_ready = true;
+                }
+
+                string read_cnt = Convert.ToString(this.read_count);
+                string tm_x = Convert.ToString(this._tmX);
+                string tm_y = Convert.ToString(this._tmY);
+                string body_angle = Convert.ToString(this._heading_angle);
+                string ideal_path_angle = Convert.ToString(this.ideal_angle);
+                string gps_angle = Convert.ToString(this.gps_angle);
+                string gps_distance = Convert.ToString(this.gps_distance);
+                string ran_angle = "0";
+                string header_to_ran_angle = "0";
+                string ran_distance = "0";
+                string steer_cmd = "0";
+                string header_cmd = "0";
+
+                // add ransac information to txt file
+                if (this.ran_running == true)
+                {
+                    ran_angle = Convert.ToString(this.ran_heading);
+                    header_to_ran_angle = Convert.ToString(this.ran_to_header_angle);
+                    ran_distance = Convert.ToString(this.ran_current_dist);
+                }
+
+                // add body control information to txt file
+                if (this.is_autonomous_mode == true)
+                {
+                    steer_cmd = this.forward_steer_debug_msg;
+                    header_cmd = Convert.ToString(this.cmd_header_potentiometer);
+                }
+
+                string data = read_cnt + " " + tm_x + " " + tm_y + " " + body_angle + " " + ideal_path_angle + " " +
+                    gps_angle + " " + gps_distance + " " + ran_angle + " " + header_to_ran_angle + " " +
+                    ran_distance + " " + steer_cmd + " " + header_cmd;
+
+                this.save_to_txt.WriteLine(data);
+            }
+
+            // close
+            if ((this.ran_running == false) && (this.ran_end == true) && (this.save_ready == true))
+            {
+                this.save_to_txt.Close();
+                this.save_ready = false;
+            }
+
+            // debug
+            this.GlSaveStateTxtBox.Text = Convert.ToString(this.save_ready);
+        }
+
+        /// <summary>
+        /// gets or sets current processing count number
+        /// </summary>
+        private int read_count { get; set; }
 
         /// <summary>
         /// Body information debug method
@@ -425,6 +579,7 @@ namespace IidaLabVy446
         public void BodyInformation(int _readCnt, double _tmX, double _tmY, double _tmZ, double _heading_angle, double _body_speed)
         {
             this.GlReadCntTxtBox.Text = Convert.ToString(_readCnt);
+            this.read_count = _readCnt;
             this.GlCurCntTxtBox.Text = Convert.ToString(this.cropCnt);
             this.GlTmXTxtBox.Text = _tmX.ToString("N3");
             this._tmX = (float)_tmX;
@@ -435,21 +590,107 @@ namespace IidaLabVy446
             this._heading_angle = _heading_angle;
             this.GlBodySpeedTxtBox.Text = _body_speed.ToString("N3");
             this._body_speed = _body_speed;
+
+            this.GlHarvestTimesTxtBox.Text = Convert.ToString(this.harvest_times_count);
         }
 
+        /// <summary>
+        /// gets or sets is autonomous mode state
+        /// </summary>
+        private bool is_autonomous_mode = false;
 
         /// <summary>
-        /// Ransac state Debug
+        /// vy446 autonomous check debug method
+        /// </summary>
+        /// <param name="_is_autonomous_mode"></param>
+        public void Vy446AutonomousModeCheckDebug(bool _is_autonomous_mode)
+        {
+            this.GlAutoModeTxtBox.Text = Convert.ToString(_is_autonomous_mode);
+            this.is_autonomous_mode = _is_autonomous_mode;
+        }
+
+        /// <summary>
+        /// gets or sets ransac start state
+        /// </summary>
+        private bool ran_start { get; set; }
+        
+        /// <summary>
+        /// gets or sets ransac running state
+        /// </summary>
+        private bool ran_running { get; set; }
+        
+        /// <summary>
+        /// gets or sets ransac end state
+        /// </summary>
+        private bool ran_end { get; set; }
+
+        /// <summary>
+        /// for harvest count
+        /// </summary>
+        private bool is_harvest_start = false;
+
+        /// <summary>
+        /// gets or sets number of times of harvest
+        /// </summary>
+        public int harvest_times_count { get; set; }
+
+        /// <summary>
+        /// gets or sets distance between ransac points
+        /// </summary>
+        private double ran_distance_between_points { get; set; }
+
+        /// <summary>
+        /// ransac state debug method
         /// </summary>
         /// <param name="_ran_start"></param>
         /// <param name="_ran_running"></param>
         /// <param name="_ran_end"></param>
-        public void RansacStateDebug(bool _ran_start, bool _ran_running, bool _ran_end)
+        /// <param name="_ran_distance_between_points"></param>
+        public void RansacStateDebug(bool _ran_start, bool _ran_running, bool _ran_end, double _ran_distance_between_points)
         {
             this.GlRanStartTxtBox.Text = Convert.ToString(_ran_start);
+            this.ran_start = _ran_start;
+
             this.GlIsRanTxtBox.Text = Convert.ToString(_ran_running);
+            this.ran_running = _ran_running;
+
             this.GlRanEndTxtBox.Text = Convert.ToString(_ran_end);
+            this.ran_end = _ran_end;
+
+            this.GlHarvestDistanceTxtBox.Text = _ran_distance_between_points.ToString("N3");
+            this.ran_distance_between_points = _ran_distance_between_points;
+
+            if (this.ran_start == true)
+            {
+                this.is_harvest_start = true;
+            }
+
+            if ((this.ran_end == true) && (this.is_harvest_start == true))
+            {
+                this.harvest_times_count++;
+                this.is_harvest_start = false;
+            }
         }
+
+        /// <summary>
+        /// gets or sets ransac angle
+        /// </summary>
+        private double ran_heading { get; set; }
+
+        /// <summary>
+        /// gets or sets perpendicular distance between TM point and ransac line
+        /// </summary>
+        private double ran_current_dist { get; set; }
+
+        /// <summary>
+        /// gets or sets average perpendicular distance between TM point and ransac line
+        /// </summary>
+        private double ran_average_dist { get; set; }
+
+        /// <summary>
+        /// gets or sets angle between header and extracted ransac line
+        /// </summary>
+        private double ran_to_header_angle { get; set; }
 
         /// <summary>
         /// Ransac result debug
@@ -457,12 +698,26 @@ namespace IidaLabVy446
         /// <param name="_ran_heading"></param>
         /// <param name="_ran_current_dist"></param>
         /// <param name="_ran_average_dist"></param>
-        public void RansacResultDebug(double _ran_heading, double _ran_current_dist, double _ran_average_dist)
+        /// <param name="_ran_to_header_angle"></param>
+        public void RansacResultDebug(double _ran_heading, double _ran_current_dist, double _ran_average_dist, double _ran_to_header_angle)
         {
             this.GlRanHeadingTxtBox.Text = _ran_heading.ToString("N3");
+            this.ran_heading = _ran_heading;
+
             this.GlRanDistanceTxtBox.Text = _ran_current_dist.ToString("N3");
+            this.ran_current_dist = _ran_current_dist;
+
             this.GlRanStandDistanceTxtBox.Text = _ran_average_dist.ToString("N3");
+            this.ran_average_dist = _ran_average_dist;
+
+            this.GlHeaderRanHeadingTxtBox.Text = _ran_to_header_angle.ToString("N3");
+            this.ran_to_header_angle = _ran_to_header_angle;
         }
+
+        /// <summary>
+        /// gets or sets forward steering debug message
+        /// </summary>
+        private string forward_steer_debug_msg { get; set; }
 
         /// <summary>
         /// Forward Steer Debug
@@ -471,48 +726,69 @@ namespace IidaLabVy446
         /// <param name="_vy446"></param>
         /// <param name="_cmd_steer"></param>
         /// <param name="_cmd_hst"></param>
-        public void ForwardSteerDebug(bool _vy50, bool _vy446, ushort _cmd_steer, ushort _cmd_hst)
+        public void ForwardSteerDebug(bool _vy50, bool _vy446, ushort _cmd_steer, ushort _cmd_hst, string _forward_steer_debug_msg)
         {
             // vy446
             if ((_vy50 == false) && (_vy446 == true))
             {
-                ushort ini_cmd = 430;
                 this.GlSteerCmdTxtBox.Text = Convert.ToString(_cmd_steer);
                 this.GlHstCmdTxtBox.Text = Convert.ToString(_cmd_hst);
-
-                if (ini_cmd == _cmd_steer)
-                {
-                    this.GlSteerOperationTxtBox.Text = "None";
-                }
-                else if (ini_cmd < _cmd_steer)
-                {
-                    this.GlSteerOperationTxtBox.Text = "Right";
-                }
-                else if (ini_cmd > _cmd_steer)
-                {
-                    this.GlSteerOperationTxtBox.Text = "Left";
-                }
+                this.GlSteerOperationTxtBox.Text = _forward_steer_debug_msg;
+                this.forward_steer_debug_msg = _forward_steer_debug_msg;
             }
         }
 
         /// <summary>
-        /// For save debug
+        /// gets or sets header potentiometer
         /// </summary>
-        private void SaveDebug()
+        private ushort cmd_header_potentiometer { get; set; }
+
+        /// <summary>
+        /// header control debug
+        /// </summary>
+        /// <param name="_cmd_header_potentiometer"></param>
+        /// <param name="_karitaka_start_distance"></param>
+        /// <param name="_karitaka_end_distance"></param>
+        public void HeaderControlDebug(ushort _cmd_header_potentiometer, double _karitaka_start_distance, double _karitaka_end_distance)
         {
-            this.GlAvgCropHgtTxtBox.Text = this.avgCropHgt.ToString("N3");
-            this.GlRanPosX1TxtBox.Text = this.ranX1.ToString("N3");
-            this.GlRanPosY1TxtBox.Text = this.ranY1.ToString("N3");
-            this.GlRanPosX2TxtBox.Text = this.ranX1.ToString("N3");
-            this.GlRanPosY2TxtBox.Text = this.ranY2.ToString("N3");
+            this.GlHeaderPoteniometerTxtBox.Text = Convert.ToString(_cmd_header_potentiometer);
+            this.cmd_header_potentiometer = _cmd_header_potentiometer;
+
+            this.GlHeaderStartDistanceTxtBox.Text = _karitaka_start_distance.ToString("N3");
+            this.GlHeaderEndDistanceTxtBox.Text = _karitaka_end_distance.ToString("N3");
         }
 
         /// <summary>
-        /// Form Update
+        /// gets or sets perpendicular distance between ideal path to gps position
         /// </summary>
-        public void GlUpdate()
+        private double gps_distance { get; set; }
+
+        /// <summary>
+        /// gets or sets gps angle
+        /// </summary>
+        private double gps_angle { get; set; }
+
+        /// <summary>
+        /// ideal path angle
+        /// </summary>
+        private double ideal_angle { get; set; }
+
+        /// <summary>
+        /// Ideal path to GPS debug
+        /// </summary>
+        /// <param name="_gps_distance"></param>
+        /// <param name="_gps_angle"></param>
+        /// <param name="_ideal_angle"></param>
+        public void IdealToGpsResultDebug(double _gps_distance, double _gps_angle, double _ideal_angle)
         {
-            glControl1.Invalidate();
+            this.GlGpsDistanceTxtBox.Text = _gps_distance.ToString("N3");
+            this.gps_distance = _gps_distance;
+
+            this.GlGpsHeadingTxtBox.Text = _gps_angle.ToString("N3");
+            this.gps_angle = _gps_angle;
+            
+            this.GlIdealHeadingTxtBox.Text = _ideal_angle.ToString("N3");
+            this.ideal_angle = _ideal_angle;
         }
 
         #endregion
@@ -558,9 +834,6 @@ namespace IidaLabVy446
         /// <param name="e"></param>
         private void glControl1_Paint(object sender, PaintEventArgs e)
         {
-            Stopwatch watch = new Stopwatch();
-            watch.Start();
-
             // play nice
             if (!this.loaded)
             {
@@ -588,17 +861,8 @@ namespace IidaLabVy446
             this.DrawCrop();
             this.DrawEdge();
 
-            if (this.isSave == true)
-            {
-                this.SaveDebug();
-            }
-
             glControl1.SwapBuffers();
             //GL.Flush();
-
-            watch.Stop();
-            this.GlElapsedTxtBox.Text =
-                watch.Elapsed.TotalMilliseconds.ToString("N3") + " milliseconds";
         }
 
         /// <summary>
@@ -661,51 +925,6 @@ namespace IidaLabVy446
         private void ExitButton_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        /// <summary>
-        /// Save to data : cut edge point, header position, ransac line
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (this.isSave == false)
-            {
-                this.saveTxt = new StreamWriter("result.txt");
-                this.avgCropCnt = 0;
-                this.avgCropHgt = 0.0;
-                this.cropHgt = 0.0;
-                this.isSave = true;
-
-                //add initial header position
-                string iniHeaderPos = Convert.ToString(this.headerX) + " " + Convert.ToString(this.headerY);
-                this.saveTxt.WriteLine(iniHeaderPos);
-                this.saveTxt.WriteLine();
-            }
-            else
-            {
-                // add initial header position
-                this.saveTxt.WriteLine();
-                string lastHeaderPos = Convert.ToString(this.headerX) + " " + Convert.ToString(this.headerY);
-                this.saveTxt.WriteLine(lastHeaderPos);
-
-                // add ransac position
-                this.saveTxt.WriteLine();
-                string ranStart = Convert.ToString(this.ranX1) + " " + Convert.ToString(this.ranY1);
-                this.saveTxt.WriteLine(ranStart);
-                string ranEnd = Convert.ToString(this.ranX2) + " " + Convert.ToString(this.ranY2);
-                this.saveTxt.WriteLine(ranEnd);
-                
-                // add average crop height
-                this.saveTxt.WriteLine();
-                string avgCropHgtStr = Convert.ToString(this.avgCropHgt);
-                this.saveTxt.WriteLine(avgCropHgtStr);
-
-                // dispose
-                this.saveTxt.Close();
-                this.isSave = false;
-            }
         }
 
         #endregion

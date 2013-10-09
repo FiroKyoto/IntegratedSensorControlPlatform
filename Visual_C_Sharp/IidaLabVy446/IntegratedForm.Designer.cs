@@ -195,6 +195,7 @@
             this.label14 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.Vy446_IS_AUTO_HEADER_CONTROL_CHECKBOX = new System.Windows.Forms.CheckBox();
             this.label94 = new System.Windows.Forms.Label();
             this.label93 = new System.Windows.Forms.Label();
             this.Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox = new System.Windows.Forms.TextBox();
@@ -629,34 +630,34 @@
             this.toolStripStatusLabel2,
             this.toolStripStatusLabel3,
             this.toolStripStatusLabel4});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 558);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 557);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(869, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(869, 23);
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(94, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(95, 18);
             this.toolStripStatusLabel1.Text = "Elapsed Time: ";
             // 
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(77, 17);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(78, 18);
             this.toolStripStatusLabel2.Text = "milliseconds";
             // 
             // toolStripStatusLabel3
             // 
             this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(107, 17);
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(108, 18);
             this.toolStripStatusLabel3.Text = "Debug Message: ";
             // 
             // toolStripStatusLabel4
             // 
             this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
-            this.toolStripStatusLabel4.Size = new System.Drawing.Size(57, 17);
+            this.toolStripStatusLabel4.Size = new System.Drawing.Size(58, 18);
             this.toolStripStatusLabel4.Text = "Message";
             // 
             // IntegratedTimer
@@ -2033,6 +2034,7 @@
             // 
             // groupBox12
             // 
+            this.groupBox12.Controls.Add(this.Vy446_IS_AUTO_HEADER_CONTROL_CHECKBOX);
             this.groupBox12.Controls.Add(this.label94);
             this.groupBox12.Controls.Add(this.label93);
             this.groupBox12.Controls.Add(this.Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox);
@@ -2053,10 +2055,22 @@
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Autonomous Mode Set and Debug";
             // 
+            // Vy446_IS_AUTO_HEADER_CONTROL_CHECKBOX
+            // 
+            this.Vy446_IS_AUTO_HEADER_CONTROL_CHECKBOX.AutoSize = true;
+            this.Vy446_IS_AUTO_HEADER_CONTROL_CHECKBOX.Checked = true;
+            this.Vy446_IS_AUTO_HEADER_CONTROL_CHECKBOX.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Vy446_IS_AUTO_HEADER_CONTROL_CHECKBOX.Location = new System.Drawing.Point(11, 31);
+            this.Vy446_IS_AUTO_HEADER_CONTROL_CHECKBOX.Name = "Vy446_IS_AUTO_HEADER_CONTROL_CHECKBOX";
+            this.Vy446_IS_AUTO_HEADER_CONTROL_CHECKBOX.Size = new System.Drawing.Size(142, 16);
+            this.Vy446_IS_AUTO_HEADER_CONTROL_CHECKBOX.TabIndex = 38;
+            this.Vy446_IS_AUTO_HEADER_CONTROL_CHECKBOX.Text = "Is Auto Header Control";
+            this.Vy446_IS_AUTO_HEADER_CONTROL_CHECKBOX.UseVisualStyleBackColor = true;
+            // 
             // label94
             // 
             this.label94.AutoSize = true;
-            this.label94.Location = new System.Drawing.Point(359, 32);
+            this.label94.Location = new System.Drawing.Point(559, 32);
             this.label94.Name = "label94";
             this.label94.Size = new System.Drawing.Size(34, 12);
             this.label94.TabIndex = 37;
@@ -2065,7 +2079,7 @@
             // label93
             // 
             this.label93.AutoSize = true;
-            this.label93.Location = new System.Drawing.Point(213, 32);
+            this.label93.Location = new System.Drawing.Point(413, 32);
             this.label93.Name = "label93";
             this.label93.Size = new System.Drawing.Size(78, 12);
             this.label93.TabIndex = 14;
@@ -2074,16 +2088,16 @@
             // Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox
             // 
             this.Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox.BackColor = System.Drawing.Color.Yellow;
-            this.Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox.Location = new System.Drawing.Point(306, 29);
+            this.Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox.Location = new System.Drawing.Point(506, 29);
             this.Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox.Name = "Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox";
             this.Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox.Size = new System.Drawing.Size(47, 19);
             this.Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox.TabIndex = 13;
-            this.Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox.Text = "0.8";
+            this.Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox.Text = "0.5";
             // 
             // Vy446_DEBUG_SOKO_TxtBox
             // 
             this.Vy446_DEBUG_SOKO_TxtBox.BackColor = System.Drawing.Color.GreenYellow;
-            this.Vy446_DEBUG_SOKO_TxtBox.Location = new System.Drawing.Point(306, 79);
+            this.Vy446_DEBUG_SOKO_TxtBox.Location = new System.Drawing.Point(506, 79);
             this.Vy446_DEBUG_SOKO_TxtBox.Name = "Vy446_DEBUG_SOKO_TxtBox";
             this.Vy446_DEBUG_SOKO_TxtBox.Size = new System.Drawing.Size(100, 19);
             this.Vy446_DEBUG_SOKO_TxtBox.TabIndex = 12;
@@ -2091,7 +2105,7 @@
             // label91
             // 
             this.label91.AutoSize = true;
-            this.label91.Location = new System.Drawing.Point(213, 82);
+            this.label91.Location = new System.Drawing.Point(413, 82);
             this.label91.Name = "label91";
             this.label91.Size = new System.Drawing.Size(75, 12);
             this.label91.TabIndex = 11;
@@ -2100,7 +2114,7 @@
             // label90
             // 
             this.label90.AutoSize = true;
-            this.label90.Location = new System.Drawing.Point(9, 82);
+            this.label90.Location = new System.Drawing.Point(215, 57);
             this.label90.Name = "label90";
             this.label90.Size = new System.Drawing.Size(75, 12);
             this.label90.TabIndex = 10;
@@ -2109,7 +2123,7 @@
             // Vy446_HeaderPotentiometer_TxtBox
             // 
             this.Vy446_HeaderPotentiometer_TxtBox.BackColor = System.Drawing.Color.GreenYellow;
-            this.Vy446_HeaderPotentiometer_TxtBox.Location = new System.Drawing.Point(101, 79);
+            this.Vy446_HeaderPotentiometer_TxtBox.Location = new System.Drawing.Point(307, 54);
             this.Vy446_HeaderPotentiometer_TxtBox.Name = "Vy446_HeaderPotentiometer_TxtBox";
             this.Vy446_HeaderPotentiometer_TxtBox.Size = new System.Drawing.Size(100, 19);
             this.Vy446_HeaderPotentiometer_TxtBox.TabIndex = 9;
@@ -2117,7 +2131,7 @@
             // Vy446_isHeaderControl_TxtBox
             // 
             this.Vy446_isHeaderControl_TxtBox.BackColor = System.Drawing.Color.GreenYellow;
-            this.Vy446_isHeaderControl_TxtBox.Location = new System.Drawing.Point(101, 54);
+            this.Vy446_isHeaderControl_TxtBox.Location = new System.Drawing.Point(307, 29);
             this.Vy446_isHeaderControl_TxtBox.Name = "Vy446_isHeaderControl_TxtBox";
             this.Vy446_isHeaderControl_TxtBox.Size = new System.Drawing.Size(100, 19);
             this.Vy446_isHeaderControl_TxtBox.TabIndex = 8;
@@ -2125,7 +2139,7 @@
             // label82
             // 
             this.label82.AutoSize = true;
-            this.label82.Location = new System.Drawing.Point(9, 57);
+            this.label82.Location = new System.Drawing.Point(215, 32);
             this.label82.Name = "label82";
             this.label82.Size = new System.Drawing.Size(83, 12);
             this.label82.TabIndex = 7;
@@ -2134,16 +2148,16 @@
             // Vy446_DEBUG_INI_HEADER_POS_TxtBox
             // 
             this.Vy446_DEBUG_INI_HEADER_POS_TxtBox.BackColor = System.Drawing.Color.Yellow;
-            this.Vy446_DEBUG_INI_HEADER_POS_TxtBox.Location = new System.Drawing.Point(101, 29);
+            this.Vy446_DEBUG_INI_HEADER_POS_TxtBox.Location = new System.Drawing.Point(101, 54);
             this.Vy446_DEBUG_INI_HEADER_POS_TxtBox.Name = "Vy446_DEBUG_INI_HEADER_POS_TxtBox";
             this.Vy446_DEBUG_INI_HEADER_POS_TxtBox.Size = new System.Drawing.Size(100, 19);
             this.Vy446_DEBUG_INI_HEADER_POS_TxtBox.TabIndex = 6;
-            this.Vy446_DEBUG_INI_HEADER_POS_TxtBox.Text = "380";
+            this.Vy446_DEBUG_INI_HEADER_POS_TxtBox.Text = "420";
             // 
             // label78
             // 
             this.label78.AutoSize = true;
-            this.label78.Location = new System.Drawing.Point(9, 32);
+            this.label78.Location = new System.Drawing.Point(9, 57);
             this.label78.Name = "label78";
             this.label78.Size = new System.Drawing.Size(86, 12);
             this.label78.TabIndex = 5;
@@ -2152,7 +2166,7 @@
             // label84
             // 
             this.label84.AutoSize = true;
-            this.label84.Location = new System.Drawing.Point(213, 57);
+            this.label84.Location = new System.Drawing.Point(413, 57);
             this.label84.Name = "label84";
             this.label84.Size = new System.Drawing.Size(87, 12);
             this.label84.TabIndex = 2;
@@ -2161,7 +2175,7 @@
             // Vy446_DEBUG_HST_TxtBox
             // 
             this.Vy446_DEBUG_HST_TxtBox.BackColor = System.Drawing.Color.GreenYellow;
-            this.Vy446_DEBUG_HST_TxtBox.Location = new System.Drawing.Point(306, 54);
+            this.Vy446_DEBUG_HST_TxtBox.Location = new System.Drawing.Point(506, 54);
             this.Vy446_DEBUG_HST_TxtBox.Name = "Vy446_DEBUG_HST_TxtBox";
             this.Vy446_DEBUG_HST_TxtBox.Size = new System.Drawing.Size(100, 19);
             this.Vy446_DEBUG_HST_TxtBox.TabIndex = 4;
@@ -3591,5 +3605,6 @@
         private System.Windows.Forms.Label label93;
         private System.Windows.Forms.TextBox Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox;
         private System.Windows.Forms.CheckBox Vy446_SimulationTest_CheckBox;
+        private System.Windows.Forms.CheckBox Vy446_IS_AUTO_HEADER_CONTROL_CHECKBOX;
     }
 }
