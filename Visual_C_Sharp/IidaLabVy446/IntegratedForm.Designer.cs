@@ -81,6 +81,15 @@
             this.label9 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.groupBox19 = new System.Windows.Forms.GroupBox();
+            this.AugerDImagerCheckBox = new System.Windows.Forms.CheckBox();
+            this.AugerReadCheckBox = new System.Windows.Forms.CheckBox();
+            this.AugerSaveCheckBox = new System.Windows.Forms.CheckBox();
+            this.label99 = new System.Windows.Forms.Label();
+            this.AugerLidarComboBox = new System.Windows.Forms.ComboBox();
+            this.AugerLidarCheckBox = new System.Windows.Forms.CheckBox();
+            this.label98 = new System.Windows.Forms.Label();
+            this.AugerAvailableCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
             this.TcpIpIsAvailableCheckBox = new System.Windows.Forms.CheckBox();
             this.TcpIpClientIpTxtBox = new System.Windows.Forms.TextBox();
@@ -314,6 +323,17 @@
             this.GeWebBrowser = new System.Windows.Forms.WebBrowser();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.groupBox21 = new System.Windows.Forms.GroupBox();
+            this.DImagerFreqModeTxtBox = new System.Windows.Forms.TextBox();
+            this.label102 = new System.Windows.Forms.Label();
+            this.DImagerSpeedModeTxtBox = new System.Windows.Forms.TextBox();
+            this.label101 = new System.Windows.Forms.Label();
+            this.DImagerIniDriverTxtBox = new System.Windows.Forms.TextBox();
+            this.label100 = new System.Windows.Forms.Label();
+            this.DImagerDepthPboxIpl = new OpenCvSharp.UserInterface.PictureBoxIpl();
+            this.groupBox20 = new System.Windows.Forms.GroupBox();
+            this.zg4 = new ZedGraph.ZedGraphControl();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
             this.CommunicationTimer = new System.Windows.Forms.Timer(this.components);
             this.groupBox1.SuspendLayout();
@@ -323,6 +343,7 @@
             this.groupBox3.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.groupBox19.SuspendLayout();
             this.groupBox14.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -344,6 +365,10 @@
             this.groupBox17.SuspendLayout();
             this.tabPage6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.tabPage8.SuspendLayout();
+            this.groupBox21.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DImagerDepthPboxIpl)).BeginInit();
+            this.groupBox20.SuspendLayout();
             this.groupBox15.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -630,34 +655,34 @@
             this.toolStripStatusLabel2,
             this.toolStripStatusLabel3,
             this.toolStripStatusLabel4});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 557);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 558);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(869, 23);
+            this.statusStrip1.Size = new System.Drawing.Size(869, 22);
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(95, 18);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(94, 17);
             this.toolStripStatusLabel1.Text = "Elapsed Time: ";
             // 
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(78, 18);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(77, 17);
             this.toolStripStatusLabel2.Text = "milliseconds";
             // 
             // toolStripStatusLabel3
             // 
             this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(108, 18);
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(107, 17);
             this.toolStripStatusLabel3.Text = "Debug Message: ";
             // 
             // toolStripStatusLabel4
             // 
             this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
-            this.toolStripStatusLabel4.Size = new System.Drawing.Size(58, 18);
+            this.toolStripStatusLabel4.Size = new System.Drawing.Size(57, 17);
             this.toolStripStatusLabel4.Text = "Message";
             // 
             // IntegratedTimer
@@ -853,6 +878,7 @@
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage6);
+            this.tabControl1.Controls.Add(this.tabPage8);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -861,6 +887,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.groupBox19);
             this.tabPage1.Controls.Add(this.groupBox14);
             this.tabPage1.Controls.Add(this.groupBox10);
             this.tabPage1.Controls.Add(this.groupBox5);
@@ -873,6 +900,111 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Setting";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // groupBox19
+            // 
+            this.groupBox19.Controls.Add(this.AugerDImagerCheckBox);
+            this.groupBox19.Controls.Add(this.AugerReadCheckBox);
+            this.groupBox19.Controls.Add(this.AugerSaveCheckBox);
+            this.groupBox19.Controls.Add(this.label99);
+            this.groupBox19.Controls.Add(this.AugerLidarComboBox);
+            this.groupBox19.Controls.Add(this.AugerLidarCheckBox);
+            this.groupBox19.Controls.Add(this.label98);
+            this.groupBox19.Controls.Add(this.AugerAvailableCheckBox);
+            this.groupBox19.Location = new System.Drawing.Point(216, 133);
+            this.groupBox19.Name = "groupBox19";
+            this.groupBox19.Size = new System.Drawing.Size(200, 318);
+            this.groupBox19.TabIndex = 11;
+            this.groupBox19.TabStop = false;
+            this.groupBox19.Text = "Auger";
+            // 
+            // AugerDImagerCheckBox
+            // 
+            this.AugerDImagerCheckBox.AutoSize = true;
+            this.AugerDImagerCheckBox.Location = new System.Drawing.Point(6, 96);
+            this.AugerDImagerCheckBox.Name = "AugerDImagerCheckBox";
+            this.AugerDImagerCheckBox.Size = new System.Drawing.Size(91, 16);
+            this.AugerDImagerCheckBox.TabIndex = 7;
+            this.AugerDImagerCheckBox.Text = "Is 3D-Imager";
+            this.AugerDImagerCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // AugerReadCheckBox
+            // 
+            this.AugerReadCheckBox.AutoSize = true;
+            this.AugerReadCheckBox.Location = new System.Drawing.Point(94, 151);
+            this.AugerReadCheckBox.Name = "AugerReadCheckBox";
+            this.AugerReadCheckBox.Size = new System.Drawing.Size(50, 16);
+            this.AugerReadCheckBox.TabIndex = 6;
+            this.AugerReadCheckBox.Text = "Read";
+            this.AugerReadCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // AugerSaveCheckBox
+            // 
+            this.AugerSaveCheckBox.AutoSize = true;
+            this.AugerSaveCheckBox.Location = new System.Drawing.Point(6, 151);
+            this.AugerSaveCheckBox.Name = "AugerSaveCheckBox";
+            this.AugerSaveCheckBox.Size = new System.Drawing.Size(49, 16);
+            this.AugerSaveCheckBox.TabIndex = 5;
+            this.AugerSaveCheckBox.Text = "Save";
+            this.AugerSaveCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // label99
+            // 
+            this.label99.AutoSize = true;
+            this.label99.Location = new System.Drawing.Point(6, 124);
+            this.label99.Name = "label99";
+            this.label99.Size = new System.Drawing.Size(70, 12);
+            this.label99.TabIndex = 4;
+            this.label99.Text = "2. For Debug";
+            // 
+            // AugerLidarComboBox
+            // 
+            this.AugerLidarComboBox.BackColor = System.Drawing.Color.Yellow;
+            this.AugerLidarComboBox.FormattingEnabled = true;
+            this.AugerLidarComboBox.Items.AddRange(new object[] {
+            "COM0",
+            "COM1",
+            "COM2",
+            "COM3",
+            "COM4",
+            "COM5",
+            "COM6",
+            "COM7",
+            "COM8",
+            "COM9"});
+            this.AugerLidarComboBox.Location = new System.Drawing.Point(94, 69);
+            this.AugerLidarComboBox.Name = "AugerLidarComboBox";
+            this.AugerLidarComboBox.Size = new System.Drawing.Size(100, 20);
+            this.AugerLidarComboBox.TabIndex = 3;
+            // 
+            // AugerLidarCheckBox
+            // 
+            this.AugerLidarCheckBox.AutoSize = true;
+            this.AugerLidarCheckBox.Location = new System.Drawing.Point(6, 71);
+            this.AugerLidarCheckBox.Name = "AugerLidarCheckBox";
+            this.AugerLidarCheckBox.Size = new System.Drawing.Size(62, 16);
+            this.AugerLidarCheckBox.TabIndex = 2;
+            this.AugerLidarCheckBox.Text = "Is Lidar";
+            this.AugerLidarCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // label98
+            // 
+            this.label98.AutoSize = true;
+            this.label98.Location = new System.Drawing.Point(6, 46);
+            this.label98.Name = "label98";
+            this.label98.Size = new System.Drawing.Size(85, 12);
+            this.label98.TabIndex = 1;
+            this.label98.Text = "1. Using Device";
+            // 
+            // AugerAvailableCheckBox
+            // 
+            this.AugerAvailableCheckBox.AutoSize = true;
+            this.AugerAvailableCheckBox.Location = new System.Drawing.Point(6, 18);
+            this.AugerAvailableCheckBox.Name = "AugerAvailableCheckBox";
+            this.AugerAvailableCheckBox.Size = new System.Drawing.Size(80, 16);
+            this.AugerAvailableCheckBox.TabIndex = 0;
+            this.AugerAvailableCheckBox.Text = "IsAvailable";
+            this.AugerAvailableCheckBox.UseVisualStyleBackColor = true;
             // 
             // groupBox14
             // 
@@ -1049,10 +1181,10 @@
             this.groupBox5.Controls.Add(this.VisionSaveCheckBox);
             this.groupBox5.Location = new System.Drawing.Point(216, 6);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(200, 445);
+            this.groupBox5.Size = new System.Drawing.Size(200, 121);
             this.groupBox5.TabIndex = 4;
             this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Machine Vision";
+            this.groupBox5.Text = "Machine Vision (Front view)";
             // 
             // groupBox4
             // 
@@ -1075,7 +1207,7 @@
             this.groupBox4.Size = new System.Drawing.Size(204, 445);
             this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Laser Range Finder";
+            this.groupBox4.Text = "Lidar (Front view)";
             // 
             // LidarOpenGlCheckBox
             // 
@@ -3237,6 +3369,118 @@
             this.dataGridView1.Size = new System.Drawing.Size(826, 447);
             this.dataGridView1.TabIndex = 0;
             // 
+            // tabPage8
+            // 
+            this.tabPage8.Controls.Add(this.groupBox21);
+            this.tabPage8.Controls.Add(this.groupBox20);
+            this.tabPage8.Location = new System.Drawing.Point(4, 22);
+            this.tabPage8.Name = "tabPage8";
+            this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage8.Size = new System.Drawing.Size(838, 459);
+            this.tabPage8.TabIndex = 7;
+            this.tabPage8.Text = "Auger";
+            this.tabPage8.UseVisualStyleBackColor = true;
+            // 
+            // groupBox21
+            // 
+            this.groupBox21.Controls.Add(this.DImagerFreqModeTxtBox);
+            this.groupBox21.Controls.Add(this.label102);
+            this.groupBox21.Controls.Add(this.DImagerSpeedModeTxtBox);
+            this.groupBox21.Controls.Add(this.label101);
+            this.groupBox21.Controls.Add(this.DImagerIniDriverTxtBox);
+            this.groupBox21.Controls.Add(this.label100);
+            this.groupBox21.Controls.Add(this.DImagerDepthPboxIpl);
+            this.groupBox21.Location = new System.Drawing.Point(349, 6);
+            this.groupBox21.Name = "groupBox21";
+            this.groupBox21.Size = new System.Drawing.Size(483, 270);
+            this.groupBox21.TabIndex = 2;
+            this.groupBox21.TabStop = false;
+            this.groupBox21.Text = "3D-Imager Depth Image (made by panasonic)";
+            // 
+            // DImagerFreqModeTxtBox
+            // 
+            this.DImagerFreqModeTxtBox.BackColor = System.Drawing.Color.GreenYellow;
+            this.DImagerFreqModeTxtBox.Location = new System.Drawing.Point(337, 134);
+            this.DImagerFreqModeTxtBox.Name = "DImagerFreqModeTxtBox";
+            this.DImagerFreqModeTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.DImagerFreqModeTxtBox.TabIndex = 7;
+            // 
+            // label102
+            // 
+            this.label102.AutoSize = true;
+            this.label102.Location = new System.Drawing.Point(335, 119);
+            this.label102.Name = "label102";
+            this.label102.Size = new System.Drawing.Size(61, 12);
+            this.label102.TabIndex = 6;
+            this.label102.Text = "FreqMode: ";
+            // 
+            // DImagerSpeedModeTxtBox
+            // 
+            this.DImagerSpeedModeTxtBox.BackColor = System.Drawing.Color.GreenYellow;
+            this.DImagerSpeedModeTxtBox.Location = new System.Drawing.Point(337, 81);
+            this.DImagerSpeedModeTxtBox.Name = "DImagerSpeedModeTxtBox";
+            this.DImagerSpeedModeTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.DImagerSpeedModeTxtBox.TabIndex = 5;
+            // 
+            // label101
+            // 
+            this.label101.AutoSize = true;
+            this.label101.Location = new System.Drawing.Point(335, 66);
+            this.label101.Name = "label101";
+            this.label101.Size = new System.Drawing.Size(69, 12);
+            this.label101.TabIndex = 4;
+            this.label101.Text = "SpeedMode: ";
+            // 
+            // DImagerIniDriverTxtBox
+            // 
+            this.DImagerIniDriverTxtBox.BackColor = System.Drawing.Color.GreenYellow;
+            this.DImagerIniDriverTxtBox.Location = new System.Drawing.Point(337, 33);
+            this.DImagerIniDriverTxtBox.Name = "DImagerIniDriverTxtBox";
+            this.DImagerIniDriverTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.DImagerIniDriverTxtBox.TabIndex = 3;
+            // 
+            // label100
+            // 
+            this.label100.AutoSize = true;
+            this.label100.Location = new System.Drawing.Point(335, 18);
+            this.label100.Name = "label100";
+            this.label100.Size = new System.Drawing.Size(58, 12);
+            this.label100.TabIndex = 2;
+            this.label100.Text = "Ini Driver: ";
+            // 
+            // DImagerDepthPboxIpl
+            // 
+            this.DImagerDepthPboxIpl.Location = new System.Drawing.Point(9, 18);
+            this.DImagerDepthPboxIpl.Name = "DImagerDepthPboxIpl";
+            this.DImagerDepthPboxIpl.Size = new System.Drawing.Size(320, 240);
+            this.DImagerDepthPboxIpl.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.DImagerDepthPboxIpl.TabIndex = 1;
+            this.DImagerDepthPboxIpl.TabStop = false;
+            // 
+            // groupBox20
+            // 
+            this.groupBox20.Controls.Add(this.zg4);
+            this.groupBox20.Location = new System.Drawing.Point(6, 6);
+            this.groupBox20.Name = "groupBox20";
+            this.groupBox20.Size = new System.Drawing.Size(337, 270);
+            this.groupBox20.TabIndex = 0;
+            this.groupBox20.TabStop = false;
+            this.groupBox20.Text = "LRF (UTM-30LX)";
+            // 
+            // zg4
+            // 
+            this.zg4.Location = new System.Drawing.Point(6, 18);
+            this.zg4.Name = "zg4";
+            this.zg4.ScrollGrace = 0D;
+            this.zg4.ScrollMaxX = 0D;
+            this.zg4.ScrollMaxY = 0D;
+            this.zg4.ScrollMaxY2 = 0D;
+            this.zg4.ScrollMinX = 0D;
+            this.zg4.ScrollMinY = 0D;
+            this.zg4.ScrollMinY2 = 0D;
+            this.zg4.Size = new System.Drawing.Size(320, 240);
+            this.zg4.TabIndex = 0;
+            // 
             // groupBox15
             // 
             this.groupBox15.BackColor = System.Drawing.Color.Transparent;
@@ -3276,6 +3520,8 @@
             this.groupBox3.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.groupBox19.ResumeLayout(false);
+            this.groupBox19.PerformLayout();
             this.groupBox14.ResumeLayout(false);
             this.groupBox14.PerformLayout();
             this.groupBox10.ResumeLayout(false);
@@ -3310,6 +3556,11 @@
             this.groupBox17.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.tabPage8.ResumeLayout(false);
+            this.groupBox21.ResumeLayout(false);
+            this.groupBox21.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DImagerDepthPboxIpl)).EndInit();
+            this.groupBox20.ResumeLayout(false);
             this.groupBox15.ResumeLayout(false);
             this.groupBox15.PerformLayout();
             this.ResumeLayout(false);
@@ -3606,5 +3857,25 @@
         private System.Windows.Forms.TextBox Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox;
         private System.Windows.Forms.CheckBox Vy446_SimulationTest_CheckBox;
         private System.Windows.Forms.CheckBox Vy446_IS_AUTO_HEADER_CONTROL_CHECKBOX;
+        private System.Windows.Forms.GroupBox groupBox19;
+        private System.Windows.Forms.TabPage tabPage8;
+        private System.Windows.Forms.CheckBox AugerAvailableCheckBox;
+        private System.Windows.Forms.Label label98;
+        private System.Windows.Forms.CheckBox AugerLidarCheckBox;
+        private System.Windows.Forms.ComboBox AugerLidarComboBox;
+        private System.Windows.Forms.GroupBox groupBox20;
+        private ZedGraph.ZedGraphControl zg4;
+        private System.Windows.Forms.CheckBox AugerReadCheckBox;
+        private System.Windows.Forms.CheckBox AugerSaveCheckBox;
+        private System.Windows.Forms.Label label99;
+        private System.Windows.Forms.GroupBox groupBox21;
+        private OpenCvSharp.UserInterface.PictureBoxIpl DImagerDepthPboxIpl;
+        private System.Windows.Forms.TextBox DImagerIniDriverTxtBox;
+        private System.Windows.Forms.Label label100;
+        private System.Windows.Forms.TextBox DImagerSpeedModeTxtBox;
+        private System.Windows.Forms.Label label101;
+        private System.Windows.Forms.TextBox DImagerFreqModeTxtBox;
+        private System.Windows.Forms.Label label102;
+        private System.Windows.Forms.CheckBox AugerDImagerCheckBox;
     }
 }

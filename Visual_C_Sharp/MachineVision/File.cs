@@ -35,6 +35,11 @@ namespace MachineVision
         /// <summary>
         /// basic constructor
         /// </summary>
+        public File() { }
+
+        /// <summary>
+        /// constructor
+        /// </summary>
         public File(bool _save, bool _read, int _interval) 
         {
             if (_read == false)
@@ -57,6 +62,36 @@ namespace MachineVision
             {
                 this.cap = CvCapture.FromFile(this.readMachineVisionDialog());
             }
+        }
+
+        /// <summary>
+        /// initialization 3d-imager I/O
+        /// </summary>
+        /// <param name="_save"></param>
+        /// <param name="_read"></param>
+        /// <param name="_interval"></param>
+        public void InitializeDImagerIO(bool _save, bool _read, int _interval)
+        {
+            if (_read == false)
+            {
+                if (_save == true)
+                {
+                    double fps = (double)1000 / _interval;
+
+                    this.writer = new CvVideoWriter(
+                        this.saveMachineVisionDialog(),
+                        FourCC.MJPG,
+                        fps,
+                        new CvSize(160, 120)
+                        );
+                }
+
+                //this.cap = CvCapture.FromCamera(CaptureDevice.DShow, 0);
+            }
+            else
+            {
+                this.cap = CvCapture.FromFile(this.readMachineVisionDialog());
+            } 
         }
 
         /// <summary>
@@ -129,6 +164,15 @@ namespace MachineVision
             CvFont font = new CvFont(FontFace.HersheyComplex, 0.5, 0.5);
             string str = string.Format("{0}[Frame]", frames);
             frame.PutText(str, new CvPoint(10, 20), font, new CvColor(255, 0, 0));
+            this.writer.WriteFrame(frame);
+        }
+
+        /// <summary>
+        /// DImager Writer
+        /// </summary>
+        /// <param name="frame"></param>
+        public void DImagerWriter(IplImage frame)
+        {
             this.writer.WriteFrame(frame);
         }
 
