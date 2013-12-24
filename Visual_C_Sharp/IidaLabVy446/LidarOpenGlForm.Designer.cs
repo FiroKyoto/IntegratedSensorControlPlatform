@@ -81,6 +81,10 @@
             this.label14 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.GlHeaderEndDistanceTxtBox = new System.Windows.Forms.TextBox();
+            this.GlHeaderStartDistanceTxtBox = new System.Windows.Forms.TextBox();
             this.label23 = new System.Windows.Forms.Label();
             this.GlHeaderPoteniometerTxtBox = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -96,10 +100,8 @@
             this.label25 = new System.Windows.Forms.Label();
             this.GlIdealHeadingTxtBox = new System.Windows.Forms.TextBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.GlHeaderStartDistanceTxtBox = new System.Windows.Forms.TextBox();
-            this.GlHeaderEndDistanceTxtBox = new System.Windows.Forms.TextBox();
-            this.label27 = new System.Windows.Forms.Label();
-            this.label28 = new System.Windows.Forms.Label();
+            this.GlHeaderAvgGndHgtTxtBox = new System.Windows.Forms.TextBox();
+            this.label29 = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -592,6 +594,8 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.label29);
+            this.groupBox6.Controls.Add(this.GlHeaderAvgGndHgtTxtBox);
             this.groupBox6.Controls.Add(this.label28);
             this.groupBox6.Controls.Add(this.label27);
             this.groupBox6.Controls.Add(this.GlHeaderEndDistanceTxtBox);
@@ -604,6 +608,40 @@
             this.groupBox6.TabIndex = 13;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Header State";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(6, 71);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(55, 12);
+            this.label28.TabIndex = 5;
+            this.label28.Text = "End Dist: ";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(7, 46);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(61, 12);
+            this.label27.TabIndex = 4;
+            this.label27.Text = "Start Dist: ";
+            // 
+            // GlHeaderEndDistanceTxtBox
+            // 
+            this.GlHeaderEndDistanceTxtBox.BackColor = System.Drawing.Color.GreenYellow;
+            this.GlHeaderEndDistanceTxtBox.Location = new System.Drawing.Point(92, 68);
+            this.GlHeaderEndDistanceTxtBox.Name = "GlHeaderEndDistanceTxtBox";
+            this.GlHeaderEndDistanceTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.GlHeaderEndDistanceTxtBox.TabIndex = 3;
+            // 
+            // GlHeaderStartDistanceTxtBox
+            // 
+            this.GlHeaderStartDistanceTxtBox.BackColor = System.Drawing.Color.GreenYellow;
+            this.GlHeaderStartDistanceTxtBox.Location = new System.Drawing.Point(92, 43);
+            this.GlHeaderStartDistanceTxtBox.Name = "GlHeaderStartDistanceTxtBox";
+            this.GlHeaderStartDistanceTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.GlHeaderStartDistanceTxtBox.TabIndex = 2;
             // 
             // label23
             // 
@@ -762,39 +800,22 @@
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Steering State";
             // 
-            // GlHeaderStartDistanceTxtBox
+            // GlHeaderAvgGndHgtTxtBox
             // 
-            this.GlHeaderStartDistanceTxtBox.BackColor = System.Drawing.Color.GreenYellow;
-            this.GlHeaderStartDistanceTxtBox.Location = new System.Drawing.Point(92, 43);
-            this.GlHeaderStartDistanceTxtBox.Name = "GlHeaderStartDistanceTxtBox";
-            this.GlHeaderStartDistanceTxtBox.Size = new System.Drawing.Size(100, 19);
-            this.GlHeaderStartDistanceTxtBox.TabIndex = 2;
+            this.GlHeaderAvgGndHgtTxtBox.BackColor = System.Drawing.Color.GreenYellow;
+            this.GlHeaderAvgGndHgtTxtBox.Location = new System.Drawing.Point(92, 93);
+            this.GlHeaderAvgGndHgtTxtBox.Name = "GlHeaderAvgGndHgtTxtBox";
+            this.GlHeaderAvgGndHgtTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.GlHeaderAvgGndHgtTxtBox.TabIndex = 6;
             // 
-            // GlHeaderEndDistanceTxtBox
+            // label29
             // 
-            this.GlHeaderEndDistanceTxtBox.BackColor = System.Drawing.Color.GreenYellow;
-            this.GlHeaderEndDistanceTxtBox.Location = new System.Drawing.Point(92, 68);
-            this.GlHeaderEndDistanceTxtBox.Name = "GlHeaderEndDistanceTxtBox";
-            this.GlHeaderEndDistanceTxtBox.Size = new System.Drawing.Size(100, 19);
-            this.GlHeaderEndDistanceTxtBox.TabIndex = 3;
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(7, 46);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(61, 12);
-            this.label27.TabIndex = 4;
-            this.label27.Text = "Start Dist: ";
-            // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(6, 71);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(55, 12);
-            this.label28.TabIndex = 5;
-            this.label28.Text = "End Dist: ";
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(7, 96);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(75, 12);
+            this.label29.TabIndex = 7;
+            this.label29.Text = "Avg. GndHgt: ";
             // 
             // LidarOpenGlForm
             // 
@@ -912,5 +933,7 @@
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.TextBox GlHeaderEndDistanceTxtBox;
         private System.Windows.Forms.TextBox GlHeaderStartDistanceTxtBox;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.TextBox GlHeaderAvgGndHgtTxtBox;
     }
 }

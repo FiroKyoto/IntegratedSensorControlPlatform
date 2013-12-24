@@ -375,12 +375,25 @@ namespace IidaLabVy446
         }
 
         /// <summary>
+        /// discriminate point X between crop and ground
+        /// </summary>
+        private double discriminate_point_x { get; set; }
+
+        /// <summary>
+        /// discriminate point Y between crop and ground
+        /// </summary>
+        private double discriminate_point_y { get; set; }
+
+        /// <summary>
         /// add crop points to list
         /// </summary>
         /// <param name="_list"></param>
         /// <param name="_glIndex"></param>
         public void AddCrop(List<SickLidar.CartesianPoint> _list, int _glIndex)
         {
+            this.discriminate_point_x = _list[_glIndex].x;
+            this.discriminate_point_y = _list[_glIndex].y;
+
             for (int i = 0; i < _glIndex; i++)
             {
                 //this.crop.Add(new SickLidar.CartesianPoint(_list[i].x, _list[i].y, _list[i].z));
@@ -498,7 +511,7 @@ namespace IidaLabVy446
                     this.save_index++;
                     string save_file_name = "result" + Convert.ToString(this.save_index) + ".txt";
                     this.save_to_txt = new StreamWriter(save_file_name);
-                    string title = 
+                    string title =
                         "Read_count" + " " +
                         "Tm_X" + " " +
                         "Tm_Y" + " " +
@@ -510,7 +523,12 @@ namespace IidaLabVy446
                         "Header_to_ransac_angle" + " " +
                         "Perpencicular_distance_ransac" + " " +
                         "Steer_command" + " " +
-                        "Header_command";
+                        "Header_command" + " " +
+                        "Discriminate_ptX" + " " +
+                        "Discriminate_ptY" + " " +
+                        "Right_header_ptX" + " " +
+                        "Right_header_ptY" + " " +
+                        "Avg_Gnd_Hgt";
                     this.save_to_txt.WriteLine(title);
 
                     this.save_ready = true;
@@ -528,13 +546,30 @@ namespace IidaLabVy446
                 string ran_distance = "0";
                 string steer_cmd = "0";
                 string header_cmd = "0";
+                string discriminate_ptX = "0";
+                string discriminate_ptY = "0";
+                string right_header_ptX = Convert.ToString(this.headerX);
+                string right_header_ptY = Convert.ToString(this.headerY);
+                string avg_gnd_hgt = "0";
 
-                // add ransac information to txt file
-                if (this.ran_running == true)
+                if (this.ran_start == true)
                 {
-                    ran_angle = Convert.ToString(this.ran_heading);
-                    header_to_ran_angle = Convert.ToString(this.ran_to_header_angle);
-                    ran_distance = Convert.ToString(this.ran_current_dist);
+                    // add discriminate point between ground and crop
+                    discriminate_ptX = Convert.ToString(this.discriminate_point_x);
+                    discriminate_ptY = Convert.ToString(this.discriminate_point_y);
+
+                    // add ransac information to txt file
+                    if (this.ran_running == true)
+                    {
+                        ran_angle = Convert.ToString(this.ran_heading);
+                        header_to_ran_angle = Convert.ToString(this.ran_to_header_angle);
+                        ran_distance = Convert.ToString(this.ran_current_dist);
+
+                        if (this.is_autonomous_mode == true)
+                        {
+                            avg_gnd_hgt = Convert.ToString(this.avgGndHgt);
+                        }
+                    }
                 }
 
                 // add body control information to txt file
@@ -546,7 +581,8 @@ namespace IidaLabVy446
 
                 string data = read_cnt + " " + tm_x + " " + tm_y + " " + body_angle + " " + ideal_path_angle + " " +
                     gps_angle + " " + gps_distance + " " + ran_angle + " " + header_to_ran_angle + " " +
-                    ran_distance + " " + steer_cmd + " " + header_cmd;
+                    ran_distance + " " + steer_cmd + " " + header_cmd + " " + discriminate_point_x + " " +
+                    discriminate_point_y + " " + right_header_ptX + " " + right_header_ptY + " " + avg_gnd_hgt;
 
                 this.save_to_txt.WriteLine(data);
             }
@@ -744,18 +780,27 @@ namespace IidaLabVy446
         private ushort cmd_header_potentiometer { get; set; }
 
         /// <summary>
+        /// gets or sets average ground height
+        /// </summary>
+        private double avgGndHgt { get; set; }
+
+        /// <summary>
         /// header control debug
         /// </summary>
         /// <param name="_cmd_header_potentiometer"></param>
         /// <param name="_karitaka_start_distance"></param>
         /// <param name="_karitaka_end_distance"></param>
-        public void HeaderControlDebug(ushort _cmd_header_potentiometer, double _karitaka_start_distance, double _karitaka_end_distance)
+        /// <param name="_avgGndHgt"></param>
+        public void HeaderControlDebug(ushort _cmd_header_potentiometer, double _karitaka_start_distance, double _karitaka_end_distance, double _avgGndHgt)
         {
             this.GlHeaderPoteniometerTxtBox.Text = Convert.ToString(_cmd_header_potentiometer);
             this.cmd_header_potentiometer = _cmd_header_potentiometer;
 
             this.GlHeaderStartDistanceTxtBox.Text = _karitaka_start_distance.ToString("N3");
             this.GlHeaderEndDistanceTxtBox.Text = _karitaka_end_distance.ToString("N3");
+
+            this.GlHeaderAvgGndHgtTxtBox.Text = Convert.ToString(_avgGndHgt);
+            this.avgGndHgt = _avgGndHgt;
         }
 
         /// <summary>

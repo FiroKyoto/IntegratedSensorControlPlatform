@@ -1818,7 +1818,7 @@ namespace IidaLabVy446
             }
 
             // header control debug
-            this.lidarOpenGlForm.HeaderControlDebug(this.vy446_usCmdKaritaka, this.cropStand.karitaka_start_distance, this.cropStand.karitaka_end_distance);
+            this.lidarOpenGlForm.HeaderControlDebug(this.vy446_usCmdKaritaka, this.cropStand.karitaka_start_distance, this.cropStand.karitaka_end_distance, this.cropStand.avgGndHgt);
             this.Vy446_isHeaderControl_TxtBox.Text = Convert.ToString(this.cropStand.isHeaderControl);
             this.Vy446_HeaderPotentiometer_TxtBox.Text = Convert.ToString(this.vy446_usCmdKaritaka);
         }
