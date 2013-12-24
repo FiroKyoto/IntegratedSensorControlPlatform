@@ -1,4 +1,4 @@
-IidaLabVy446
+Integrated Sensor Control Platform (ISCP)
 ============
 
 InedaHime Project: Integrated Sensor Control Platform (ISCP) for Head-Feeding Combine Harvester
@@ -21,6 +21,8 @@ Introduction:
  3) http://youtu.be/eL6cX5_9o-0 - Remote Monitoring 3D Crop Stand for Combine Harvester (Japanese)
 
  4) http://youtu.be/juyYuQfvgkk - A multi-sensor based uncut crop edge detection method for head-feeding combine harvester.
+
+ 5) http://robotstory.tistory.com/491 - Research Result 2013 (Korean and Japanese) 
 
 
 
