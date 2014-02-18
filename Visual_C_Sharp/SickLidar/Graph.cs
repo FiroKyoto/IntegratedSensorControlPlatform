@@ -55,16 +55,16 @@ namespace SickLidar
         /// For hokuyo sensor graph
         /// </summary>
         /// <param name="zgc"></param>
-        public void CreateHokuyoGraph(ZedGraphControl zgc)
+        public void CreateHokuyoGraph(ZedGraphControl zgc, String _title, String _xaxis, String _yaxis)
         {
             // YZ Plane
             //--get a reference to the graphPane--//
             this.myPane2 = zgc.GraphPane;
 
             //--set the titles--//
-            this.myPane2.Title.Text = "XY-plane data graph";
-            this.myPane2.XAxis.Title.Text = "X (mm)";
-            this.myPane2.YAxis.Title.Text = "Y (mm)";
+            this.myPane2.Title.Text = _title;
+            this.myPane2.XAxis.Title.Text = _xaxis;
+            this.myPane2.YAxis.Title.Text = _yaxis;
 
             //--manually set the x axis range--//
             //this.myPane.XAxis.Scale.Min = -4.0;
@@ -159,7 +159,7 @@ namespace SickLidar
             }
 
             //--generate a red curve--//
-            this.myPane2.AddCurve(null, this.ppList2, Color.Red, SymbolType.None);
+            this.myPane2.AddCurve(null, this.ppList2, Color.Red, SymbolType.Circle);
 
             // tell zedgraph to refigure the axes since the data have changed
             zgc.AxisChange();

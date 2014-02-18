@@ -197,6 +197,7 @@ namespace IidaLabVy446
         #region Machine Vision
 
         private MachineVision.File mvFile;
+        private Algorithm.ObjectDetection objectDetection;
 
         /// <summary>
         /// Machine Vision Connect
@@ -208,6 +209,12 @@ namespace IidaLabVy446
                this.VisionReadCheckBox.Checked,
                Convert.ToInt32(this.TimerIntervalTxtBox.Text)
                );
+
+            // object detection
+            if (this.VisionObjectDetectionCheckBox.Checked == true)
+            {
+                this.objectDetection = new ObjectDetection();
+            }
         }
 
         /// <summary>
@@ -222,7 +229,17 @@ namespace IidaLabVy446
                     this.mvFile.VideoWriter(this.mvFile.cap.QueryFrame(), this.readCount);
                 }
 
-                this.pBoxIpl1.ImageIpl = this.mvFile.cap.QueryFrame();
+                // object detection
+                if (this.VisionObjectDetectionCheckBox.Checked == true)
+                {
+                    //this.objectDetection.OpticalFlowLK(this.mvFile.cap.QueryFrame());
+                    this.objectDetection.OpticalFlowPyramidalLK(this.mvFile.cap.QueryFrame());
+                    this.pBoxIpl1.ImageIpl = this.objectDetection.dstImg;
+                }
+                else
+                {
+                    this.pBoxIpl1.ImageIpl = this.mvFile.cap.QueryFrame();
+                }
             }
             else
             {
@@ -1496,7 +1513,7 @@ namespace IidaLabVy446
 
         #endregion
 
-        #region Draw 3D CropStand state on OpenGL
+        #region Draw 3D Map on OpenGL Form (3D Terrain Map, 3D Grain Tank Map)
         
         private Algorithm.CropStand cropStand;
         private double backTmX { get; set; }
@@ -1509,19 +1526,54 @@ namespace IidaLabVy446
         private bool isHarvestMode { get; set; }
         private bool isBackward { get; set; }
 
+
         /// <summary>
         /// initialization of crop stand class
         /// </summary>
         /// <param name="_isLidar"></param>
         /// <param name="_isBody"></param>
-        /// <param name="_isOpenGl"></param>
-        private void InitializeCropStand(bool _isLidar, bool _isBody, bool _isOpenGl)
+        /// <param name="_isLidarOpenGL"></param>
+        /// <param name="_isAuger"></param>
+        /// <param name="_isAugerOpenGL"></param>
+        private void InitializeCropStand(bool _isLidar, bool _isBody, bool _isLidarOpenGL, bool _isAuger, bool _isAugerOpenGL)
         {
-            if ((_isLidar == true) && (_isBody == true) && (_isOpenGl == true))
+            bool is_initialize = false;
+
+            // for 3D Terrain Map on OpenGL form
+            if ((_isLidar == true) && (_isBody == true) && (_isLidarOpenGL == true))
+            {
+                is_initialize = true;
+            }
+
+            // for 3D Grain Tank Map on OpenGL form
+            if ((_isAuger == true) && (_isBody == true) && (_isAugerOpenGL == true))
+            {
+                is_initialize = true;
+            }
+
+            if (is_initialize == true)
             {
                 this.cropStand = new CropStand(this.BodyModelComboBox.SelectedIndex);
                 this.isFirstBodyTm = false;
-                //this.isSaveLidarData = true;
+                //this.isSaveLidarData = true; 
+            }
+        }
+
+        /// <summary>
+        /// Draw 3D Map using various sensors
+        /// </summary>
+        private void Draw3DMap()
+        {
+            // for draw 3D terrain Map on openGL
+            if ((this.LidarAvailableCheckBox.Checked == true) && (this.BodyAvailableCheckBox.Checked == true) && (this.LidarOpenGlCheckBox.Checked == true))
+            {
+                this.Draw3DTerrainMap(this.isLidarData, this.isTmData);
+            }
+
+            // for draw 3D Grain Tank Map
+            if ((this.AugerAvailableCheckBox.Checked == true) && (this.BodyAvailableCheckBox.Checked == true) && (this.AugerOpenGlCheckBox.Checked == true))
+            {
+                this.Draw3DGrainTankMap(this.isAugerLidarData, this.isTmData);
             }
         }
 
@@ -1532,11 +1584,11 @@ namespace IidaLabVy446
 
         /// <summary>
         /// Revised 2013-06-12
-        /// Draw Crop stand on OpenGL
+        /// Draw 3D Terrain Map on LidarOpenGL Form
         /// </summary>
         /// <param name="_lidar"></param>
         /// <param name="_tm"></param>
-        private void DrawCropStand(bool _lidar, bool _tm)
+        private void Draw3DTerrainMap(bool _lidar, bool _tm)
         {
             if (_tm == true)
             {
@@ -1660,6 +1712,96 @@ namespace IidaLabVy446
 
                 this.lidarOpenGlForm.GlUpdate();
             }
+        }
+
+        private double back_DT_AUG_MTR { get; set; }
+        private double back_DT_AUG_CLD { get; set; }
+        private bool is_save_auger_data = false;
+
+        /// <summary>
+        /// Revised 2014-01-24 by wonjae cho
+        /// Draw 3D Grain Tank Map on AugerOpenGL Form
+        /// </summary>
+        /// <param name="_lidar"></param>
+        /// <param name="_tm"></param>
+        private void Draw3DGrainTankMap(bool _lidar, bool _tm)
+        {
+            if (_tm == true)
+            {
+                this.isFirstBodyTm = true;
+            }
+
+            if (_lidar == true && this.isFirstBodyTm == true)
+            {
+                if (_tm == true)
+                {
+                    if (this.BodyModelComboBox.SelectedIndex == 0)
+                    {
+                        // vy50 model
+                        this.backHeading = this._vy50.gps_Heading;
+                        this.backSpeed = this._vy50.d_Speed;
+
+                        // Potentiometer neutral = 125
+                        if (this._vy50.uc_MainPotentio < 125)
+                        {
+                            this.isBackward = true;
+                        }
+                        else
+                        {
+                            this.isBackward = false;
+                        }
+                    }
+
+                    if (this.BodyModelComboBox.SelectedIndex == 1)
+                    {
+                        // Vy446 model
+                        this.backHeading = this._vy446.gps_Compass;
+                        //this.backHeading = this._vy446.compass;
+                        this.backSpeed = this._vy446.fSpeed;
+
+                        // Potentiometer neutral = 1405
+                        if (this._vy446.AD_FEED_M < 1405)
+                        {
+                            this.isBackward = true;
+                        }
+                        else
+                        {
+                            this.isBackward = false;
+                        }
+
+                        this.back_DT_AUG_MTR = this._vy446.DT_AUG_MTR;
+                        this.back_DT_AUG_CLD = this._vy446.DT_AUG_CLD;
+                    }
+
+                    this.backTmX = this.tmX;
+                    this.backTmY = this.tmY;
+                    this.backTmZ = this.tmZ;
+                }
+                else
+                {
+                    this.cropStand.NewTm(this.isBackward, this.backTmX, this.backTmY, this.backTmZ, this.backHeading, this.backSpeed, Convert.ToInt32(this.TimerIntervalTxtBox.Text));
+                    this.backTmX = this.cropStand.NewTmX;
+                    this.backTmY = this.cropStand.NewTmY;
+                    this.backTmZ = this.cropStand.NewTmZ;
+                }
+
+                // send debug information to lidarForm
+                this.augerOpenGlForm.BodyInformation(this.readCount, this.backTmX, this.backTmY, this.backTmZ, this.backHeading, this.backSpeed, this.back_DT_AUG_MTR, this.back_DT_AUG_CLD);
+
+                // Convert Hokuyo original data to 3D points in world coordinates system.
+                this.augerOpenGlForm.ConvertLidarPoints(this._hokuyo.org_list_data, this._hokuyo.read_index_to_radian);
+
+                // openGL form update
+                this.is_save_auger_data = true;
+                this.augerOpenGlForm.GlUpdate();
+            }
+            else
+            {
+                this.is_save_auger_data = false;
+            }
+
+            // save revised body position data to .txt file and Draw square in image
+            this.augerOpenGlForm.SaveData(this.is_save_auger_data);
         }
 
         #endregion
@@ -1898,6 +2040,11 @@ namespace IidaLabVy446
         private SickLidar.File _hokuyo_file;
 
         /// <summary>
+        /// gets or sets measured data of mounted auger lidar
+        /// </summary>
+        private bool isAugerLidarData { get; set; }
+
+        /// <summary>
         /// 3d-imager (made by panasonic)
         /// </summary>
         private MachineVision.Dimager dImager;
@@ -1916,6 +2063,11 @@ namespace IidaLabVy446
         /// gets or sets Connected dImager Driver
         /// </summary>
         private int dImager_Driver { get; set; }
+
+        /// <summary>
+        /// 3D grain tank model
+        /// </summary>
+        private AugerOpenGlForm augerOpenGlForm;
 
         /// <summary>
         /// initialization of 3d-imager
@@ -2016,7 +2168,7 @@ namespace IidaLabVy446
         private void AugerConnect()
         {
             this._hokuyo_graph = new SickLidar.Graph();
-            this._hokuyo_graph.CreateHokuyoGraph(zg4);
+            this._hokuyo_graph.CreateHokuyoGraph(zg4, "Hokuyo Lidar", "X(mm)", "Y(mm)");
 
             if (this.AugerReadCheckBox.Checked == false)
             {
@@ -2065,6 +2217,13 @@ namespace IidaLabVy446
                     this.dImager_io.InitializeDImagerIO(this.AugerSaveCheckBox.Checked, this.AugerReadCheckBox.Checked, Convert.ToInt32(this.TimerIntervalTxtBox.Text)); 
                 }
             }
+
+            // Auger OpenGL form
+            if (this.AugerOpenGlCheckBox.Checked == true)
+            {
+                this.augerOpenGlForm = new AugerOpenGlForm(this.BodyModelComboBox.SelectedIndex);
+                this.augerOpenGlForm.Show();
+            }
         }
 
         /// <summary>
@@ -2073,6 +2232,8 @@ namespace IidaLabVy446
         /// </summary>
         private void AugerPlay()
         {
+            this.isAugerLidarData = false;
+
             if (this.AugerReadCheckBox.Checked == false)
             {
                 if ((this.AugerLidarCheckBox.Checked == true) && (this._hokuyo.is_connected_sensor == true))
@@ -2085,6 +2246,8 @@ namespace IidaLabVy446
                     {
                         this._hokuyo_file.addDataForSave(this._hokuyo.org_list_data);
                     }
+
+                    this.isAugerLidarData = true;
                 }
 
                 if ((this.AugerDImagerCheckBox.Checked == true) && (this.dImager_Driver == 0))
@@ -2105,6 +2268,8 @@ namespace IidaLabVy446
                 {
                     this._hokuyo.ConvertReadData(this.readCount, this._hokuyo_file.readData);
                     this._hokuyo_graph.UpdateHokuyoGraph(this._hokuyo.cartesian_data, zg4);
+
+                    this.isAugerLidarData = true;
                 }
 
                 if ((this.AugerDImagerCheckBox.Checked == true) && (this.dImager_io.cap.QueryFrame() != null))
@@ -2196,7 +2361,9 @@ namespace IidaLabVy446
                 this.InitializeCropStand(
                     this.LidarAvailableCheckBox.Checked,
                     this.BodyAvailableCheckBox.Checked,
-                    this.LidarOpenGlCheckBox.Checked
+                    this.LidarOpenGlCheckBox.Checked,
+                    this.AugerAvailableCheckBox.Checked,
+                    this.AugerOpenGlCheckBox.Checked
                     );
 
                 this.IntegratedTimer.Interval = Convert.ToInt32(this.TimerIntervalTxtBox.Text);
@@ -2209,7 +2376,9 @@ namespace IidaLabVy446
                 this.InitializeCropStand(
                     this.LidarAvailableCheckBox.Checked,
                     this.BodyAvailableCheckBox.Checked,
-                    this.LidarOpenGlCheckBox.Checked
+                    this.LidarOpenGlCheckBox.Checked,
+                    this.AugerAvailableCheckBox.Checked,
+                    this.AugerOpenGlCheckBox.Checked
                     );
             }
 
@@ -2353,11 +2522,8 @@ namespace IidaLabVy446
 
                     this.CommunicationPlay();
 
-                    // for crop stand
-                    if ((this.LidarAvailableCheckBox.Checked == true) && (this.BodyAvailableCheckBox.Checked == true) && (this.LidarOpenGlCheckBox.Checked == true))
-                    {
-                        this.DrawCropStand(this.isLidarData, this.isTmData);
-                    }
+                    // for Draw 3D Map on OpenGL 
+                    this.Draw3DMap();
 
                     watch.Stop();
                     this.toolStripStatusLabel2.Text =
@@ -2400,11 +2566,8 @@ namespace IidaLabVy446
                 this.AugerPlay();
             }
 
-            // for crop stand
-            if ((this.LidarAvailableCheckBox.Checked == true) && (this.BodyAvailableCheckBox.Checked == true) && (this.LidarOpenGlCheckBox.Checked == true))
-            {
-                this.DrawCropStand(this.isLidarData, this.isTmData);
-            }
+            // for Draw 3D Map on OpenGL
+            this.Draw3DMap();
 
             // Guidance Method
             this.GuidanceRun(this.Vy50_ROBOTMODE_CheckBox.Checked, this.Vy446_RobotMode_CheckBox.Checked, this.BodyModelComboBox.SelectedIndex);

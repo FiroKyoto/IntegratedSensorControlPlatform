@@ -59,7 +59,7 @@ namespace SickLidar
         /// <summary>
         /// index to radian 
         /// </summary>
-        private List<double> read_index_to_radian;
+        public List<double> read_index_to_radian;
 
         /// <summary>
         /// cartesian xy
@@ -87,6 +87,8 @@ namespace SickLidar
         {
             this._hokuyo = new UrgCtrl.UrgCtrl();
             this.cartesian_data = new List<CartesianXY>();
+            this.org_list_data = new List<int>();
+            this.read_index_to_radian = new List<double>();
         }
 
         /// <summary>
@@ -99,6 +101,7 @@ namespace SickLidar
             this.org_data = new int[this._hokuyo.MaxBufferSize];
             this.cartesian_data = new List<CartesianXY>();
             this.org_list_data = new List<int>();
+            this.read_index_to_radian = new List<double>();
             
             //// for debug
             //this.save_data_to_txt = new StreamWriter("hokuyo_info.txt");
@@ -116,6 +119,7 @@ namespace SickLidar
             this.org_data.Initialize();
             this.cartesian_data.Clear();
             this.org_list_data.Clear();
+            this.read_index_to_radian.Clear();
 
             //capture data
             this._hokuyo.Capture(this.org_data);
@@ -151,6 +155,7 @@ namespace SickLidar
                 point = calculate_point((this.org_data[i]), (this._hokuyo.Index2Radian(i) * 180.0 / Math.PI));
                 this.cartesian_data.Add(point);
                 this.org_list_data.Add(this.org_data[i]);
+                this.read_index_to_radian.Add(this._hokuyo.Index2Radian(i));
             }
         }
 
@@ -166,15 +171,18 @@ namespace SickLidar
                 StreamReader sr = new StreamReader("hokuyo_info.txt");
                 List<string> savedData = new List<string>();
                 string line = null;
+                
                 while ((line = sr.ReadLine()) != null)
                 {
                     savedData.Add(line);
                 }
+                
                 string[] dataLines = savedData.ToArray();
                 string[] max_buffer = dataLines[0].Split(' ');
                 this.read_max_buffer_size = Convert.ToInt32(max_buffer[0]);
                 string[] radian_angle = dataLines[1].Split(' ');
-                this.read_index_to_radian = new List<double>();
+                this.read_index_to_radian.Clear();
+
                 for (int i = 0; i < this.read_max_buffer_size; i++)
                 {
                     double rad = Convert.ToDouble(radian_angle[i]);
@@ -185,6 +193,7 @@ namespace SickLidar
             }
 
             this.cartesian_data.Clear();
+            this.org_list_data.Clear();
             string[] lineArr = _data[_index].Split(' ');
 
             //calculate point
@@ -194,6 +203,7 @@ namespace SickLidar
                 int rowLength = Convert.ToInt32(lineArr[i]);
                 point = calculate_point((rowLength), (this.read_index_to_radian[i] * 180.0 / Math.PI));
                 this.cartesian_data.Add(point);
+                this.org_list_data.Add(rowLength);
             }
         }
 

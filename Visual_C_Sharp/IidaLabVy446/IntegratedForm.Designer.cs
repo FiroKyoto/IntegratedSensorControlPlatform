@@ -107,6 +107,8 @@
             this.AmedasComBox = new System.Windows.Forms.ComboBox();
             this.label64 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.VisionObjectDetectionCheckBox = new System.Windows.Forms.CheckBox();
+            this.label103 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.LidarOpenGlCheckBox = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -336,6 +338,7 @@
             this.zg4 = new ZedGraph.ZedGraphControl();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
             this.CommunicationTimer = new System.Windows.Forms.Timer(this.components);
+            this.AugerOpenGlCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pBoxIpl1)).BeginInit();
@@ -903,6 +906,7 @@
             // 
             // groupBox19
             // 
+            this.groupBox19.Controls.Add(this.AugerOpenGlCheckBox);
             this.groupBox19.Controls.Add(this.AugerDImagerCheckBox);
             this.groupBox19.Controls.Add(this.AugerReadCheckBox);
             this.groupBox19.Controls.Add(this.AugerSaveCheckBox);
@@ -911,9 +915,9 @@
             this.groupBox19.Controls.Add(this.AugerLidarCheckBox);
             this.groupBox19.Controls.Add(this.label98);
             this.groupBox19.Controls.Add(this.AugerAvailableCheckBox);
-            this.groupBox19.Location = new System.Drawing.Point(216, 133);
+            this.groupBox19.Location = new System.Drawing.Point(216, 195);
             this.groupBox19.Name = "groupBox19";
-            this.groupBox19.Size = new System.Drawing.Size(200, 318);
+            this.groupBox19.Size = new System.Drawing.Size(200, 256);
             this.groupBox19.TabIndex = 11;
             this.groupBox19.TabStop = false;
             this.groupBox19.Text = "Auger";
@@ -1175,16 +1179,37 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.VisionObjectDetectionCheckBox);
+            this.groupBox5.Controls.Add(this.label103);
             this.groupBox5.Controls.Add(this.VisionAvailableCheckBox);
             this.groupBox5.Controls.Add(this.VisionReadCheckBox);
             this.groupBox5.Controls.Add(this.label7);
             this.groupBox5.Controls.Add(this.VisionSaveCheckBox);
             this.groupBox5.Location = new System.Drawing.Point(216, 6);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(200, 121);
+            this.groupBox5.Size = new System.Drawing.Size(200, 183);
             this.groupBox5.TabIndex = 4;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Machine Vision (Front view)";
+            // 
+            // VisionObjectDetectionCheckBox
+            // 
+            this.VisionObjectDetectionCheckBox.AutoSize = true;
+            this.VisionObjectDetectionCheckBox.Location = new System.Drawing.Point(6, 137);
+            this.VisionObjectDetectionCheckBox.Name = "VisionObjectDetectionCheckBox";
+            this.VisionObjectDetectionCheckBox.Size = new System.Drawing.Size(110, 16);
+            this.VisionObjectDetectionCheckBox.TabIndex = 5;
+            this.VisionObjectDetectionCheckBox.Text = "Object Detection";
+            this.VisionObjectDetectionCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // label103
+            // 
+            this.label103.AutoSize = true;
+            this.label103.Location = new System.Drawing.Point(6, 109);
+            this.label103.Name = "label103";
+            this.label103.Size = new System.Drawing.Size(66, 12);
+            this.label103.TabIndex = 4;
+            this.label103.Text = "2. Algorithm";
             // 
             // groupBox4
             // 
@@ -1214,9 +1239,9 @@
             this.LidarOpenGlCheckBox.AutoSize = true;
             this.LidarOpenGlCheckBox.Location = new System.Drawing.Point(8, 247);
             this.LidarOpenGlCheckBox.Name = "LidarOpenGlCheckBox";
-            this.LidarOpenGlCheckBox.Size = new System.Drawing.Size(64, 16);
+            this.LidarOpenGlCheckBox.Size = new System.Drawing.Size(155, 16);
             this.LidarOpenGlCheckBox.TabIndex = 4;
-            this.LidarOpenGlCheckBox.Text = "OpenGL";
+            this.LidarOpenGlCheckBox.Text = "3D Terrain Map (OpenGL)";
             this.LidarOpenGlCheckBox.UseVisualStyleBackColor = true;
             // 
             // tabPage2
@@ -3500,6 +3525,16 @@
             // 
             this.CommunicationTimer.Tick += new System.EventHandler(this.CommunicationTimer_Tick);
             // 
+            // AugerOpenGlCheckBox
+            // 
+            this.AugerOpenGlCheckBox.AutoSize = true;
+            this.AugerOpenGlCheckBox.Location = new System.Drawing.Point(6, 173);
+            this.AugerOpenGlCheckBox.Name = "AugerOpenGlCheckBox";
+            this.AugerOpenGlCheckBox.Size = new System.Drawing.Size(98, 16);
+            this.AugerOpenGlCheckBox.TabIndex = 8;
+            this.AugerOpenGlCheckBox.Text = "3D Grain Tank";
+            this.AugerOpenGlCheckBox.UseVisualStyleBackColor = true;
+            // 
             // IntegratedForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -3877,5 +3912,8 @@
         private System.Windows.Forms.TextBox DImagerFreqModeTxtBox;
         private System.Windows.Forms.Label label102;
         private System.Windows.Forms.CheckBox AugerDImagerCheckBox;
+        private System.Windows.Forms.CheckBox VisionObjectDetectionCheckBox;
+        private System.Windows.Forms.Label label103;
+        private System.Windows.Forms.CheckBox AugerOpenGlCheckBox;
     }
 }
