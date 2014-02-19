@@ -99,11 +99,35 @@
     <Compile Include="DimagerForm.Designer.cs">
       <DependentUpon>DimagerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="IntegratedAuger.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IntegratedBody.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IntegratedCommunication.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="IntegratedForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="IntegratedForm.Designer.cs">
       <DependentUpon>IntegratedForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IntegratedGuidance.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IntegratedLidar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IntegratedOpenGL.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IntegratedVision.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IntegratedWeather.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="LidarOpenGlForm.cs">
       <SubType>Form</SubType>
