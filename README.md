@@ -2,12 +2,12 @@ ISCSP
 ============
 
 InedaHime Project: 
-  Integrated Sensor Control Software Platform (ISCP) for Head-Feeding Combine Harvester.
+  Integrated Sensor Control Software Platform (ISCSP) for Head-Feeding Combine Harvester.
 
 1.
 Objective:
 
- ISCP supports various types of sensors, such as machine vision (USB interface, 3D-Imager[Panasonic]), LRF(SICK LMSxxx series), and GPS that are used for the automated guidance system of the head-feeding combine harvester.
+ ISCSP supports various types of sensors, such as machine vision (USB interface, 3D-Imager[Panasonic]), LRF(SICK LMSxxx series), and GPS that are used for the automated guidance system of the head-feeding combine harvester.
  This platform can also express GUI-based real time data, and the open source platform can freely be modified and redistributed without any license restrictions.
 
 2.
@@ -26,12 +26,17 @@ Results:
 
  4) http://youtu.be/wJ5u850aQlI - A Vision-based Uncut Crop Edge Detection for Automated Guidance of Head-Feeding Combine. 
 
- 4) http://youtu.be/juyYuQfvgkk - Using Multiple Sensors to Detect Uncut Crop Edges for Autonomous Guidance Systems of Head-Feeding Combine Harvester. 
+ 5) http://youtu.be/juyYuQfvgkk - Using Multiple Sensors to Detect Uncut Crop Edges for Autonomous Guidance Systems of Head-Feeding Combine Harvester. 
 
- 5) http://robotstory.tistory.com/491 - Research Result 2013 (Korean and Japanese) 
+ 6) http://robotstory.tistory.com/491 - Research Result 2013 (Korean and Japanese) 
 
 
 4.
 Field Robotics Lab., Kyoto University: 
 
-http://elam.kais.kyoto-u.ac.jp/
+  http://elam.kais.kyoto-u.ac.jp/
+
+
+If you have some questions, Please contact me: 
+
+  cho[at]elam[dot]kais[dot]kyoto-u[dot]ac[dot]jp
