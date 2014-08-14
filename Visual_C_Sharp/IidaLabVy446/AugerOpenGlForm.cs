@@ -26,6 +26,8 @@ namespace IidaLabVy446
         private CombineBody.Body3DMap _map;
         private Algorithm.Auger _auger;
 
+        private bool read_from_file { get; set; }
+
         /// <summary>
         /// gets or sets combine model index
         /// </summary>
@@ -65,6 +67,8 @@ namespace IidaLabVy446
         private SickLidar.Graph _graphXZ;
 
         private bool is_initialize_save_data = false;
+        private bool is_draw_sqaure_in_image = false;
+        private bool is_calculated_destination_info = false;
 
         #endregion
 
@@ -74,7 +78,8 @@ namespace IidaLabVy446
         /// Constructor
         /// </summary>
         /// <param name="_bodyModelIndex"></param>
-        public AugerOpenGlForm(int _bodyModelIndex)
+        /// <param name="_read_from_file"></param>
+        public AugerOpenGlForm(int _bodyModelIndex, bool _read_from_file)
         {
             InitializeComponent();
 
@@ -83,6 +88,7 @@ namespace IidaLabVy446
 
             // initialization OpenGl variable
             this.bodyModelIndex = _bodyModelIndex;
+            this.read_from_file = _read_from_file;
             this.isManualControl = false;
             this.loaded = false;
             this.transX = 0;
@@ -98,6 +104,11 @@ namespace IidaLabVy446
 
         #region Processing Methods
 
+        private int AD_FEED_M { get; set; }
+        private bool is_set_first_pose = false;
+        private double first_pose_X { get; set; }
+        private double first_pose_Y { get; set; }
+
         /// <summary>
         /// Body information debug method
         /// </summary>
@@ -109,7 +120,7 @@ namespace IidaLabVy446
         /// <param name="_body_speed"></param>
         /// <param name="_DT_AUG_MTR"></param>
         /// <param name="_DT_AUG_CLD"></param>
-        public void BodyInformation(int _readCnt, double _tmX, double _tmY, double _tmZ, double _heading_angle, double _body_speed, double _DT_AUG_MTR, double _DT_AUG_CLD)
+        public void BodyInformation(int _readCnt, double _tmX, double _tmY, double _tmZ, double _heading_angle, double _body_speed, double _DT_AUG_MTR, double _DT_AUG_CLD, int _AD_FEED_M)
         {
             this.GlReadCntTxtBox.Text = Convert.ToString(_readCnt);
             this.read_count = _readCnt;
@@ -127,6 +138,16 @@ namespace IidaLabVy446
             //this.GlHarvestTimesTxtBox.Text = Convert.ToString(this.harvest_times_count);
             this.DT_AUG_MTR = _DT_AUG_MTR;
             this.DT_AUG_CLD = _DT_AUG_CLD;
+            this.GlBodyAD_FEED_MTxtBox.Text = _AD_FEED_M.ToString("N3");
+            this.AD_FEED_M = _AD_FEED_M;
+
+            if (this.is_set_first_pose == false)
+            {
+                this.first_pose_X = _tmX;
+                this.first_pose_Y = _tmY;
+
+                this.is_set_first_pose = true;
+            }
         }
 
         /// <summary>
@@ -145,7 +166,14 @@ namespace IidaLabVy446
             this.GlAugerSpoutZTxtBox.Text = this._map._auger_pose.SPout_Z.ToString("N3");
         }
 
-        private bool is_draw_sqaure_in_image = false;
+        /// <summary>
+        /// Steering Information Debug
+        /// </summary>
+        /// <param name="_current_state"></param>
+        public void SteeringInformation(string _current_state)
+        {
+            this.GlSteerStateMsgTxtBox.Text = _current_state;
+        }
 
         /// <summary>
         /// Save Revised body position data to txt file.
@@ -168,12 +196,23 @@ namespace IidaLabVy446
                 //this.save_data_to_txt.Close();
 
                 // draw square in image
-                if (this.is_draw_sqaure_in_image == false)
+                //this.DrawSquareInImage();
+            }
+        }
+
+        /// <summary>
+        /// Draw square in image
+        /// </summary>
+        public void DrawSquareInImage()
+        {
+            if (this.is_draw_sqaure_in_image == false)
+            {
+                this._auger.DrawSquareInImage();
+                this.pBoxIpl1.ImageIpl = this._auger.top_view_image;
+                this.is_draw_sqaure_in_image = true;
+
+                if (this.read_from_file == true)
                 {
-                    this._auger.DrawSquareInImage();
-                    this.pBoxIpl1.ImageIpl = this._auger.top_view_image;
-                    this.is_draw_sqaure_in_image = true;
-                    
                     glControl1.Invalidate();
                 }
             }
@@ -188,6 +227,32 @@ namespace IidaLabVy446
         public void ConvertLidarPoints(List<int> _org_list_data, List<double> _read_index_to_radian)
         {
             this._auger.ConvertLidarPoints(_org_list_data, _read_index_to_radian, this._map._body_pose, this._map._auger_received, this._map._auger_pose, this._map._auger_lidar_set);
+        }
+
+        /// <summary>
+        /// Travel distance of combine harvester
+        /// </summary>
+        /// <returns></returns>
+        public double TravelDistance()
+        {
+            double result = Math.Sqrt(Math.Pow((this._tmX - this.first_pose_X), 2.0) + Math.Pow((this._tmY - this.first_pose_Y), 2.0));
+            this.GlSteerTravelDistanceTxtBox.Text = Convert.ToString(result);
+            return result;
+        }
+
+        /// <summary>
+        /// Revised 2014-02-25
+        /// Distance between target and current of auger
+        /// </summary>
+        /// <returns></returns>
+        public double DistanceBetweenTargetAndCurrentOfAuger()
+        {
+            double result = Math.Sqrt(
+                Math.Pow((this._map._auger_pose.LinkA_X - this._auger._auger_final_pose.Intersection_Final_X), 2.0) +
+                Math.Pow((this._map._auger_pose.LinkA_Y - this._auger._auger_final_pose.Intersection_Final_Y), 2.0)
+                );
+            GlSteerAugerDistanceTxtBox.Text = Convert.ToString(result);
+            return result;
         }
 
         /// <summary>
@@ -207,6 +272,90 @@ namespace IidaLabVy446
             this._map.DrawBody();
 
             this.AugerInformation();
+        }
+
+        /// <summary>
+        /// Revised 2014-03-19
+        /// Draw target path
+        /// </summary>
+        private void DrawTargetPath()
+        {
+            if (this.read_count > 10)
+            {
+                this._auger.CreateIdealTargetPath(
+                    this._map._body_pose.X, this._map._body_pose.Y, this._map._body_pose.Z, this._map._body_pose.Angle,
+                    this._map._auger_pose.LinkA_X, this._map._auger_pose.LinkA_Y, this._map._auger_pose.LinkA_Z);
+            }
+        }
+
+        public bool is_grain_tank_detection = false;
+        public ushort usCmdLRPos { get; set; }
+        public ushort usCmdUDPos { get; set; }
+
+        /// <summary>
+        /// Draw grain tank edge
+        /// </summary>
+        private void DrawGrainTank()
+        {
+            if (this._auger.is_grain_tank_edge == true)
+            {
+                this.is_grain_tank_detection = true;
+                this._auger.DrawGrainTankEdge();
+                this.GlSteerProcessingSpeedTxtBox.Text = this._auger.processing_time;
+
+                if (this.is_calculated_destination_info == false)
+                {
+                    // destination point
+                    this.GlDestinationPoseXTxtBox.Text = this._auger._auger_final_pose.Destination_X.ToString("N3");
+                    this.GlDestinationPoseYTxtBox.Text = this._auger._auger_final_pose.Destination_Y.ToString("N3");
+                    this.GlDestinationPoseZTxtBox.Text = this._auger._auger_final_pose.Destination_Z.ToString("N3");
+
+                    // calculate destination Roll degree
+                    this._auger.CalculateDestinationDegrees(this._map._auger_received.Length, this._map._auger_received.Height, this.AD_FEED_M);
+
+                    if (this._auger._auger_final_pose.Is_Calculated_Radius == true)
+                    {
+                        this.GlDestinationRollTxtBox.Text = this._auger._auger_final_pose.Roll_Degree.ToString("N3");
+                        this.GlDestinationRadiusTxtBox.Text = this._auger._auger_final_pose.Radius.ToString("N3");
+                        this.GlDestinationPerpendicularTxtBox.Text = this._auger._auger_final_pose.Perpendicular_Distance.ToString("N3");
+                        this.GlDestinationADYawTxtBox.Text = this._auger._auger_final_pose.usCmdLRPos.ToString("N3");
+                        this.usCmdLRPos = this._auger._auger_final_pose.usCmdLRPos;
+                        this.GlDestinationADRollTxtBox.Text = this._auger._auger_final_pose.usCmdUDPos.ToString("N3");
+                        this.usCmdUDPos = this._auger._auger_final_pose.usCmdUDPos;
+
+                        if (this._auger._auger_final_pose.Is_Find_Intersection == true)
+                        {
+                            this._auger.DecisionIntersectionPoint(this._map._auger_pose.Origin_X, this._map._auger_pose.Origin_Y);
+
+                            this.GlDestinationYawTxtBox.Text = this._auger._auger_final_pose.Yaw_Degree.ToString("N3");
+                            this.GlDestinationIntersectionXTxtBox.Text = this._auger._auger_final_pose.Intersection_Final_X.ToString("N3");
+                            this.GlDestinationIntersectionYTxtBox.Text = this._auger._auger_final_pose.Intersection_Final_Y.ToString("N3");
+                        }
+                    }
+                    
+                    this.is_calculated_destination_info = true;
+                }
+
+                // distance between auger spout point to destination point
+                this._auger.destination_to_auger_distance = this._auger.DistanceBetween3DPoints(
+                    this._map._auger_pose.Spout_X, this._map._auger_pose.Spout_Y, this._map._auger_pose.SPout_Z,
+                    this._auger._auger_final_pose.Destination_X, this._auger._auger_final_pose.Destination_Y, this._auger._auger_final_pose.Destination_Z
+                    );
+
+                this.GlDistanceAugerToDestinationTxtBox.Text = this._auger.destination_to_auger_distance.ToString("N3");
+
+                // draw radius
+                if (this._auger._auger_final_pose.Is_Calculated_Radius == true)
+                {
+                    this._auger.DrawRadius();
+
+                    if (this._auger._auger_final_pose.Is_Find_Intersection == true)
+                    {
+                        this._auger.DrawIntersection(0.0, this._map._auger_received.Length);
+                        this.GlDestinationSimulatedAugerLengthTxtBox.Text = this._auger.simulated_auger_length.ToString("N3");
+                    }
+                }
+            }
         }
 
         #endregion
@@ -369,15 +518,23 @@ namespace IidaLabVy446
             GL.Translate(this.transX, this.transY, this.transZ);
             GL.Rotate(angle, 0.0f, 0.0f, 1.0f);
 
+            // draw origin coordinates
             this.DrawCoordinates();
+            
+            // draw ground
             this.DrawGround();
+            
+            // draw combine body.
             this.DrawBody();
+            
+            // draw lidar points.
             this._auger.DrawLidarPoints();
 
-            if (this._auger.is_grain_tank_edge == true)
-            {
-                this._auger.DrawGrainTankEdge(); 
-            }
+            // draw ideal target path.
+            this.DrawTargetPath();
+
+            // draw grain tank edge.
+            this.DrawGrainTank();
 
             glControl1.SwapBuffers();
             //GL.Flush();
@@ -445,6 +602,37 @@ namespace IidaLabVy446
             this.Close();
         }
 
+        /// <summary>
+        /// Auto Detection event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.DrawSquareInImage();
+            this.toolStripStatusLabel3.Text = Convert.ToString(this._auger.processing_time);
+        }
+
+        /// <summary>
+        /// Save image
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button3_Click(object sender, EventArgs e)
+        {
+            int color_number = this.SaveImageComboBox.SelectedIndex;
+
+            if (color_number == 0)
+            {
+                this.pBoxIpl1.ImageIpl.SaveImage("Top_view.jpg");
+            }
+            else
+            {
+                this._auger.SaveImage(color_number);
+            }
+        }
+
         #endregion
+
     }
 }

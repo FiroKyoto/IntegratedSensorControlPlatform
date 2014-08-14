@@ -51,7 +51,14 @@ namespace CombineBody
             // auger origin to lidar distance
             public double Lidar_length;
 
-            public auger_received(double _DT_AUG_MTR, double _DT_AUG_CLD, double _Theta_1, double _Theta_2, double _Length, double _Height, double _Lidar_length)
+            // distance between origin to Link_A
+            public double Origin_to_linkA;
+
+            public auger_received(
+                double _DT_AUG_MTR, double _DT_AUG_CLD, 
+                double _Theta_1, double _Theta_2,
+                double _Length, double _Height, double _Lidar_length, double _Origin_to_linkA
+                )
             {
                 this.DT_AUG_MTR = _DT_AUG_MTR;
                 this.DT_AUG_CLD = _DT_AUG_CLD;
@@ -60,6 +67,7 @@ namespace CombineBody
                 this.Length = _Length;
                 this.Height = _Height;
                 this.Lidar_length = _Lidar_length;
+                this.Origin_to_linkA = _Origin_to_linkA;
             }
         }
 
@@ -82,6 +90,11 @@ namespace CombineBody
             public double Origin_Y;
             public double Origin_Z;
 
+            // Calculated Link_A position of auger on OpenGL
+            public double LinkA_X;
+            public double LinkA_Y;
+            public double LinkA_Z;
+
             // Calculated spout position of auger on OpenGL
             public double Spout_X;
             public double Spout_Y;
@@ -95,14 +108,26 @@ namespace CombineBody
             // auger length debug using calculated auger's position
             public double Length_debug;
 
-            public auger_pose(double _Origin_X, double _Origin_Y, double _Origin_Z, double _Spout_X, double _Spout_Y, double _SPout_Z, double _Lidar_X, double _Lidar_Y, double _Lidar_Z, double _Length_debug)
+            public auger_pose(
+                double _Origin_X, double _Origin_Y, double _Origin_Z, 
+                double _LinkA_X, double _LinkA_Y, double _LinkA_Z,
+                double _Spout_X, double _Spout_Y, double _SPout_Z, 
+                double _Lidar_X, double _Lidar_Y, double _Lidar_Z, 
+                double _Length_debug
+                )
             {
                 this.Origin_X = _Origin_X;
                 this.Origin_Y = _Origin_Y;
                 this.Origin_Z = _Origin_Z;
+
+                this.LinkA_X = _LinkA_X;
+                this.LinkA_Y = _LinkA_Y;
+                this.LinkA_Z = _LinkA_Z;
+
                 this.Spout_X = _Spout_X;
                 this.Spout_Y = _Spout_Y;
                 this.SPout_Z = _SPout_Z;
+                
                 this.Lidar_X = _Lidar_X;
                 this.Lidar_Y = _Lidar_Y;
                 this.Lidar_Z = _Lidar_Z;
@@ -132,6 +157,7 @@ namespace CombineBody
         private List<double> augerA;
         private List<double> augerB;
         private List<double> lidarB;
+        private List<double> auger_link_A;
 
         public body_pose _body_pose;
         public auger_received _auger_received;
@@ -160,6 +186,9 @@ namespace CombineBody
 
         #region Body Methods
 
+        /// <summary>
+        /// Initialize method
+        /// </summary>
         private void InitializeMethod()
         {
             if (this.is_used_auger == true)
@@ -167,14 +196,16 @@ namespace CombineBody
                 this.augerA = new List<double>();
                 this.augerB = new List<double>();
                 this.lidarB = new List<double>();
+                this.auger_link_A = new List<double>();
                 this._auger_lidar_set.Is_divide = false;
 
                 // vy446
                 if (this.body_model_index == 1)
                 {
-                    this._auger_received.Length = 3.8;
+                    this._auger_received.Length = 4.05;
                     this._auger_received.Lidar_length = 3.25;
                     this._auger_received.Height = 1.7;
+                    this._auger_received.Origin_to_linkA = 0.2;
                 }
             }
         }
@@ -222,12 +253,13 @@ namespace CombineBody
 
                 if (this.is_used_auger == true)
                 {
-                    double auger_transverse_distance = 0.79 + 0.038;
-                    double auger_longitudinal_start = -2.0;
-                    augerA = this.ConvertPoint(auger_transverse_distance, auger_longitudinal_start, this._body_pose.Angle);
+                    double auger_transverse_distance = 0.7;
+                    double auger_longitudinal_start = -2.25;
+                    this.augerA = this.ConvertPoint(auger_transverse_distance, auger_longitudinal_start, this._body_pose.Angle);
                     this.ConvertPotentiometerToDegree(this._auger_received.DT_AUG_MTR, this._auger_received.DT_AUG_CLD);
-                    augerB = this.ConvertAugerPoint(0.0, this._auger_received.Length, this._body_pose.Angle, this._auger_received.Theta_1, this._auger_received.Theta_2);
-                    lidarB = this.ConvertAugerPoint(0.0, this._auger_received.Lidar_length, this._body_pose.Angle, this._auger_received.Theta_1, this._auger_received.Theta_2);
+                    this.augerB = this.ConvertAugerPoint(0.0, this._auger_received.Length, this._body_pose.Angle, this._auger_received.Theta_1, this._auger_received.Theta_2);
+                    this.lidarB = this.ConvertAugerPoint(0.0, this._auger_received.Lidar_length, this._body_pose.Angle, this._auger_received.Theta_1, this._auger_received.Theta_2);
+                    this.auger_link_A = this.ConvertAugerPoint(0.0, this._auger_received.Origin_to_linkA, this._body_pose.Angle, 90.0 + this._auger_received.Theta_1, 0.0);
                 }
             }
 
@@ -255,18 +287,30 @@ namespace CombineBody
             GL.Vertex3(this._body_pose.X + rHeaderA[0], this._body_pose.Y + rHeaderA[1], 0.0);
             GL.Vertex3(this._body_pose.X + rHeaderB[0], this._body_pose.Y + rHeaderB[1], 0.0);
 
+            GL.End();
+
             if (this.is_used_auger == true)
             {
+                GL.LineWidth(3.0f);
+                GL.Begin(BeginMode.Lines);
+                GL.Color3(Color.YellowGreen);
+
                 // auger position
-                this._auger_pose.Origin_X = this._body_pose.X + augerA[0];
-                this._auger_pose.Origin_Y = this._body_pose.Y + augerA[1];
+                this._auger_pose.Origin_X = this._body_pose.X + this.augerA[0];
+                this._auger_pose.Origin_Y = this._body_pose.Y + this.augerA[1];
                 this._auger_pose.Origin_Z = this._auger_received.Height;
-                this._auger_pose.Spout_X = this._auger_pose.Origin_X + augerB[0];
-                this._auger_pose.Spout_Y = this._auger_pose.Origin_Y + augerB[1];
-                this._auger_pose.SPout_Z = this._auger_pose.Origin_Z + augerB[2];
-                this._auger_pose.Lidar_X = this._auger_pose.Origin_X + lidarB[0];
-                this._auger_pose.Lidar_Y = this._auger_pose.Origin_Y + lidarB[1];
-                this._auger_pose.Lidar_Z = this._auger_pose.Origin_Z + lidarB[2];
+                
+                this._auger_pose.LinkA_X = this._auger_pose.Origin_X + this.auger_link_A[0];
+                this._auger_pose.LinkA_Y = this._auger_pose.Origin_Y + this.auger_link_A[1];
+                this._auger_pose.LinkA_Z = this._auger_pose.Origin_Z;
+
+                this._auger_pose.Spout_X = this._auger_pose.LinkA_X + this.augerB[0];
+                this._auger_pose.Spout_Y = this._auger_pose.LinkA_Y + this.augerB[1];
+                this._auger_pose.SPout_Z = this._auger_pose.LinkA_Z + this.augerB[2];
+
+                this._auger_pose.Lidar_X = this._auger_pose.LinkA_X + lidarB[0];
+                this._auger_pose.Lidar_Y = this._auger_pose.LinkA_Y + lidarB[1];
+                this._auger_pose.Lidar_Z = this._auger_pose.LinkA_Z + lidarB[2];
 
                 // divide height for draw 3d points
                 if (this._auger_lidar_set.Is_divide == false)
@@ -277,23 +321,36 @@ namespace CombineBody
 
                 // auger length distance
                 this._auger_pose.Length_debug = Math.Sqrt(
-                    Math.Pow((this._auger_pose.Spout_X - this._auger_pose.Origin_X), 2.0) +
-                    Math.Pow((this._auger_pose.Spout_Y - this._auger_pose.Origin_Y), 2.0) +
-                    Math.Pow((this._auger_pose.SPout_Z - this._auger_pose.Origin_Z), 2.0));
+                    Math.Pow((this._auger_pose.Spout_X - this._auger_pose.LinkA_X), 2.0) +
+                    Math.Pow((this._auger_pose.Spout_Y - this._auger_pose.LinkA_Y), 2.0) +
+                    Math.Pow((this._auger_pose.SPout_Z - this._auger_pose.LinkA_Z), 2.0));
 
+                // draw ground to auger origin. 
+                GL.Vertex3(this._auger_pose.Origin_X, this._auger_pose.Origin_Y, 0.0);
                 GL.Vertex3(this._auger_pose.Origin_X, this._auger_pose.Origin_Y, this._auger_pose.Origin_Z);
+
+                // draw auger origin to auger's Link_A 
+                GL.Vertex3(this._auger_pose.Origin_X, this._auger_pose.Origin_Y, this._auger_pose.Origin_Z);
+                GL.Vertex3(this._auger_pose.LinkA_X, this._auger_pose.LinkA_Y, this._auger_pose.LinkA_Z);
+
+                // draw auger' link to auger spout.
+                GL.Vertex3(this._auger_pose.LinkA_X, this._auger_pose.LinkA_Y, this._auger_pose.LinkA_Z);
                 GL.Vertex3(this._auger_pose.Spout_X, this._auger_pose.Spout_Y, this._auger_pose.SPout_Z);
+
+
+                GL.End();
             }
 
-            GL.End();
-
             // GPS circle
+            GL.LineWidth(3.0f);
             GL.Begin(BeginMode.LineLoop);
+            GL.Color3(Color.Yellow);
             for (int i = 0; i <= 300; i++)
             {
-                double angle = 2 * Math.PI * i / 300;
-                double x = Math.Cos(angle);
-                double y = Math.Sin(angle);
+                double radius = 0.1;
+                double angle = 2.0 * Math.PI * i / 300;
+                double x = radius * Math.Cos(angle);
+                double y = radius * Math.Sin(angle);
                 GL.Vertex3(this._body_pose.X + x, this._body_pose.Y + y, 2.5);
             }
             GL.End();
@@ -349,7 +406,7 @@ namespace CombineBody
             List<double> points = new List<double>();
             double x1 = _y;
             double y1 = _x;
-            double theta1 = (_angle - 270.0 + _augerTheta1) * (Math.PI / 180);
+            double theta1 = (_angle - 270.0 + (180.0 - _augerTheta1)) * (Math.PI / 180);
             double theta2 = _augerTheta2 * (Math.PI / 180);
             double x2 = (x1 * Math.Cos(theta2)) - (y1 * Math.Sin(theta2));
             double y2 = (x1 * Math.Sin(theta2)) + (y1 * Math.Cos(theta2));

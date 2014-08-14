@@ -278,7 +278,7 @@ namespace IidaLabVy446
                 }
 
                 // send debug information to lidarForm
-                this.augerOpenGlForm.BodyInformation(this.readCount, this.backTmX, this.backTmY, this.backTmZ, this.backHeading, this.backSpeed, this.back_DT_AUG_MTR, this.back_DT_AUG_CLD);
+                this.augerOpenGlForm.BodyInformation(this.readCount, this.backTmX, this.backTmY, this.backTmZ, this.backHeading, this.backSpeed, this.back_DT_AUG_MTR, this.back_DT_AUG_CLD, this._vy446.AD_FEED_M);
 
                 // Convert Hokuyo original data to 3D points in world coordinates system.
                 this.augerOpenGlForm.ConvertLidarPoints(this._hokuyo.org_list_data, this._hokuyo.read_index_to_radian);

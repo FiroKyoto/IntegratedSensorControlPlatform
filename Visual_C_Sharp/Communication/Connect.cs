@@ -39,12 +39,12 @@ namespace Communication
         /// <summary>
         /// server socket
         /// </summary>
-        private Socket server;
+        public Socket server;
 
         /// <summary>
         /// client socket
         /// </summary>
-        private Socket client;
+        public Socket client;
 
         /// <summary>
         /// client IPEndPoint
@@ -54,22 +54,27 @@ namespace Communication
         /// <summary>
         /// network stream
         /// </summary>
-        private NetworkStream ns;
+        //private NetworkStream ns;
 
         /// <summary>
         /// stream writer
         /// </summary>
-        private StreamWriter sw;
+        //private StreamWriter sw;
 
         /// <summary>
         /// stream reader
         /// </summary>
-        private StreamReader sr;
+        //private StreamReader sr;
 
         /// <summary>
         /// received Data
         /// </summary>
-        public string receivedData { get; set; }
+        public string received_data_from_server { get; set; }
+
+        /// <summary>
+        /// received data from client
+        /// </summary>
+        public string received_data_from_client { get; set; }
 
         /// <summary>
         /// gets or sets debug message
@@ -96,22 +101,44 @@ namespace Communication
             this.client = this.server.Accept();
             this.clientEp = (IPEndPoint)this.client.RemoteEndPoint;
 
-            this.ns = new NetworkStream(this.client);
-            this.sw = new StreamWriter(this.ns);
+            //this.ns = new NetworkStream(this.client);
+            //this.sw = new StreamWriter(this.ns);
 
             this.debugMsg = this.clientEp.Address.ToString();
         }
 
         /// <summary>
-        /// Server send to data to client
+        /// Server send data to client
         /// </summary>
         /// <param name="_msg"></param>
         public void ServerSendDataToClient(string _msg)
         {
             if (this.client.Connected == true)
             {
-                this.sw.WriteLine(_msg);
-                this.sw.Flush();
+                //this.sw.WriteLine(_msg);
+                //this.sw.Flush();
+                byte[] data = new byte[100000];
+                data = Encoding.UTF8.GetBytes(_msg);
+                this.client.Send(data, data.Length, SocketFlags.None);
+            }
+        }
+
+        /// <summary>
+        /// Server received data from client
+        /// </summary>
+        public void ServerReceivedDataFromClient()
+        {
+            if (this.client.Connected == true)
+            {
+                this.received_data_from_client = null;
+
+                byte[] data = new byte[100000];
+                int recv = this.client.Receive(data);
+
+                if (recv != 0)
+                {
+                    this.received_data_from_client = Encoding.UTF8.GetString(data, 0, recv);
+                }
             }
         }
 
@@ -120,15 +147,15 @@ namespace Communication
         /// </summary>
         public void ServerDispose()
         {
-            if (this.ns != null)
-            {
-                this.ns.Close();
-            }
+            //if (this.ns != null)
+            //{
+            //    this.ns.Close();
+            //}
 
-            if (this.sw != null)
-            {
-                this.sw.Close();
-            }
+            //if (this.sw != null)
+            //{
+            //    this.sw.Close();
+            //}
 
             if (this.client != null)
             {
@@ -167,8 +194,24 @@ namespace Communication
                 return;
             }
 
-            this.ns = new NetworkStream(this.server);
-            this.sr = new StreamReader(this.ns);
+            //this.ns = new NetworkStream(this.server);
+            //this.sr = new StreamReader(this.ns);
+        }
+
+        /// <summary>
+        /// Client send data to server
+        /// </summary>
+        /// <param name="_msg"></param>
+        public void ClientSendDataToServer(string _msg)
+        {
+            if (this.server.Connected == true)
+            {
+                //this.sw.WriteLine(_msg);
+                //this.sw.Flush();
+                byte[] data = new byte[100000];
+                data = Encoding.UTF8.GetBytes(_msg);
+                this.server.Send(data, data.Length, SocketFlags.None);
+            }
         }
 
         /// <summary>
@@ -176,12 +219,22 @@ namespace Communication
         /// </summary>
         public void ClientReceiveDataFromServer()
         {
-            this.receivedData = null;
-
-            if (this.sr != null)
+            if (this.server.Connected == true)
             {
-                this.receivedData = this.sr.ReadLine();
+                this.received_data_from_server = null;
+
+                byte[] data = new byte[100000];
+                int recv = this.server.Receive(data);
+
+                this.received_data_from_server = Encoding.UTF8.GetString(data, 0, recv);
             }
+
+            //this.receivedData = null;
+
+            //if (this.sr != null)
+            //{
+            //    this.receivedData = this.sr.ReadLine();
+            //}
         }
 
         /// <summary>
@@ -189,15 +242,15 @@ namespace Communication
         /// </summary>
         public void ClientDispose()
         {
-            if (this.ns != null)
-            {
-                this.ns.Close();
-            }
+            //if (this.ns != null)
+            //{
+            //    this.ns.Close();
+            //}
 
-            if (this.sr != null)
-            {
-                this.sr.Close();
-            }
+            //if (this.sr != null)
+            //{
+            //    this.sr.Close();
+            //}
 
             if (this.server != null)
             {

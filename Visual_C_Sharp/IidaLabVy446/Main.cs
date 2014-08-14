@@ -48,6 +48,18 @@ namespace IidaLabVy446
                 BodyForm bodyForm = new BodyForm();
                 bodyForm.Show();
             }
+
+            if (this.NetworkCameraCheckBox.Checked == true)
+            {
+                NetworkCamera networkCamera = new NetworkCamera();
+                networkCamera.Show();
+            }
+
+            if (this.SteeringCheckBox.Checked == true)
+            {
+                SteeringForm steeringForm = new SteeringForm();
+                steeringForm.Show();
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)

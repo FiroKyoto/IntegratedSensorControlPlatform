@@ -81,7 +81,10 @@
             this.label9 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.groupBox24 = new System.Windows.Forms.GroupBox();
+            this.ExecutionModeComboBox = new System.Windows.Forms.ComboBox();
             this.groupBox19 = new System.Windows.Forms.GroupBox();
+            this.AugerOpenGlCheckBox = new System.Windows.Forms.CheckBox();
             this.AugerDImagerCheckBox = new System.Windows.Forms.CheckBox();
             this.AugerReadCheckBox = new System.Windows.Forms.CheckBox();
             this.AugerSaveCheckBox = new System.Windows.Forms.CheckBox();
@@ -91,6 +94,7 @@
             this.label98 = new System.Windows.Forms.Label();
             this.AugerAvailableCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.TcpIpWheelControlCheckBox = new System.Windows.Forms.CheckBox();
             this.TcpIpIsAvailableCheckBox = new System.Windows.Forms.CheckBox();
             this.TcpIpClientIpTxtBox = new System.Windows.Forms.TextBox();
             this.label81 = new System.Windows.Forms.Label();
@@ -221,8 +225,9 @@
             this.label84 = new System.Windows.Forms.Label();
             this.Vy446_DEBUG_HST_TxtBox = new System.Windows.Forms.TextBox();
             this.groupBox16 = new System.Windows.Forms.GroupBox();
-            this.Vy446_SimulationTest_CheckBox = new System.Windows.Forms.CheckBox();
+            this.Vy446_CMD_HST_TxtBox = new System.Windows.Forms.TextBox();
             this.label77 = new System.Windows.Forms.Label();
+            this.Vy446_SimulationTest_CheckBox = new System.Windows.Forms.CheckBox();
             this.Vy446_CMD_TravelSpeed_TxtBox = new System.Windows.Forms.TextBox();
             this.label73 = new System.Windows.Forms.Label();
             this.label72 = new System.Windows.Forms.Label();
@@ -336,9 +341,37 @@
             this.DImagerDepthPboxIpl = new OpenCvSharp.UserInterface.PictureBoxIpl();
             this.groupBox20 = new System.Windows.Forms.GroupBox();
             this.zg4 = new ZedGraph.ZedGraphControl();
+            this.tabPage9 = new System.Windows.Forms.TabPage();
+            this.groupBox23 = new System.Windows.Forms.GroupBox();
+            this.label113 = new System.Windows.Forms.Label();
+            this.ClientRedLampTxtBox = new System.Windows.Forms.TextBox();
+            this.label112 = new System.Windows.Forms.Label();
+            this.ClientBuzzerTxtBox = new System.Windows.Forms.TextBox();
+            this.ClientDebugTxtBox = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label108 = new System.Windows.Forms.Label();
+            this.ClientHeaderNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label107 = new System.Windows.Forms.Label();
+            this.ClientSteerNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.ClientHstNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label106 = new System.Windows.Forms.Label();
+            this.ClientControlFlagTxtBox = new System.Windows.Forms.TextBox();
+            this.label105 = new System.Windows.Forms.Label();
+            this.groupBox22 = new System.Windows.Forms.GroupBox();
+            this.ServerRedLampTxtBox = new System.Windows.Forms.TextBox();
+            this.ServerBuzzerTxtBox = new System.Windows.Forms.TextBox();
+            this.label114 = new System.Windows.Forms.Label();
+            this.label115 = new System.Windows.Forms.Label();
+            this.label109 = new System.Windows.Forms.Label();
+            this.ServerHeaderDebugTxtBox = new System.Windows.Forms.TextBox();
+            this.label110 = new System.Windows.Forms.Label();
+            this.label111 = new System.Windows.Forms.Label();
+            this.ServerSteerDebugTxtBox = new System.Windows.Forms.TextBox();
+            this.ServerHstDebugTxtBox = new System.Windows.Forms.TextBox();
+            this.ServerControlFlagTxtBox = new System.Windows.Forms.TextBox();
+            this.label104 = new System.Windows.Forms.Label();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
             this.CommunicationTimer = new System.Windows.Forms.Timer(this.components);
-            this.AugerOpenGlCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pBoxIpl1)).BeginInit();
@@ -346,6 +379,7 @@
             this.groupBox3.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.groupBox24.SuspendLayout();
             this.groupBox19.SuspendLayout();
             this.groupBox14.SuspendLayout();
             this.groupBox10.SuspendLayout();
@@ -372,6 +406,12 @@
             this.groupBox21.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DImagerDepthPboxIpl)).BeginInit();
             this.groupBox20.SuspendLayout();
+            this.tabPage9.SuspendLayout();
+            this.groupBox23.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ClientHeaderNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ClientSteerNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ClientHstNumericUpDown)).BeginInit();
+            this.groupBox22.SuspendLayout();
             this.groupBox15.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -521,8 +561,6 @@
             // LidarAvailableCheckBox
             // 
             this.LidarAvailableCheckBox.AutoSize = true;
-            this.LidarAvailableCheckBox.Checked = true;
-            this.LidarAvailableCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.LidarAvailableCheckBox.Location = new System.Drawing.Point(6, 18);
             this.LidarAvailableCheckBox.Name = "LidarAvailableCheckBox";
             this.LidarAvailableCheckBox.Size = new System.Drawing.Size(80, 16);
@@ -591,8 +629,6 @@
             // VisionAvailableCheckBox
             // 
             this.VisionAvailableCheckBox.AutoSize = true;
-            this.VisionAvailableCheckBox.Checked = true;
-            this.VisionAvailableCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.VisionAvailableCheckBox.Location = new System.Drawing.Point(6, 18);
             this.VisionAvailableCheckBox.Name = "VisionAvailableCheckBox";
             this.VisionAvailableCheckBox.Size = new System.Drawing.Size(80, 16);
@@ -822,7 +858,7 @@
             this.BodyPortTxtBox.Name = "BodyPortTxtBox";
             this.BodyPortTxtBox.Size = new System.Drawing.Size(100, 19);
             this.BodyPortTxtBox.TabIndex = 5;
-            this.BodyPortTxtBox.Text = "COM5";
+            this.BodyPortTxtBox.Text = "COM1";
             // 
             // label12
             // 
@@ -836,8 +872,6 @@
             // BodyAvailableCheckBox
             // 
             this.BodyAvailableCheckBox.AutoSize = true;
-            this.BodyAvailableCheckBox.Checked = true;
-            this.BodyAvailableCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.BodyAvailableCheckBox.Location = new System.Drawing.Point(6, 18);
             this.BodyAvailableCheckBox.Name = "BodyAvailableCheckBox";
             this.BodyAvailableCheckBox.Size = new System.Drawing.Size(80, 16);
@@ -882,6 +916,7 @@
             this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Controls.Add(this.tabPage8);
+            this.tabControl1.Controls.Add(this.tabPage9);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -890,6 +925,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.groupBox24);
             this.tabPage1.Controls.Add(this.groupBox19);
             this.tabPage1.Controls.Add(this.groupBox14);
             this.tabPage1.Controls.Add(this.groupBox10);
@@ -903,6 +939,33 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Setting";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // groupBox24
+            // 
+            this.groupBox24.Controls.Add(this.ExecutionModeComboBox);
+            this.groupBox24.Location = new System.Drawing.Point(6, 6);
+            this.groupBox24.Name = "groupBox24";
+            this.groupBox24.Size = new System.Drawing.Size(204, 158);
+            this.groupBox24.TabIndex = 6;
+            this.groupBox24.TabStop = false;
+            this.groupBox24.Text = "Select Execution Mode";
+            // 
+            // ExecutionModeComboBox
+            // 
+            this.ExecutionModeComboBox.BackColor = System.Drawing.Color.Yellow;
+            this.ExecutionModeComboBox.FormattingEnabled = true;
+            this.ExecutionModeComboBox.Items.AddRange(new object[] {
+            "1. Harvesting - Read",
+            "2. Harvesting - Save & Real-time",
+            "3. Unloading auger - Read",
+            "4. Unloading auger - Save & Real-time",
+            "5. Remote control - Server",
+            "6. Remote control - Client"});
+            this.ExecutionModeComboBox.Location = new System.Drawing.Point(8, 25);
+            this.ExecutionModeComboBox.Name = "ExecutionModeComboBox";
+            this.ExecutionModeComboBox.Size = new System.Drawing.Size(186, 20);
+            this.ExecutionModeComboBox.TabIndex = 6;
+            this.ExecutionModeComboBox.SelectedIndexChanged += new System.EventHandler(this.ExecutionModeComboBox_SelectedIndexChanged);
             // 
             // groupBox19
             // 
@@ -921,6 +984,16 @@
             this.groupBox19.TabIndex = 11;
             this.groupBox19.TabStop = false;
             this.groupBox19.Text = "Auger";
+            // 
+            // AugerOpenGlCheckBox
+            // 
+            this.AugerOpenGlCheckBox.AutoSize = true;
+            this.AugerOpenGlCheckBox.Location = new System.Drawing.Point(6, 173);
+            this.AugerOpenGlCheckBox.Name = "AugerOpenGlCheckBox";
+            this.AugerOpenGlCheckBox.Size = new System.Drawing.Size(98, 16);
+            this.AugerOpenGlCheckBox.TabIndex = 8;
+            this.AugerOpenGlCheckBox.Text = "3D Grain Tank";
+            this.AugerOpenGlCheckBox.UseVisualStyleBackColor = true;
             // 
             // AugerDImagerCheckBox
             // 
@@ -975,7 +1048,9 @@
             "COM6",
             "COM7",
             "COM8",
-            "COM9"});
+            "COM9",
+            "COM10",
+            "COM11"});
             this.AugerLidarComboBox.Location = new System.Drawing.Point(94, 69);
             this.AugerLidarComboBox.Name = "AugerLidarComboBox";
             this.AugerLidarComboBox.Size = new System.Drawing.Size(100, 20);
@@ -1012,6 +1087,7 @@
             // 
             // groupBox14
             // 
+            this.groupBox14.Controls.Add(this.TcpIpWheelControlCheckBox);
             this.groupBox14.Controls.Add(this.TcpIpIsAvailableCheckBox);
             this.groupBox14.Controls.Add(this.TcpIpClientIpTxtBox);
             this.groupBox14.Controls.Add(this.label81);
@@ -1027,6 +1103,16 @@
             this.groupBox14.TabIndex = 10;
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "Communication";
+            // 
+            // TcpIpWheelControlCheckBox
+            // 
+            this.TcpIpWheelControlCheckBox.AutoSize = true;
+            this.TcpIpWheelControlCheckBox.Location = new System.Drawing.Point(8, 207);
+            this.TcpIpWheelControlCheckBox.Name = "TcpIpWheelControlCheckBox";
+            this.TcpIpWheelControlCheckBox.Size = new System.Drawing.Size(171, 16);
+            this.TcpIpWheelControlCheckBox.TabIndex = 9;
+            this.TcpIpWheelControlCheckBox.Text = "Wheel Controller (For Client)";
+            this.TcpIpWheelControlCheckBox.UseVisualStyleBackColor = true;
             // 
             // TcpIpIsAvailableCheckBox
             // 
@@ -1071,7 +1157,7 @@
             this.TcpIpServerIpTxtBox.Name = "TcpIpServerIpTxtBox";
             this.TcpIpServerIpTxtBox.Size = new System.Drawing.Size(100, 19);
             this.TcpIpServerIpTxtBox.TabIndex = 4;
-            this.TcpIpServerIpTxtBox.Text = "172.27.2.3";
+            this.TcpIpServerIpTxtBox.Text = "192.168.1.46";
             // 
             // label80
             // 
@@ -1227,9 +1313,9 @@
             this.groupBox4.Controls.Add(this.LidarSelectComboBox);
             this.groupBox4.Controls.Add(this.LidarPortTxtBox);
             this.groupBox4.Controls.Add(this.LidarHostTxtBox);
-            this.groupBox4.Location = new System.Drawing.Point(6, 6);
+            this.groupBox4.Location = new System.Drawing.Point(6, 170);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(204, 445);
+            this.groupBox4.Size = new System.Drawing.Size(204, 281);
             this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Lidar (Front view)";
@@ -2339,8 +2425,9 @@
             // 
             // groupBox16
             // 
-            this.groupBox16.Controls.Add(this.Vy446_SimulationTest_CheckBox);
+            this.groupBox16.Controls.Add(this.Vy446_CMD_HST_TxtBox);
             this.groupBox16.Controls.Add(this.label77);
+            this.groupBox16.Controls.Add(this.Vy446_SimulationTest_CheckBox);
             this.groupBox16.Controls.Add(this.Vy446_CMD_TravelSpeed_TxtBox);
             this.groupBox16.Controls.Add(this.label73);
             this.groupBox16.Controls.Add(this.label72);
@@ -2382,6 +2469,24 @@
             this.groupBox16.TabStop = false;
             this.groupBox16.Text = "Send Command data to Combine ECU";
             // 
+            // Vy446_CMD_HST_TxtBox
+            // 
+            this.Vy446_CMD_HST_TxtBox.BackColor = System.Drawing.Color.Yellow;
+            this.Vy446_CMD_HST_TxtBox.Location = new System.Drawing.Point(269, 80);
+            this.Vy446_CMD_HST_TxtBox.Name = "Vy446_CMD_HST_TxtBox";
+            this.Vy446_CMD_HST_TxtBox.Size = new System.Drawing.Size(47, 19);
+            this.Vy446_CMD_HST_TxtBox.TabIndex = 39;
+            this.Vy446_CMD_HST_TxtBox.Text = "1405";
+            // 
+            // label77
+            // 
+            this.label77.AutoSize = true;
+            this.label77.Location = new System.Drawing.Point(206, 83);
+            this.label77.Name = "label77";
+            this.label77.Size = new System.Drawing.Size(57, 12);
+            this.label77.TabIndex = 38;
+            this.label77.Text = "HST[AD]: ";
+            // 
             // Vy446_SimulationTest_CheckBox
             // 
             this.Vy446_SimulationTest_CheckBox.AutoSize = true;
@@ -2394,19 +2499,10 @@
             this.Vy446_SimulationTest_CheckBox.Text = "Simulation Test";
             this.Vy446_SimulationTest_CheckBox.UseVisualStyleBackColor = true;
             // 
-            // label77
-            // 
-            this.label77.AutoSize = true;
-            this.label77.Location = new System.Drawing.Point(152, 109);
-            this.label77.Name = "label77";
-            this.label77.Size = new System.Drawing.Size(34, 12);
-            this.label77.TabIndex = 36;
-            this.label77.Text = "[m/s]";
-            // 
             // Vy446_CMD_TravelSpeed_TxtBox
             // 
             this.Vy446_CMD_TravelSpeed_TxtBox.BackColor = System.Drawing.Color.Yellow;
-            this.Vy446_CMD_TravelSpeed_TxtBox.Location = new System.Drawing.Point(99, 106);
+            this.Vy446_CMD_TravelSpeed_TxtBox.Location = new System.Drawing.Point(119, 80);
             this.Vy446_CMD_TravelSpeed_TxtBox.Name = "Vy446_CMD_TravelSpeed_TxtBox";
             this.Vy446_CMD_TravelSpeed_TxtBox.Size = new System.Drawing.Size(47, 19);
             this.Vy446_CMD_TravelSpeed_TxtBox.TabIndex = 35;
@@ -2415,16 +2511,16 @@
             // label73
             // 
             this.label73.AutoSize = true;
-            this.label73.Location = new System.Drawing.Point(6, 109);
+            this.label73.Location = new System.Drawing.Point(6, 83);
             this.label73.Name = "label73";
-            this.label73.Size = new System.Drawing.Size(78, 12);
+            this.label73.Size = new System.Drawing.Size(107, 12);
             this.label73.TabIndex = 34;
-            this.label73.Text = "Travel Speed: ";
+            this.label73.Text = "Travel Speed[m/s]: ";
             // 
             // label72
             // 
             this.label72.AutoSize = true;
-            this.label72.Location = new System.Drawing.Point(293, 86);
+            this.label72.Location = new System.Drawing.Point(294, 119);
             this.label72.Name = "label72";
             this.label72.Size = new System.Drawing.Size(61, 12);
             this.label72.TabIndex = 33;
@@ -2464,7 +2560,7 @@
             // Vy446_FgSitsuden_CheckBox
             // 
             this.Vy446_FgSitsuden_CheckBox.AutoSize = true;
-            this.Vy446_FgSitsuden_CheckBox.Location = new System.Drawing.Point(295, 242);
+            this.Vy446_FgSitsuden_CheckBox.Location = new System.Drawing.Point(296, 275);
             this.Vy446_FgSitsuden_CheckBox.Name = "Vy446_FgSitsuden_CheckBox";
             this.Vy446_FgSitsuden_CheckBox.Size = new System.Drawing.Size(82, 16);
             this.Vy446_FgSitsuden_CheckBox.TabIndex = 29;
@@ -2474,7 +2570,7 @@
             // Vy446_FgTofuku_CheckBox
             // 
             this.Vy446_FgTofuku_CheckBox.AutoSize = true;
-            this.Vy446_FgTofuku_CheckBox.Location = new System.Drawing.Point(295, 220);
+            this.Vy446_FgTofuku_CheckBox.Location = new System.Drawing.Point(296, 253);
             this.Vy446_FgTofuku_CheckBox.Name = "Vy446_FgTofuku_CheckBox";
             this.Vy446_FgTofuku_CheckBox.Size = new System.Drawing.Size(94, 16);
             this.Vy446_FgTofuku_CheckBox.TabIndex = 28;
@@ -2484,7 +2580,7 @@
             // Vy446_FgKakikomi_CheckBox
             // 
             this.Vy446_FgKakikomi_CheckBox.AutoSize = true;
-            this.Vy446_FgKakikomi_CheckBox.Location = new System.Drawing.Point(295, 198);
+            this.Vy446_FgKakikomi_CheckBox.Location = new System.Drawing.Point(296, 231);
             this.Vy446_FgKakikomi_CheckBox.Name = "Vy446_FgKakikomi_CheckBox";
             this.Vy446_FgKakikomi_CheckBox.Size = new System.Drawing.Size(106, 16);
             this.Vy446_FgKakikomi_CheckBox.TabIndex = 27;
@@ -2494,7 +2590,7 @@
             // Vy446_KARITORI_CheckBox
             // 
             this.Vy446_KARITORI_CheckBox.AutoSize = true;
-            this.Vy446_KARITORI_CheckBox.Location = new System.Drawing.Point(207, 243);
+            this.Vy446_KARITORI_CheckBox.Location = new System.Drawing.Point(208, 276);
             this.Vy446_KARITORI_CheckBox.Name = "Vy446_KARITORI_CheckBox";
             this.Vy446_KARITORI_CheckBox.Size = new System.Drawing.Size(66, 16);
             this.Vy446_KARITORI_CheckBox.TabIndex = 26;
@@ -2504,7 +2600,7 @@
             // Vy446_SAGYOKI_ON_CheckBox
             // 
             this.Vy446_SAGYOKI_ON_CheckBox.AutoSize = true;
-            this.Vy446_SAGYOKI_ON_CheckBox.Location = new System.Drawing.Point(207, 221);
+            this.Vy446_SAGYOKI_ON_CheckBox.Location = new System.Drawing.Point(208, 254);
             this.Vy446_SAGYOKI_ON_CheckBox.Name = "Vy446_SAGYOKI_ON_CheckBox";
             this.Vy446_SAGYOKI_ON_CheckBox.Size = new System.Drawing.Size(78, 16);
             this.Vy446_SAGYOKI_ON_CheckBox.TabIndex = 25;
@@ -2514,7 +2610,7 @@
             // Vy446_SAGYOKI_OFF_CheckBox
             // 
             this.Vy446_SAGYOKI_OFF_CheckBox.AutoSize = true;
-            this.Vy446_SAGYOKI_OFF_CheckBox.Location = new System.Drawing.Point(207, 199);
+            this.Vy446_SAGYOKI_OFF_CheckBox.Location = new System.Drawing.Point(208, 232);
             this.Vy446_SAGYOKI_OFF_CheckBox.Name = "Vy446_SAGYOKI_OFF_CheckBox";
             this.Vy446_SAGYOKI_OFF_CheckBox.Size = new System.Drawing.Size(70, 16);
             this.Vy446_SAGYOKI_OFF_CheckBox.TabIndex = 24;
@@ -2524,7 +2620,7 @@
             // label89
             // 
             this.label89.AutoSize = true;
-            this.label89.Location = new System.Drawing.Point(205, 181);
+            this.label89.Location = new System.Drawing.Point(206, 214);
             this.label89.Name = "label89";
             this.label89.Size = new System.Drawing.Size(73, 12);
             this.label89.TabIndex = 23;
@@ -2533,7 +2629,7 @@
             // Vy446_HAZARD_CheckBox
             // 
             this.Vy446_HAZARD_CheckBox.AutoSize = true;
-            this.Vy446_HAZARD_CheckBox.Location = new System.Drawing.Point(295, 152);
+            this.Vy446_HAZARD_CheckBox.Location = new System.Drawing.Point(296, 185);
             this.Vy446_HAZARD_CheckBox.Name = "Vy446_HAZARD_CheckBox";
             this.Vy446_HAZARD_CheckBox.Size = new System.Drawing.Size(63, 16);
             this.Vy446_HAZARD_CheckBox.TabIndex = 22;
@@ -2543,7 +2639,7 @@
             // Vy446_BUZZER_CheckBox
             // 
             this.Vy446_BUZZER_CheckBox.AutoSize = true;
-            this.Vy446_BUZZER_CheckBox.Location = new System.Drawing.Point(295, 130);
+            this.Vy446_BUZZER_CheckBox.Location = new System.Drawing.Point(296, 163);
             this.Vy446_BUZZER_CheckBox.Name = "Vy446_BUZZER_CheckBox";
             this.Vy446_BUZZER_CheckBox.Size = new System.Drawing.Size(53, 16);
             this.Vy446_BUZZER_CheckBox.TabIndex = 21;
@@ -2553,7 +2649,7 @@
             // Vy446_ENGINE_STOP_CheckBox
             // 
             this.Vy446_ENGINE_STOP_CheckBox.AutoSize = true;
-            this.Vy446_ENGINE_STOP_CheckBox.Location = new System.Drawing.Point(295, 108);
+            this.Vy446_ENGINE_STOP_CheckBox.Location = new System.Drawing.Point(296, 141);
             this.Vy446_ENGINE_STOP_CheckBox.Name = "Vy446_ENGINE_STOP_CheckBox";
             this.Vy446_ENGINE_STOP_CheckBox.Size = new System.Drawing.Size(85, 16);
             this.Vy446_ENGINE_STOP_CheckBox.TabIndex = 20;
@@ -2563,7 +2659,7 @@
             // Vy446_BUZZER2_CheckBox
             // 
             this.Vy446_BUZZER2_CheckBox.AutoSize = true;
-            this.Vy446_BUZZER2_CheckBox.Location = new System.Drawing.Point(205, 152);
+            this.Vy446_BUZZER2_CheckBox.Location = new System.Drawing.Point(206, 185);
             this.Vy446_BUZZER2_CheckBox.Name = "Vy446_BUZZER2_CheckBox";
             this.Vy446_BUZZER2_CheckBox.Size = new System.Drawing.Size(60, 16);
             this.Vy446_BUZZER2_CheckBox.TabIndex = 19;
@@ -2573,7 +2669,7 @@
             // Vy446_YELLOW_LAMP_CheckBox
             // 
             this.Vy446_YELLOW_LAMP_CheckBox.AutoSize = true;
-            this.Vy446_YELLOW_LAMP_CheckBox.Location = new System.Drawing.Point(205, 130);
+            this.Vy446_YELLOW_LAMP_CheckBox.Location = new System.Drawing.Point(206, 163);
             this.Vy446_YELLOW_LAMP_CheckBox.Name = "Vy446_YELLOW_LAMP_CheckBox";
             this.Vy446_YELLOW_LAMP_CheckBox.Size = new System.Drawing.Size(62, 16);
             this.Vy446_YELLOW_LAMP_CheckBox.TabIndex = 18;
@@ -2583,7 +2679,7 @@
             // Vy446_RED_LAMP_CheckBox
             // 
             this.Vy446_RED_LAMP_CheckBox.AutoSize = true;
-            this.Vy446_RED_LAMP_CheckBox.Location = new System.Drawing.Point(205, 108);
+            this.Vy446_RED_LAMP_CheckBox.Location = new System.Drawing.Point(206, 141);
             this.Vy446_RED_LAMP_CheckBox.Name = "Vy446_RED_LAMP_CheckBox";
             this.Vy446_RED_LAMP_CheckBox.Size = new System.Drawing.Size(62, 16);
             this.Vy446_RED_LAMP_CheckBox.TabIndex = 17;
@@ -2593,7 +2689,7 @@
             // label88
             // 
             this.label88.AutoSize = true;
-            this.label88.Location = new System.Drawing.Point(205, 84);
+            this.label88.Location = new System.Drawing.Point(206, 117);
             this.label88.Name = "label88";
             this.label88.Size = new System.Drawing.Size(48, 12);
             this.label88.TabIndex = 16;
@@ -2707,20 +2803,20 @@
             // Vy446_CMD_SOKO_TxtBox
             // 
             this.Vy446_CMD_SOKO_TxtBox.BackColor = System.Drawing.Color.Yellow;
-            this.Vy446_CMD_SOKO_TxtBox.Location = new System.Drawing.Point(99, 81);
+            this.Vy446_CMD_SOKO_TxtBox.Location = new System.Drawing.Point(119, 105);
             this.Vy446_CMD_SOKO_TxtBox.Name = "Vy446_CMD_SOKO_TxtBox";
-            this.Vy446_CMD_SOKO_TxtBox.Size = new System.Drawing.Size(100, 19);
+            this.Vy446_CMD_SOKO_TxtBox.Size = new System.Drawing.Size(47, 19);
             this.Vy446_CMD_SOKO_TxtBox.TabIndex = 3;
             this.Vy446_CMD_SOKO_TxtBox.Text = "430";
             // 
             // label83
             // 
             this.label83.AutoSize = true;
-            this.label83.Location = new System.Drawing.Point(6, 84);
+            this.label83.Location = new System.Drawing.Point(6, 108);
             this.label83.Name = "label83";
-            this.label83.Size = new System.Drawing.Size(75, 12);
+            this.label83.Size = new System.Drawing.Size(99, 12);
             this.label83.TabIndex = 1;
-            this.label83.Text = "操向ポテンショ:";
+            this.label83.Text = "操向ポテンショ[AD]:";
             // 
             // Vy446_RobotMode_CheckBox
             // 
@@ -3506,6 +3602,347 @@
             this.zg4.Size = new System.Drawing.Size(320, 240);
             this.zg4.TabIndex = 0;
             // 
+            // tabPage9
+            // 
+            this.tabPage9.Controls.Add(this.groupBox23);
+            this.tabPage9.Controls.Add(this.groupBox22);
+            this.tabPage9.Location = new System.Drawing.Point(4, 22);
+            this.tabPage9.Name = "tabPage9";
+            this.tabPage9.Size = new System.Drawing.Size(838, 459);
+            this.tabPage9.TabIndex = 8;
+            this.tabPage9.Text = "Remote";
+            this.tabPage9.UseVisualStyleBackColor = true;
+            // 
+            // groupBox23
+            // 
+            this.groupBox23.Controls.Add(this.label113);
+            this.groupBox23.Controls.Add(this.ClientRedLampTxtBox);
+            this.groupBox23.Controls.Add(this.label112);
+            this.groupBox23.Controls.Add(this.ClientBuzzerTxtBox);
+            this.groupBox23.Controls.Add(this.ClientDebugTxtBox);
+            this.groupBox23.Controls.Add(this.button1);
+            this.groupBox23.Controls.Add(this.label108);
+            this.groupBox23.Controls.Add(this.ClientHeaderNumericUpDown);
+            this.groupBox23.Controls.Add(this.label107);
+            this.groupBox23.Controls.Add(this.ClientSteerNumericUpDown);
+            this.groupBox23.Controls.Add(this.ClientHstNumericUpDown);
+            this.groupBox23.Controls.Add(this.label106);
+            this.groupBox23.Controls.Add(this.ClientControlFlagTxtBox);
+            this.groupBox23.Controls.Add(this.label105);
+            this.groupBox23.Location = new System.Drawing.Point(223, 3);
+            this.groupBox23.Name = "groupBox23";
+            this.groupBox23.Size = new System.Drawing.Size(609, 443);
+            this.groupBox23.TabIndex = 3;
+            this.groupBox23.TabStop = false;
+            this.groupBox23.Text = "Client";
+            // 
+            // label113
+            // 
+            this.label113.AutoSize = true;
+            this.label113.Location = new System.Drawing.Point(6, 159);
+            this.label113.Name = "label113";
+            this.label113.Size = new System.Drawing.Size(74, 12);
+            this.label113.TabIndex = 14;
+            this.label113.Text = "6. Red Lamp: ";
+            // 
+            // ClientRedLampTxtBox
+            // 
+            this.ClientRedLampTxtBox.BackColor = System.Drawing.Color.Yellow;
+            this.ClientRedLampTxtBox.Location = new System.Drawing.Point(98, 156);
+            this.ClientRedLampTxtBox.Name = "ClientRedLampTxtBox";
+            this.ClientRedLampTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.ClientRedLampTxtBox.TabIndex = 13;
+            this.ClientRedLampTxtBox.Text = "off";
+            // 
+            // label112
+            // 
+            this.label112.AutoSize = true;
+            this.label112.Location = new System.Drawing.Point(6, 134);
+            this.label112.Name = "label112";
+            this.label112.Size = new System.Drawing.Size(57, 12);
+            this.label112.TabIndex = 12;
+            this.label112.Text = "5. Buzzer: ";
+            // 
+            // ClientBuzzerTxtBox
+            // 
+            this.ClientBuzzerTxtBox.BackColor = System.Drawing.Color.Yellow;
+            this.ClientBuzzerTxtBox.Location = new System.Drawing.Point(98, 131);
+            this.ClientBuzzerTxtBox.Name = "ClientBuzzerTxtBox";
+            this.ClientBuzzerTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.ClientBuzzerTxtBox.TabIndex = 11;
+            this.ClientBuzzerTxtBox.Text = "off";
+            // 
+            // ClientDebugTxtBox
+            // 
+            this.ClientDebugTxtBox.Location = new System.Drawing.Point(204, 31);
+            this.ClientDebugTxtBox.Multiline = true;
+            this.ClientDebugTxtBox.Name = "ClientDebugTxtBox";
+            this.ClientDebugTxtBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.ClientDebugTxtBox.Size = new System.Drawing.Size(399, 94);
+            this.ClientDebugTxtBox.TabIndex = 10;
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.Yellow;
+            this.button1.Location = new System.Drawing.Point(8, 414);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(595, 23);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "Status Button";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // label108
+            // 
+            this.label108.AutoSize = true;
+            this.label108.Location = new System.Drawing.Point(6, 108);
+            this.label108.Name = "label108";
+            this.label108.Size = new System.Drawing.Size(59, 12);
+            this.label108.TabIndex = 8;
+            this.label108.Text = "4. Header: ";
+            // 
+            // ClientHeaderNumericUpDown
+            // 
+            this.ClientHeaderNumericUpDown.BackColor = System.Drawing.Color.Yellow;
+            this.ClientHeaderNumericUpDown.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.ClientHeaderNumericUpDown.Location = new System.Drawing.Point(98, 106);
+            this.ClientHeaderNumericUpDown.Maximum = new decimal(new int[] {
+            680,
+            0,
+            0,
+            0});
+            this.ClientHeaderNumericUpDown.Minimum = new decimal(new int[] {
+            330,
+            0,
+            0,
+            0});
+            this.ClientHeaderNumericUpDown.Name = "ClientHeaderNumericUpDown";
+            this.ClientHeaderNumericUpDown.Size = new System.Drawing.Size(100, 19);
+            this.ClientHeaderNumericUpDown.TabIndex = 7;
+            this.ClientHeaderNumericUpDown.Value = new decimal(new int[] {
+            650,
+            0,
+            0,
+            0});
+            // 
+            // label107
+            // 
+            this.label107.AutoSize = true;
+            this.label107.Location = new System.Drawing.Point(6, 83);
+            this.label107.Name = "label107";
+            this.label107.Size = new System.Drawing.Size(50, 12);
+            this.label107.TabIndex = 6;
+            this.label107.Text = "3. Steer: ";
+            // 
+            // ClientSteerNumericUpDown
+            // 
+            this.ClientSteerNumericUpDown.BackColor = System.Drawing.Color.Yellow;
+            this.ClientSteerNumericUpDown.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.ClientSteerNumericUpDown.Location = new System.Drawing.Point(98, 81);
+            this.ClientSteerNumericUpDown.Maximum = new decimal(new int[] {
+            660,
+            0,
+            0,
+            0});
+            this.ClientSteerNumericUpDown.Minimum = new decimal(new int[] {
+            250,
+            0,
+            0,
+            0});
+            this.ClientSteerNumericUpDown.Name = "ClientSteerNumericUpDown";
+            this.ClientSteerNumericUpDown.Size = new System.Drawing.Size(100, 19);
+            this.ClientSteerNumericUpDown.TabIndex = 5;
+            this.ClientSteerNumericUpDown.Value = new decimal(new int[] {
+            430,
+            0,
+            0,
+            0});
+            // 
+            // ClientHstNumericUpDown
+            // 
+            this.ClientHstNumericUpDown.BackColor = System.Drawing.Color.Yellow;
+            this.ClientHstNumericUpDown.Increment = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.ClientHstNumericUpDown.Location = new System.Drawing.Point(98, 56);
+            this.ClientHstNumericUpDown.Maximum = new decimal(new int[] {
+            2450,
+            0,
+            0,
+            0});
+            this.ClientHstNumericUpDown.Minimum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            0});
+            this.ClientHstNumericUpDown.Name = "ClientHstNumericUpDown";
+            this.ClientHstNumericUpDown.Size = new System.Drawing.Size(100, 19);
+            this.ClientHstNumericUpDown.TabIndex = 4;
+            this.ClientHstNumericUpDown.Value = new decimal(new int[] {
+            1405,
+            0,
+            0,
+            0});
+            // 
+            // label106
+            // 
+            this.label106.AutoSize = true;
+            this.label106.Location = new System.Drawing.Point(6, 58);
+            this.label106.Name = "label106";
+            this.label106.Size = new System.Drawing.Size(45, 12);
+            this.label106.TabIndex = 3;
+            this.label106.Text = "2. HST: ";
+            // 
+            // ClientControlFlagTxtBox
+            // 
+            this.ClientControlFlagTxtBox.BackColor = System.Drawing.Color.Yellow;
+            this.ClientControlFlagTxtBox.Location = new System.Drawing.Point(98, 31);
+            this.ClientControlFlagTxtBox.Name = "ClientControlFlagTxtBox";
+            this.ClientControlFlagTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.ClientControlFlagTxtBox.TabIndex = 2;
+            // 
+            // label105
+            // 
+            this.label105.AutoSize = true;
+            this.label105.Location = new System.Drawing.Point(6, 34);
+            this.label105.Name = "label105";
+            this.label105.Size = new System.Drawing.Size(86, 12);
+            this.label105.TabIndex = 0;
+            this.label105.Text = "1. Control Flag: ";
+            // 
+            // groupBox22
+            // 
+            this.groupBox22.Controls.Add(this.ServerRedLampTxtBox);
+            this.groupBox22.Controls.Add(this.ServerBuzzerTxtBox);
+            this.groupBox22.Controls.Add(this.label114);
+            this.groupBox22.Controls.Add(this.label115);
+            this.groupBox22.Controls.Add(this.label109);
+            this.groupBox22.Controls.Add(this.ServerHeaderDebugTxtBox);
+            this.groupBox22.Controls.Add(this.label110);
+            this.groupBox22.Controls.Add(this.label111);
+            this.groupBox22.Controls.Add(this.ServerSteerDebugTxtBox);
+            this.groupBox22.Controls.Add(this.ServerHstDebugTxtBox);
+            this.groupBox22.Controls.Add(this.ServerControlFlagTxtBox);
+            this.groupBox22.Controls.Add(this.label104);
+            this.groupBox22.Location = new System.Drawing.Point(3, 3);
+            this.groupBox22.Name = "groupBox22";
+            this.groupBox22.Size = new System.Drawing.Size(214, 443);
+            this.groupBox22.TabIndex = 1;
+            this.groupBox22.TabStop = false;
+            this.groupBox22.Text = "Server";
+            // 
+            // ServerRedLampTxtBox
+            // 
+            this.ServerRedLampTxtBox.BackColor = System.Drawing.Color.GreenYellow;
+            this.ServerRedLampTxtBox.Location = new System.Drawing.Point(98, 156);
+            this.ServerRedLampTxtBox.Name = "ServerRedLampTxtBox";
+            this.ServerRedLampTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.ServerRedLampTxtBox.TabIndex = 18;
+            // 
+            // ServerBuzzerTxtBox
+            // 
+            this.ServerBuzzerTxtBox.BackColor = System.Drawing.Color.GreenYellow;
+            this.ServerBuzzerTxtBox.Location = new System.Drawing.Point(98, 131);
+            this.ServerBuzzerTxtBox.Name = "ServerBuzzerTxtBox";
+            this.ServerBuzzerTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.ServerBuzzerTxtBox.TabIndex = 17;
+            // 
+            // label114
+            // 
+            this.label114.AutoSize = true;
+            this.label114.Location = new System.Drawing.Point(6, 159);
+            this.label114.Name = "label114";
+            this.label114.Size = new System.Drawing.Size(74, 12);
+            this.label114.TabIndex = 16;
+            this.label114.Text = "6. Red Lamp: ";
+            // 
+            // label115
+            // 
+            this.label115.AutoSize = true;
+            this.label115.Location = new System.Drawing.Point(6, 134);
+            this.label115.Name = "label115";
+            this.label115.Size = new System.Drawing.Size(57, 12);
+            this.label115.TabIndex = 15;
+            this.label115.Text = "5. Buzzer: ";
+            // 
+            // label109
+            // 
+            this.label109.AutoSize = true;
+            this.label109.Location = new System.Drawing.Point(6, 109);
+            this.label109.Name = "label109";
+            this.label109.Size = new System.Drawing.Size(59, 12);
+            this.label109.TabIndex = 12;
+            this.label109.Text = "4. Header: ";
+            // 
+            // ServerHeaderDebugTxtBox
+            // 
+            this.ServerHeaderDebugTxtBox.BackColor = System.Drawing.Color.GreenYellow;
+            this.ServerHeaderDebugTxtBox.Location = new System.Drawing.Point(98, 106);
+            this.ServerHeaderDebugTxtBox.Name = "ServerHeaderDebugTxtBox";
+            this.ServerHeaderDebugTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.ServerHeaderDebugTxtBox.TabIndex = 5;
+            // 
+            // label110
+            // 
+            this.label110.AutoSize = true;
+            this.label110.Location = new System.Drawing.Point(6, 84);
+            this.label110.Name = "label110";
+            this.label110.Size = new System.Drawing.Size(50, 12);
+            this.label110.TabIndex = 11;
+            this.label110.Text = "3. Steer: ";
+            // 
+            // label111
+            // 
+            this.label111.AutoSize = true;
+            this.label111.Location = new System.Drawing.Point(6, 59);
+            this.label111.Name = "label111";
+            this.label111.Size = new System.Drawing.Size(45, 12);
+            this.label111.TabIndex = 10;
+            this.label111.Text = "2. HST: ";
+            // 
+            // ServerSteerDebugTxtBox
+            // 
+            this.ServerSteerDebugTxtBox.BackColor = System.Drawing.Color.GreenYellow;
+            this.ServerSteerDebugTxtBox.Location = new System.Drawing.Point(98, 81);
+            this.ServerSteerDebugTxtBox.Name = "ServerSteerDebugTxtBox";
+            this.ServerSteerDebugTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.ServerSteerDebugTxtBox.TabIndex = 4;
+            // 
+            // ServerHstDebugTxtBox
+            // 
+            this.ServerHstDebugTxtBox.BackColor = System.Drawing.Color.GreenYellow;
+            this.ServerHstDebugTxtBox.Location = new System.Drawing.Point(98, 56);
+            this.ServerHstDebugTxtBox.Name = "ServerHstDebugTxtBox";
+            this.ServerHstDebugTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.ServerHstDebugTxtBox.TabIndex = 3;
+            // 
+            // ServerControlFlagTxtBox
+            // 
+            this.ServerControlFlagTxtBox.BackColor = System.Drawing.Color.GreenYellow;
+            this.ServerControlFlagTxtBox.Location = new System.Drawing.Point(98, 31);
+            this.ServerControlFlagTxtBox.Name = "ServerControlFlagTxtBox";
+            this.ServerControlFlagTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.ServerControlFlagTxtBox.TabIndex = 2;
+            // 
+            // label104
+            // 
+            this.label104.AutoSize = true;
+            this.label104.Location = new System.Drawing.Point(6, 34);
+            this.label104.Name = "label104";
+            this.label104.Size = new System.Drawing.Size(86, 12);
+            this.label104.TabIndex = 0;
+            this.label104.Text = "1. Control Flag: ";
+            // 
             // groupBox15
             // 
             this.groupBox15.BackColor = System.Drawing.Color.Transparent;
@@ -3524,16 +3961,6 @@
             // CommunicationTimer
             // 
             this.CommunicationTimer.Tick += new System.EventHandler(this.CommunicationTimer_Tick);
-            // 
-            // AugerOpenGlCheckBox
-            // 
-            this.AugerOpenGlCheckBox.AutoSize = true;
-            this.AugerOpenGlCheckBox.Location = new System.Drawing.Point(6, 173);
-            this.AugerOpenGlCheckBox.Name = "AugerOpenGlCheckBox";
-            this.AugerOpenGlCheckBox.Size = new System.Drawing.Size(98, 16);
-            this.AugerOpenGlCheckBox.TabIndex = 8;
-            this.AugerOpenGlCheckBox.Text = "3D Grain Tank";
-            this.AugerOpenGlCheckBox.UseVisualStyleBackColor = true;
             // 
             // IntegratedForm
             // 
@@ -3555,6 +3982,7 @@
             this.groupBox3.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.groupBox24.ResumeLayout(false);
             this.groupBox19.ResumeLayout(false);
             this.groupBox19.PerformLayout();
             this.groupBox14.ResumeLayout(false);
@@ -3596,6 +4024,14 @@
             this.groupBox21.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DImagerDepthPboxIpl)).EndInit();
             this.groupBox20.ResumeLayout(false);
+            this.tabPage9.ResumeLayout(false);
+            this.groupBox23.ResumeLayout(false);
+            this.groupBox23.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ClientHeaderNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ClientSteerNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ClientHstNumericUpDown)).EndInit();
+            this.groupBox22.ResumeLayout(false);
+            this.groupBox22.PerformLayout();
             this.groupBox15.ResumeLayout(false);
             this.groupBox15.PerformLayout();
             this.ResumeLayout(false);
@@ -3875,7 +4311,6 @@
         private ZedGraph.ZedGraphControl zg3;
         private System.Windows.Forms.CheckBox Vy446_AutonomousMode_CheckBox;
         private System.Windows.Forms.GroupBox groupBox12;
-        private System.Windows.Forms.Label label77;
         private System.Windows.Forms.TextBox Vy446_CMD_TravelSpeed_TxtBox;
         private System.Windows.Forms.Label label73;
         private System.Windows.Forms.Label label72;
@@ -3915,5 +4350,39 @@
         private System.Windows.Forms.CheckBox VisionObjectDetectionCheckBox;
         private System.Windows.Forms.Label label103;
         private System.Windows.Forms.CheckBox AugerOpenGlCheckBox;
+        private System.Windows.Forms.Label label77;
+        private System.Windows.Forms.TextBox Vy446_CMD_HST_TxtBox;
+        private System.Windows.Forms.TabPage tabPage9;
+        private System.Windows.Forms.GroupBox groupBox22;
+        private System.Windows.Forms.TextBox ServerControlFlagTxtBox;
+        private System.Windows.Forms.Label label104;
+        private System.Windows.Forms.GroupBox groupBox23;
+        private System.Windows.Forms.TextBox ClientControlFlagTxtBox;
+        private System.Windows.Forms.Label label105;
+        private System.Windows.Forms.NumericUpDown ClientHstNumericUpDown;
+        private System.Windows.Forms.Label label106;
+        private System.Windows.Forms.Label label107;
+        private System.Windows.Forms.NumericUpDown ClientSteerNumericUpDown;
+        private System.Windows.Forms.Label label108;
+        private System.Windows.Forms.NumericUpDown ClientHeaderNumericUpDown;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label109;
+        private System.Windows.Forms.TextBox ServerHeaderDebugTxtBox;
+        private System.Windows.Forms.Label label110;
+        private System.Windows.Forms.Label label111;
+        private System.Windows.Forms.TextBox ServerSteerDebugTxtBox;
+        private System.Windows.Forms.TextBox ServerHstDebugTxtBox;
+        private System.Windows.Forms.GroupBox groupBox24;
+        private System.Windows.Forms.ComboBox ExecutionModeComboBox;
+        private System.Windows.Forms.CheckBox TcpIpWheelControlCheckBox;
+        private System.Windows.Forms.TextBox ClientDebugTxtBox;
+        private System.Windows.Forms.Label label113;
+        private System.Windows.Forms.TextBox ClientRedLampTxtBox;
+        private System.Windows.Forms.Label label112;
+        private System.Windows.Forms.TextBox ClientBuzzerTxtBox;
+        private System.Windows.Forms.TextBox ServerRedLampTxtBox;
+        private System.Windows.Forms.TextBox ServerBuzzerTxtBox;
+        private System.Windows.Forms.Label label114;
+        private System.Windows.Forms.Label label115;
     }
 }

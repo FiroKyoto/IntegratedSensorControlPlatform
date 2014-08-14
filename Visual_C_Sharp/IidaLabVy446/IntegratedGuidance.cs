@@ -40,12 +40,16 @@ namespace IidaLabVy446
                     this.isDefaultCmdVy446 = true;
                 }
 
-                // autonomous mode run
-                this.lidarOpenGlForm.Vy446AutonomousModeCheckDebug(this.Vy446_AutonomousMode_CheckBox.Checked);
+                // autonomous mode run debug - harvesting and 3D terrain mapping
+                //this.lidarOpenGlForm.Vy446AutonomousModeCheckDebug(this.Vy446_AutonomousMode_CheckBox.Checked);
 
                 if (this.Vy446_AutonomousMode_CheckBox.Checked == true)
                 {
-                    this.Vy446ForwardHarvesting();
+                    // autonomous harvesting
+                    //this.Vy446ForwardHarvesting();
+
+                    // autonomous auger detection
+                    //this.Vy446AugerDetection();
                 }
 
                 // if simulation test checkbox is checked
@@ -59,6 +63,141 @@ namespace IidaLabVy446
             // VY50
             if ((_bodyModelNum == 0) && (_isVy50RobotMode == true))
             {
+            }
+        }
+
+        /// <summary>
+        /// Revised 2014-02-25 by wonjae cho
+        /// Autonomous auger detection
+        /// </summary>
+        private void Vy446AugerDetection()
+        {
+            this.Vy446AugerInitialization();
+
+            this.Vy446AugerMove();
+        }
+
+        private bool is_auger_initialize = false;
+        
+        /// <summary>
+        /// true is forward and false is backward.
+        /// </summary>
+        private bool is_auger_forward_and_backward { get; set; }
+
+        /// <summary>
+        /// Revised 2014-02-25
+        /// Initialize auger detection
+        /// </summary>
+        private void Vy446AugerInitialization()
+        {
+            if (this.is_auger_initialize == false)
+            {
+                // karitaka maximum value is 680.
+                this.vy446_usCmdKaritaka = Convert.ToUInt16(680);
+
+                // forward on - Vy446_DEBUG_INI_TRAVEL_SPEED_TxtBox.text
+                this.vy446_usCmdHst = Convert.ToUInt16(this.Vy446_CMD_HST_TxtBox.Text);
+
+                if (this.vy446_usCmdHst > 1405)
+                {
+                    this.is_auger_forward_and_backward = true;
+                    
+                    // debug message
+                    this.augerOpenGlForm.SteeringInformation("Forward");
+                }
+                else
+                {
+                    this.is_auger_forward_and_backward = false;
+
+                    // debug message
+                    this.augerOpenGlForm.SteeringInformation("Backward");
+                }
+
+                // set steer nuetral
+                this.vy446_usCmdSteer = Convert.ToUInt16(430);
+
+                this.is_auger_initialize = true;
+            }
+        }
+
+        private const double auger_travel_range = 5.0;
+        private const double auger_target_range = 0.15;
+        private bool is_auger_move_stop = false;
+        private bool is_final_auger_detection = false;
+        //private double auger_sim_to_real = 100.0;
+
+        /// <summary>
+        /// Revised 2013-02-25
+        /// Autonomous auger move to target position
+        /// </summary>
+        private void Vy446AugerMove()
+        {
+            double travel_distance = this.augerOpenGlForm.TravelDistance();
+
+            if (this.is_final_auger_detection == true)
+            {
+                // move stop
+                this.vy446_usCmdHst = Convert.ToUInt16(1405);
+
+                // move auger
+                this.vy446_m_ucFgAugerAutoPos = true;
+                this.vy446_usCmdLRPos = this.augerOpenGlForm.usCmdLRPos;
+                this.vy446_usCmdUDPos = this.augerOpenGlForm.usCmdUDPos;
+
+                // debug message
+                this.augerOpenGlForm.SteeringInformation("Auger Move");
+            }
+            else
+            {
+                if ((this.is_auger_move_stop == true) && (this.augerOpenGlForm.is_grain_tank_detection == true))
+                {
+                    double auger_distance = this.augerOpenGlForm.DistanceBetweenTargetAndCurrentOfAuger();
+
+                    if (auger_distance > auger_target_range)
+                    {
+                        //this.auger_sim_to_real = auger_distance;
+                        double reverse_speed = 0.0;
+
+                        if (this.is_auger_forward_and_backward == true)
+                        {
+                            // backward
+                            reverse_speed = 1200;
+
+                            // debug message
+                            this.augerOpenGlForm.SteeringInformation("Backward");
+                        }
+                        else
+                        {
+                            // forward
+                            reverse_speed = 1525;
+
+                            // debug message
+                            this.augerOpenGlForm.SteeringInformation("Forward");
+                        }
+
+                        this.vy446_usCmdHst = Convert.ToUInt16(reverse_speed);
+
+                    }
+                    else
+                    {
+                        this.is_final_auger_detection = true;
+                    }
+
+                }
+
+                if ((travel_distance > auger_travel_range) && (this.is_auger_move_stop == false))
+                {
+                    // move stop
+                    this.vy446_usCmdHst = Convert.ToUInt16(1405);
+
+                    // debug message
+                    this.augerOpenGlForm.SteeringInformation("Stop");
+
+                    // grain tank detection
+                    this.augerOpenGlForm.DrawSquareInImage();
+
+                    this.is_auger_move_stop = true;
+                }
             }
         }
 

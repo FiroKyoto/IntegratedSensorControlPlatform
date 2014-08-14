@@ -376,6 +376,129 @@ namespace IidaLabVy446
             this.toolStripStatusLabel4.Text = this._drawMap.debugMsg;
         }
 
+        /// <summary>
+        /// Remote control - status change button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (this.remote_client_flag == 0)
+            {
+                this.remote_client_flag = 1;
+                this.ClientControlFlagTxtBox.Text = "Sending";
+            }
+            else if (this.remote_client_flag == 1)
+            {
+                this.remote_client_flag = 0;
+                this.ClientHstNumericUpDown.Value = 1405;
+                this.ClientSteerNumericUpDown.Value = 430;
+                this.ClientHeaderNumericUpDown.Value = 420;
+                this.ClientBuzzerTxtBox.Text = "off";
+                this.ClientRedLampTxtBox.Text = "off";
+
+                this.ClientControlFlagTxtBox.Text = "Initialize";
+            }
+        }
+
+        /// <summary>
+        /// Select execution mode event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ExecutionModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+            // 1. Harvesting - read mode
+            if (this.ExecutionModeComboBox.SelectedIndex == 0)
+            {
+                // setting of the lidar mounted on the roof of the combine harvester
+                this.LidarAvailableCheckBox.Checked = true;
+                this.LidarSelectComboBox.SelectedIndex = 1;
+                this.LidarReadCheckBox.Checked = true;
+                this.LidarOpenGlCheckBox.Checked = true;
+
+                // setting machine vision
+                this.VisionAvailableCheckBox.Checked = true;
+                this.VisionReadCheckBox.Checked = true;
+
+                // setting combine body
+                this.BodyAvailableCheckBox.Checked = true;
+                this.BodyModelComboBox.SelectedIndex = 1;
+                this.BodyReadCheckBox.Checked = true;
+                this.BodyGeMapCheckBox.Checked = true;
+                this.BodyWgs84ToCartesianCheckBox.Checked = true;
+
+                // debug message
+                this.toolStripStatusLabel4.Text = "1. Harvesting - read mode";
+            }
+
+            // 2. Harvesting - save and real-time mode
+            if (this.ExecutionModeComboBox.SelectedIndex == 1)
+            {
+                // debug message
+                this.toolStripStatusLabel4.Text = "2. Harvesting - save and real-time mode";
+            }
+
+            // 3. Unloading auger - read mode
+            if (this.ExecutionModeComboBox.SelectedIndex == 2)
+            {
+                // setting of the lidar mounted on the unloading auger
+                this.AugerAvailableCheckBox.Checked = true;
+                this.AugerLidarCheckBox.Checked = true;
+                this.AugerReadCheckBox.Checked = true;
+                this.AugerOpenGlCheckBox.Checked = true;
+
+                // setting combine body
+                this.BodyAvailableCheckBox.Checked = true;
+                this.BodyModelComboBox.SelectedIndex = 1;
+                this.BodyReadCheckBox.Checked = true;
+                this.BodyGeMapCheckBox.Checked = true;
+                this.BodyWgs84ToCartesianCheckBox.Checked = true;
+
+                // debug message
+                this.toolStripStatusLabel4.Text = "3. Unloading auger - read mode";
+            }
+
+            // 4. Unloading auger - save and real-time mode
+            if (this.ExecutionModeComboBox.SelectedIndex == 3)
+            {
+                // debug message
+                this.toolStripStatusLabel4.Text = "4. Unloading auger - save and real-time mode";
+            }
+
+            // 5. Remote control - server mode
+            if (this.ExecutionModeComboBox.SelectedIndex == 4)
+            {
+                this.TcpIpIsAvailableCheckBox.Checked = true;
+                this.TcpIpServerCheckBox.Checked = true;
+                this.LidarAvailableCheckBox.Checked = true;
+                this.LidarSelectComboBox.SelectedIndex = 1;     //LMS511
+                this.BodyAvailableCheckBox.Checked = true;
+                this.BodyModelComboBox.SelectedIndex = 1;       //vy446
+
+                // debug message
+                this.toolStripStatusLabel4.Text = "5. Remote control - server mode";
+            }
+
+            // 6. Remote control - client mode
+            if (this.ExecutionModeComboBox.SelectedIndex == 5)
+            {
+                this.TcpIpIsAvailableCheckBox.Checked = true;
+                this.TcpIpClientCheckBox.Checked = true;
+                this.TcpIpWheelControlCheckBox.Checked = true;
+                this.LidarAvailableCheckBox.Checked = true;
+                this.LidarSelectComboBox.SelectedIndex = 1;     //LMS511
+                this.BodyAvailableCheckBox.Checked = true;
+                this.BodyModelComboBox.SelectedIndex = 1;       //vy446
+                this.LidarOpenGlCheckBox.Checked = true;
+                this.BodyWgs84ToCartesianCheckBox.Checked = true;
+
+                // debug message
+                this.toolStripStatusLabel4.Text = "6. Remote control - client mode"; 
+            }
+        }
+
         #endregion
 
     }

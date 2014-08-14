@@ -205,7 +205,7 @@ namespace IidaLabVy446
             // Auger OpenGL form
             if (this.AugerOpenGlCheckBox.Checked == true)
             {
-                this.augerOpenGlForm = new AugerOpenGlForm(this.BodyModelComboBox.SelectedIndex);
+                this.augerOpenGlForm = new AugerOpenGlForm(this.BodyModelComboBox.SelectedIndex, this.AugerReadCheckBox.Checked);
                 this.augerOpenGlForm.Show();
             }
         }
