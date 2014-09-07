@@ -1,0 +1,256 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DC43E995-BAEF-44D6-AC89-D9A870448276}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Display</RootNamespace>
+    <AssemblyName>Display</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Algorithm">
+      <HintPath>..\Algorithm\bin\Debug\Algorithm.dll</HintPath>
+    </Reference>
+    <Reference Include="Amedas">
+      <HintPath>..\Amedas\bin\Debug\Amedas.dll</HintPath>
+    </Reference>
+    <Reference Include="CombineBody">
+      <HintPath>..\CombineBody\bin\Debug\CombineBody.dll</HintPath>
+    </Reference>
+    <Reference Include="Communication">
+      <HintPath>..\Communication\bin\Debug\Communication.dll</HintPath>
+    </Reference>
+    <Reference Include="FieldMap">
+      <HintPath>..\FieldMap\bin\Debug\FieldMap.dll</HintPath>
+    </Reference>
+    <Reference Include="Joystick">
+      <HintPath>..\Joystick\bin\Debug\Joystick.dll</HintPath>
+    </Reference>
+    <Reference Include="MachineVision">
+      <HintPath>..\MachineVision\bin\Debug\MachineVision.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Windows\Microsoft.NET\DirectX for Managed Code\1.0.2902.0\Microsoft.DirectX.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.DirectX.DirectInput, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Windows\Microsoft.NET\DirectX for Managed Code\1.0.2902.0\Microsoft.DirectX.DirectInput.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenCvSharp">
+      <HintPath>..\Library Package\OpenCV_2_3_1\OpenCvSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenCvSharp.UserInterface">
+      <HintPath>..\Library Package\OpenCV_2_3_1\OpenCvSharp.UserInterface.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK">
+      <HintPath>..\Library Package\OpenTK_1_1_4\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.GLControl">
+      <HintPath>..\Library Package\OpenTK_1_1_4\OpenTK.GLControl.dll</HintPath>
+    </Reference>
+    <Reference Include="SickLidar">
+      <HintPath>..\SickLidar\bin\Debug\SickLidar.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ZedGraph">
+      <HintPath>..\Library Package\ZedGraph\ZedGraph.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AugerOpenGlForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AugerOpenGlForm.Designer.cs">
+      <DependentUpon>AugerOpenGlForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BodyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BodyForm.Designer.cs">
+      <DependentUpon>BodyForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClientMap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClientMap.Designer.cs">
+      <DependentUpon>ClientMap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DimagerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DimagerForm.Designer.cs">
+      <DependentUpon>DimagerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IntegratedAuger.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IntegratedBody.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IntegratedCommunication.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IntegratedForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IntegratedForm.Designer.cs">
+      <DependentUpon>IntegratedForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IntegratedGuidance.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IntegratedLidar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IntegratedOpenGL.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IntegratedVision.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IntegratedWeather.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LidarOpenGlForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LidarOpenGlForm.Designer.cs">
+      <DependentUpon>LidarOpenGlForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main.Designer.cs">
+      <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LidarForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LidarForm.Designer.cs">
+      <DependentUpon>LidarForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NetworkCamera.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NetworkCamera.Designer.cs">
+      <DependentUpon>NetworkCamera.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SteeringForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SteeringForm.Designer.cs">
+      <DependentUpon>SteeringForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VisionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VisionForm.Designer.cs">
+      <DependentUpon>VisionForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="AugerOpenGlForm.resx">
+      <DependentUpon>AugerOpenGlForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BodyForm.resx">
+      <DependentUpon>BodyForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClientMap.resx">
+      <DependentUpon>ClientMap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DimagerForm.resx">
+      <DependentUpon>DimagerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntegratedForm.resx">
+      <DependentUpon>IntegratedForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LidarForm.resx">
+      <DependentUpon>LidarForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LidarOpenGlForm.resx">
+      <DependentUpon>LidarOpenGlForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main.resx">
+      <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NetworkCamera.resx">
+      <DependentUpon>NetworkCamera.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="SteeringForm.resx">
+      <DependentUpon>SteeringForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VisionForm.resx">
+      <DependentUpon>VisionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

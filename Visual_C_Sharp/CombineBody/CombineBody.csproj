@@ -33,10 +33,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="OpenTK">
-      <HintPath>..\IidaLabVy446\bin\Debug\OpenTK.dll</HintPath>
+      <HintPath>..\Library Package\OpenTK_1_1_4\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK.GLControl">
-      <HintPath>..\IidaLabVy446\bin\Debug\OpenTK.GLControl.dll</HintPath>
+      <HintPath>..\Library Package\OpenTK_1_1_4\OpenTK.GLControl.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
