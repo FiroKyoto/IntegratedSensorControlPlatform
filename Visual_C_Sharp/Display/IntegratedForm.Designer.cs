@@ -388,6 +388,8 @@
             this.ClientSteerNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
             this.CommunicationTimer = new System.Windows.Forms.Timer(this.components);
+            this.ClientLogButton = new System.Windows.Forms.Button();
+            this.ServerLogButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pBoxIpl1)).BeginInit();
@@ -3639,6 +3641,7 @@
             // 
             // tabPage9
             // 
+            this.tabPage9.Controls.Add(this.ServerLogButton);
             this.tabPage9.Controls.Add(this.groupBox22);
             this.tabPage9.Location = new System.Drawing.Point(4, 22);
             this.tabPage9.Name = "tabPage9";
@@ -3772,6 +3775,7 @@
             // 
             // tabPage10
             // 
+            this.tabPage10.Controls.Add(this.ClientLogButton);
             this.tabPage10.Controls.Add(this.groupBox27);
             this.tabPage10.Controls.Add(this.groupBox26);
             this.tabPage10.Controls.Add(this.groupBox25);
@@ -4127,6 +4131,28 @@
             // CommunicationTimer
             // 
             this.CommunicationTimer.Tick += new System.EventHandler(this.CommunicationTimer_Tick);
+            // 
+            // ClientLogButton
+            // 
+            this.ClientLogButton.BackColor = System.Drawing.Color.Yellow;
+            this.ClientLogButton.Location = new System.Drawing.Point(570, 427);
+            this.ClientLogButton.Name = "ClientLogButton";
+            this.ClientLogButton.Size = new System.Drawing.Size(262, 23);
+            this.ClientLogButton.TabIndex = 14;
+            this.ClientLogButton.Text = "Save Log";
+            this.ClientLogButton.UseVisualStyleBackColor = false;
+            this.ClientLogButton.Click += new System.EventHandler(this.ClientLogButton_Click);
+            // 
+            // ServerLogButton
+            // 
+            this.ServerLogButton.BackColor = System.Drawing.Color.Yellow;
+            this.ServerLogButton.Location = new System.Drawing.Point(11, 203);
+            this.ServerLogButton.Name = "ServerLogButton";
+            this.ServerLogButton.Size = new System.Drawing.Size(190, 23);
+            this.ServerLogButton.TabIndex = 2;
+            this.ServerLogButton.Text = "Save Log";
+            this.ServerLogButton.UseVisualStyleBackColor = false;
+            this.ServerLogButton.Click += new System.EventHandler(this.ServerLogButton_Click);
             // 
             // IntegratedForm
             // 
@@ -4573,5 +4599,7 @@
         private System.Windows.Forms.Label label116;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel5;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel6;
+        private System.Windows.Forms.Button ClientLogButton;
+        private System.Windows.Forms.Button ServerLogButton;
     }
 }

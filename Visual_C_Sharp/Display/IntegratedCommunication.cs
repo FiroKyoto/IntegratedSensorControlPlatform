@@ -65,7 +65,7 @@ namespace Display
 
                 this.isLidarData = true;
 
-                this.toolStripStatusLabel4.Text = Convert.ToString(this.tcpFile.lidarReadCount);
+                //this.toolStripStatusLabel4.Text = Convert.ToString(this.tcpFile.lidarReadCount);
             }
         }
 
@@ -107,7 +107,7 @@ namespace Display
             if (this.BodyModelComboBox.SelectedIndex == 0 && this.tcpFile.bodyData.Count == 82)
             {
                 this.CombineVy50Info(this.tcpFile.bodyData);
-                this.Vy50_ReadCnt_TxtBox.Text = Convert.ToString(this.tcpFile.bodyReadCount);
+                this.Vy50_ReadCnt_TxtBox.Text = Convert.ToString(this.tcpFile.read_count_from_server);
             }
 
             if (this.BodyModelComboBox.SelectedIndex == 1 && this.tcpFile.bodyData.Count == 142)
@@ -258,7 +258,13 @@ namespace Display
                 this.CombineVy446DefaultCommand();
                 this.vy446_usCmdHst = Convert.ToUInt16(_harvester_command.hst);
                 this.vy446_usCmdSteer = Convert.ToUInt16(_harvester_command.steer);
+                
+                // karitori on
+                this.vy446_KaritoriRadio = true;
+                
+                // karitakasa on
                 this.vy446_m_ucFgKaritakaPosCtrl = true;
+                
                 this.vy446_usCmdKaritaka = Convert.ToUInt16(_harvester_command.header);
 
                 if (_harvester_command.buzzer == 1)
@@ -313,10 +319,10 @@ namespace Display
         {
             this.tcpFile.sendCmdToClient = null;
 
-            // Add start of file flag
+            // Add start of file flag -- [0]
             this.tcpFile.sendCmdToClient += "<SOF>" + " ";
 
-            // Add sensors flag
+            // Add lidar flag -- [1]
             if (this.LidarAvailableCheckBox.Checked == true)
             {
                 this.tcpFile.sendCmdToClient += "1" + " ";
@@ -326,6 +332,7 @@ namespace Display
                 this.tcpFile.sendCmdToClient += "0" + " ";
             }
 
+            // Add body flag -- [2]
             if (this.BodyAvailableCheckBox.Checked == true)
             {
                 this.tcpFile.sendCmdToClient += "1" + " ";
@@ -335,7 +342,10 @@ namespace Display
                 this.tcpFile.sendCmdToClient += "0" + " ";
             }
 
-            // Add sensors data
+            // Add current read count -- [3]
+            this.tcpFile.sendCmdToClient += Convert.ToString(this.readCount) + " ";
+
+            // Add lidar data
             if (this.LidarAvailableCheckBox.Checked == true)
             {
                 this.tcpFile.sendCmdToClient += this.lidarData + " ";
@@ -345,6 +355,7 @@ namespace Display
                 this.tcpFile.sendCmdToClient += "NULL" + " ";
             }
 
+            // Add body data
             if (this.BodyAvailableCheckBox.Checked == true)
             {
                 this.tcpFile.sendCmdToClient += this.combineData + " ";
@@ -359,6 +370,24 @@ namespace Display
         }
 
         /// <summary>
+        /// Client debug message
+        /// </summary>
+        private void ClientDebugMessageFromServer()
+        {
+            if (this.tcpFile.lidar_flag == true)
+            {
+                this.LidarPlayForClient();
+            }
+
+            if (this.tcpFile.body_flag == true)
+            {
+                this.CombinePlayForClient();
+            }
+
+            this.toolStripStatusLabel4.Text = Convert.ToString(this.tcpFile.read_count_from_server);
+        }
+
+        /// <summary>
         /// Communication Play
         /// </summary>
         private void CommunicationPlay()
@@ -369,15 +398,31 @@ namespace Display
                 {
                     // Server - send command data to client.
                     this.MergeSensorsDataOfServer();
+                    string send_time = this.MillisecondDisplay();
                     this.connect.ServerSendDataToClient(this.tcpFile.sendCmdToClient);
 
                     // Server - received data from client.
                     this.connect.ServerReceivedDataFromClient();
+                    string received_time = this.MillisecondDisplay();
                     //this.RemoteReceivedReadCntTxtBox.Text = this.connect.received_data_from_client;
                     Communication.File.CmdFromClient harvester_command =
                         this.tcpFile.DivideCmdDataReceivedFromClient(this.connect.received_data_from_client);
 
                     this.ApplyCmdReceivedClientToVy446(harvester_command);
+
+                    // log data = readcount + send time to client + received time from client + received data from client
+                    string log_data = null;
+
+                    if (this.server_log_flag == true)
+                    {
+                        log_data =
+                            Convert.ToString(this.readCount) + " " +
+                            send_time + " " +
+                            received_time + " " +
+                            this.connect.received_data_from_client;
+
+                        this.tcpFile.AddLogData(log_data);
+                    }
                 }
             }
 
@@ -387,6 +432,7 @@ namespace Display
                 {
                     // client - received data from server.
                     this.connect.ClientReceiveDataFromServer();
+                    string received_time = this.MillisecondDisplay();
 
                     this.tcpFile.DivideStringData(
                         this.connect.received_data_from_server,
@@ -394,19 +440,28 @@ namespace Display
                         this.BodyModelComboBox.SelectedIndex
                         );
 
-                    if (this.tcpFile.lidar_flag == true)
-                    {
-                        this.LidarPlayForClient();
-                    }
-
-                    if (this.tcpFile.body_flag == true)
-                    {
-                        this.CombinePlayForClient();
-                    }
+                    // client - client debug message received server
+                    this.ClientDebugMessageFromServer();
 
                     // client - send command data to server.
                     string harvester_command = this.CreateCommandForVy446(this.TcpIpWheelControlCheckBox.Checked);
+                    string send_time = this.MillisecondDisplay();
                     this.connect.ClientSendDataToServer(harvester_command);
+
+                    // log data = readcount + received time to server + send time to server + send data to server
+                    string log_data = null;
+
+                    if (this.client_log_flag == true)
+                    {
+                        log_data =
+                            Convert.ToString(this.tcpFile.read_count_from_server) + " " +
+                            received_time + " " +
+                            send_time + " " +
+                            harvester_command;
+
+                        this.tcpFile.AddLogData(log_data);
+                    }
+
                 }
             }
         }

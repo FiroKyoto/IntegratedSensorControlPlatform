@@ -18,11 +18,14 @@ namespace Display
     using SickLidar;
     using FieldMap;
     using ZedGraph;
+    using CombineBody;
 
     public partial class LidarOpenGlForm : Form
     {
         #region fields
 
+        private CombineBody.Body3DMap _map;
+        
         /// <summary>
         /// graph
         /// </summary>
@@ -60,6 +63,7 @@ namespace Display
         /// </summary>
         private float _tmX { get; set; }
         private float _tmY { get; set; }
+        private float _tmZ { get; set; }
 
         /// <summary>
         /// body information
@@ -111,6 +115,7 @@ namespace Display
 
             // initialization OpenGl variable
             this.bodyModelIndex = _bodyModelIndex;
+            this._map = new Body3DMap(_bodyModelIndex, false);
 
             this.loaded = false;
             this.transX = 0;
@@ -145,7 +150,7 @@ namespace Display
 
             // add arrow
             pplist.Add(this._tmX, this._tmY);
-            List<double> arrow_end = this.ConvertPoint(0.0, 0.1, this._heading_angle);
+            List<double> arrow_end = this._map.ConvertPoint(0.0, 0.1, this._heading_angle);
             pplist.Add(this._tmX + arrow_end[0], this._tmY + arrow_end[1]);
 
             // add ideal path
@@ -178,168 +183,21 @@ namespace Display
         #region OpenGL Methods
 
         /// <summary>
-        /// Setup view port
-        /// </summary>
-        private void SetupViewport()
-        {
-            int w = glControl1.Width;
-            int h = glControl1.Height;
-
-            // Use all of the glControl painting area
-            GL.Viewport(0, 0, w, h);
-
-            GL.MatrixMode(MatrixMode.Projection);
-            GL.LoadIdentity();
-
-            //float nRange = 100.0f;
-            double aspect_ratio = (double)w / (double)h;
-            //GL.Ortho(-nRange, nRange, -nRange * aspect_ratio, nRange * aspect_ratio, -nRange, nRange);
-
-            OpenTK.Matrix4 perspective = OpenTK.Matrix4.CreatePerspectiveFieldOfView(MathHelper.PiOver3, (float)aspect_ratio, 1, 100);
-            GL.MatrixMode(MatrixMode.Projection);
-            GL.LoadMatrix(ref perspective);
-        }
-
-        /// <summary>
-        /// Draw cartesian coordinates 
-        /// </summary>
-        private void DrawCoordinates()
-        {
-            GL.LineWidth(2.0f);
-            GL.Begin(BeginMode.Lines);
-            GL.Color3(Color.Red);
-            GL.Vertex3(0, 0, 0);
-            GL.Vertex3(2, 0, 0);
-
-            GL.Color3(Color.Green);
-            GL.Vertex3(0, 0, 0);
-            GL.Vertex3(0, 2, 0);
-
-            GL.Color3(Color.Blue);
-            GL.Vertex3(0, 0, 0);
-            GL.Vertex3(0, 0, 2);
-            GL.End();
-        }
-
-        /// <summary>
-        /// draw ground
-        /// </summary>
-        private void DrawGround()
-        {
-            GL.LineWidth(1.0f);
-            GL.Begin(BeginMode.Lines);
-            GL.Color3(Color.LightGray);
-            for (int i = 0; i <= 200; i++)
-            {
-                GL.Vertex3(-200, (float)i, 0);
-                GL.Vertex3(200, (float)i, 0);
-
-                GL.Vertex3(-200, -(float)i, 0);
-                GL.Vertex3(200, -(float)i, 0);
-
-                GL.Vertex3((float)i, 200, 0);
-                GL.Vertex3((float)i, -200, 0);
-
-                GL.Vertex3(-(float)i, 200, 0);
-                GL.Vertex3(-(float)i, -200, 0);
-
-            }
-            GL.End();
-        }
-
-        /// <summary>
-        /// convert points using heading angle
-        /// </summary>
-        /// <param name="_x"></param>
-        /// <param name="_y"></param>
-        /// <param name="_angle"></param>
-        /// <returns></returns>
-        private List<double> ConvertPoint(double _x, double _y, double _angle)
-        {
-            List<double> points = new List<double>();
-
-            double bAngle = (_angle - 270.0) * (Math.PI / 180);
-            double rotX = (Math.Sin(bAngle) * _y) + (Math.Cos(bAngle) * _x);
-            double rotY = (Math.Cos(bAngle) * _y) - (Math.Sin(bAngle) * _x);
-
-            points.Add(rotX);
-            points.Add(rotY);
-
-            return points;
-        }
-
-        /// <summary>
         /// Draw Body
         /// if _bodyModel is 0 then body model is vy50.
         /// else if _bodyModel is 1 then body model is vy446.
         /// </summary>
         private void DrawBody()
         {
-            // arrow
-            List<double> arrowLine = this.ConvertPoint(0.0, 2.0, this._heading_angle);
-            List<double> arrowA = this.ConvertPoint(0.5, 1.5, this._heading_angle);
-            List<double> arrowB = this.ConvertPoint(-0.5, 1.5, this._heading_angle);
+            this._map._body_pose.X = this._tmX;
+            this._map._body_pose.Y = this._tmY;
+            this._map._body_pose.Z = this._tmZ;
+            this._map._body_pose.Angle = this._heading_angle;
+            //this._map._auger_received.DT_AUG_MTR = this.DT_AUG_MTR;
+            //this._map._auger_received.DT_AUG_CLD = this.DT_AUG_CLD;
 
-            // end of right header
-            List<double> rHeaderA = new List<double>();
-            List<double> rHeaderB = new List<double>();
-            
-            // VY50
-            if (this.bodyModelIndex == 0)
-            {
-                double La = 0.45;
-                double Lc = 0.6;
-                double Lbe = 0.59 + 0.073;
-                rHeaderA = this.ConvertPoint(Lbe, La, this._heading_angle);
-                rHeaderB = this.ConvertPoint(Lbe, La + Lc, this._heading_angle);
-            }
-
-            // VY446
-            if (this.bodyModelIndex == 1)
-            {
-                double La = 0.15;
-                double Lc = 0.83;
-                double Lbe = 0.79 + 0.038;
-                rHeaderA = this.ConvertPoint(Lbe, La, this._heading_angle);
-                rHeaderB = this.ConvertPoint(Lbe, La + Lc, this._heading_angle);
-            }
-
-            GL.LineWidth(3.0f);
-            GL.Begin(BeginMode.Lines);
-            GL.Color3(Color.Yellow);
-
-            // arrow
-            GL.Vertex3(this._tmX, this._tmY, 0.0);
-            GL.Vertex3(this._tmX, this._tmY, 3.0);
-
-            GL.Vertex3(this._tmX, this._tmY, 2.5);
-            GL.Vertex3(this._tmX + arrowLine[0], this._tmY + arrowLine[1], 2.5);
-
-            GL.Vertex3(this._tmX + arrowLine[0], this._tmY + arrowLine[1], 2.5);
-            GL.Vertex3(this._tmX + arrowA[0], this._tmY + arrowA[1], 2.5);
-
-            GL.Vertex3(this._tmX + arrowLine[0], this._tmY + arrowLine[1], 2.5);
-            GL.Vertex3(this._tmX + arrowB[0], this._tmY + arrowB[1], 2.5);
-
-            // end of right header
-            this.headerX = this._tmX + rHeaderB[0];
-            this.headerY = this._tmY + rHeaderB[1];
-
-            GL.Vertex3(this._tmX + rHeaderA[0], this._tmY + rHeaderA[1], 0.0);
-            GL.Vertex3(this._tmX + rHeaderB[0], this._tmY + rHeaderB[1], 0.0);
-
-            GL.End();
-
-            // GPS circle
-            GL.Begin(BeginMode.LineLoop);
-            for (int i = 0; i <= 300; i++)
-            {
-                double angle = 2 * Math.PI * i / 300;
-                double x = Math.Cos(angle);
-                double y = Math.Sin(angle);
-                GL.Vertex3(this._tmX + x, this._tmY + y, 2.5);
-            }
-            GL.End();
+            this._map.DrawBody();
+            this.GlBodyHeaderPotentiometerTxtBox.Text = this._map.header_meter.ToString("N3");
         }
 
 
@@ -612,20 +470,31 @@ namespace Display
         /// <param name="_tmZ"></param>
         /// <param name="_heading_angle"></param>
         /// <param name="_body_speed"></param>
-        public void BodyInformation(int _readCnt, double _tmX, double _tmY, double _tmZ, double _heading_angle, double _body_speed)
+        /// <param name="_header_potentiometer"></param>
+        public void BodyInformation(int _readCnt, double _tmX, double _tmY, double _tmZ, double _heading_angle, double _body_speed, int _header_potentiometer)
         {
             this.GlReadCntTxtBox.Text = Convert.ToString(_readCnt);
             this.read_count = _readCnt;
+            
             this.GlCurCntTxtBox.Text = Convert.ToString(this.cropCnt);
+            
             this.GlTmXTxtBox.Text = _tmX.ToString("N3");
             this._tmX = (float)_tmX;
+            
             this.GlTmYTxtBox.Text = _tmY.ToString("N3");
             this._tmY = (float)_tmY;
+            
             this.GlTmZTxtBox.Text = _tmZ.ToString("N3");
+            this._tmZ = (float)_tmZ;
+            
             this.GlBodyHeadingTxtBox.Text = _heading_angle.ToString("N3");
             this._heading_angle = _heading_angle;
+            
             this.GlBodySpeedTxtBox.Text = _body_speed.ToString("N3");
             this._body_speed = _body_speed;
+
+            //this.GlBodyHeaderPotentiometerTxtBox.Text = _header_potentiometer.ToString();
+            this._map.header_potentiometer = _header_potentiometer;
 
             this.GlHarvestTimesTxtBox.Text = Convert.ToString(this.harvest_times_count);
         }
@@ -853,7 +722,7 @@ namespace Display
             GL.ClearColor(Color.Black);
             GL.Enable(EnableCap.DepthTest);
 
-            this.SetupViewport();
+            this._map.SetupViewport(glControl1);
         }
 
         /// <summary>
@@ -868,7 +737,7 @@ namespace Display
                 return;
             }
 
-            this.SetupViewport();
+            this._map.SetupViewport(glControl1);
             glControl1.Invalidate();
         }
 
@@ -885,25 +754,12 @@ namespace Display
                 return;
             }
 
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-
-            float eyeVal = 5.0f;
-            Matrix4 lookat = Matrix4.LookAt(-eyeVal * (float)Math.Sin(MathHelper.DegreesToRadians(135)), eyeVal, eyeVal, 0, 0, 0, 0, 1, 0);
-            GL.MatrixMode(MatrixMode.Modelview);
-            GL.LoadMatrix(ref lookat);
-
-            //GL.MatrixMode(MatrixMode.Modelview);
-            //GL.LoadIdentity();
-            GL.Rotate(-90.0f, 1.0f, 0.0f, 0.0f);
-            GL.Rotate(180.0f, 0.0f, 0.0f, 1.0f);
-
-            GL.Translate(this.transX, this.transY, this.transZ);
-            GL.Rotate(angle, 0.0f, 0.0f, 1.0f);
-
-            this.DrawCoordinates();
-            this.DrawGround();
+            this._map.DrawInitialize((float)this.transX, (float)this.transY, (float)this.transZ, this.angle);
+            this._map.DrawCoordinates();
+            this._map.DrawGround();
             this.DrawBody();
             this.DrawCrop();
+            this._map.DrawHarvestedArea(this.ran_start, this.ran_end);
             this.DrawEdge();
 
             glControl1.SwapBuffers();

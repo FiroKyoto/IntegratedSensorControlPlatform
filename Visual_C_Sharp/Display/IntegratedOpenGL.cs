@@ -13,6 +13,7 @@ namespace Display
         private double backTmZ { get; set; }
         private double backHeading { get; set; }
         private double backSpeed { get; set; }
+        private int back_Header_Potentiometer { get; set; }
         private bool isFirstBodyTm { get; set; }
         //private bool isSaveLidarData { get; set; }
         private bool isHarvestMode { get; set; }
@@ -96,6 +97,7 @@ namespace Display
                         // vy50 model
                         this.backHeading = this._vy50.gps_Heading;
                         this.backSpeed = this._vy50.d_Speed;
+                        this.back_Header_Potentiometer = this._vy50.uc_HeaderPos;
 
                         // Potentiometer neutral = 125
                         if (this._vy50.uc_MainPotentio < 125)
@@ -114,6 +116,7 @@ namespace Display
                         this.backHeading = this._vy446.gps_Compass;
                         //this.backHeading = this._vy446.compass;
                         this.backSpeed = this._vy446.fSpeed;
+                        this.back_Header_Potentiometer = this._vy446.AD_KARI_L;
 
                         // Potentiometer neutral = 1405
                         if (this._vy446.AD_FEED_M < 1405)
@@ -149,7 +152,8 @@ namespace Display
                 }
 
                 // send debug information to lidarForm
-                this.lidarOpenGlForm.BodyInformation(this.readCount, this.backTmX, this.backTmY, this.backTmZ, this.backHeading, this.backSpeed);
+                this.lidarOpenGlForm.BodyInformation
+                    (this.readCount, this.backTmX, this.backTmY, this.backTmZ, this.backHeading, this.backSpeed, this.back_Header_Potentiometer);
 
                 if (this.isHarvestMode == true)
                 {

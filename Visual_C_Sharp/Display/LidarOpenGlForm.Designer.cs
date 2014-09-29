@@ -81,6 +81,8 @@
             this.label14 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.label29 = new System.Windows.Forms.Label();
+            this.GlHeaderAvgGndHgtTxtBox = new System.Windows.Forms.TextBox();
             this.label28 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.GlHeaderEndDistanceTxtBox = new System.Windows.Forms.TextBox();
@@ -100,8 +102,8 @@
             this.label25 = new System.Windows.Forms.Label();
             this.GlIdealHeadingTxtBox = new System.Windows.Forms.TextBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.GlHeaderAvgGndHgtTxtBox = new System.Windows.Forms.TextBox();
-            this.label29 = new System.Windows.Forms.Label();
+            this.GlBodyHeaderPotentiometerTxtBox = new System.Windows.Forms.TextBox();
+            this.label30 = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -130,6 +132,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.GlBodyHeaderPotentiometerTxtBox);
+            this.groupBox2.Controls.Add(this.label30);
             this.groupBox2.Controls.Add(this.label26);
             this.groupBox2.Controls.Add(this.GlAutoModeTxtBox);
             this.groupBox2.Controls.Add(this.GlBodySpeedTxtBox);
@@ -148,7 +152,7 @@
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Location = new System.Drawing.Point(534, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(204, 229);
+            this.groupBox2.Size = new System.Drawing.Size(204, 255);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Body Information";
@@ -585,7 +589,7 @@
             this.groupBox5.Controls.Add(this.label14);
             this.groupBox5.Controls.Add(this.GlIsRanTxtBox);
             this.groupBox5.Controls.Add(this.GlRanEndTxtBox);
-            this.groupBox5.Location = new System.Drawing.Point(534, 247);
+            this.groupBox5.Location = new System.Drawing.Point(534, 273);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(204, 100);
             this.groupBox5.TabIndex = 12;
@@ -602,12 +606,29 @@
             this.groupBox6.Controls.Add(this.GlHeaderStartDistanceTxtBox);
             this.groupBox6.Controls.Add(this.label23);
             this.groupBox6.Controls.Add(this.GlHeaderPoteniometerTxtBox);
-            this.groupBox6.Location = new System.Drawing.Point(534, 353);
+            this.groupBox6.Location = new System.Drawing.Point(534, 379);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(204, 147);
+            this.groupBox6.Size = new System.Drawing.Size(204, 121);
             this.groupBox6.TabIndex = 13;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Header State";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(7, 96);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(75, 12);
+            this.label29.TabIndex = 7;
+            this.label29.Text = "Avg. GndHgt: ";
+            // 
+            // GlHeaderAvgGndHgtTxtBox
+            // 
+            this.GlHeaderAvgGndHgtTxtBox.BackColor = System.Drawing.Color.GreenYellow;
+            this.GlHeaderAvgGndHgtTxtBox.Location = new System.Drawing.Point(92, 93);
+            this.GlHeaderAvgGndHgtTxtBox.Name = "GlHeaderAvgGndHgtTxtBox";
+            this.GlHeaderAvgGndHgtTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.GlHeaderAvgGndHgtTxtBox.TabIndex = 6;
             // 
             // label28
             // 
@@ -800,22 +821,22 @@
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Steering State";
             // 
-            // GlHeaderAvgGndHgtTxtBox
+            // GlBodyHeaderPotentiometerTxtBox
             // 
-            this.GlHeaderAvgGndHgtTxtBox.BackColor = System.Drawing.Color.GreenYellow;
-            this.GlHeaderAvgGndHgtTxtBox.Location = new System.Drawing.Point(92, 93);
-            this.GlHeaderAvgGndHgtTxtBox.Name = "GlHeaderAvgGndHgtTxtBox";
-            this.GlHeaderAvgGndHgtTxtBox.Size = new System.Drawing.Size(100, 19);
-            this.GlHeaderAvgGndHgtTxtBox.TabIndex = 6;
+            this.GlBodyHeaderPotentiometerTxtBox.BackColor = System.Drawing.Color.GreenYellow;
+            this.GlBodyHeaderPotentiometerTxtBox.Location = new System.Drawing.Point(92, 218);
+            this.GlBodyHeaderPotentiometerTxtBox.Name = "GlBodyHeaderPotentiometerTxtBox";
+            this.GlBodyHeaderPotentiometerTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.GlBodyHeaderPotentiometerTxtBox.TabIndex = 19;
             // 
-            // label29
+            // label30
             // 
-            this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(7, 96);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(75, 12);
-            this.label29.TabIndex = 7;
-            this.label29.Text = "Avg. GndHgt: ";
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(6, 221);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(47, 12);
+            this.label30.TabIndex = 18;
+            this.label30.Text = "Header: ";
             // 
             // LidarOpenGlForm
             // 
@@ -935,5 +956,7 @@
         private System.Windows.Forms.TextBox GlHeaderStartDistanceTxtBox;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.TextBox GlHeaderAvgGndHgtTxtBox;
+        private System.Windows.Forms.TextBox GlBodyHeaderPotentiometerTxtBox;
+        private System.Windows.Forms.Label label30;
     }
 }

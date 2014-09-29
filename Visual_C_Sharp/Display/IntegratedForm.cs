@@ -559,8 +559,53 @@ namespace Display
             }
         }
 
-        #endregion
 
+        private bool client_log_flag = false;
+
+        /// <summary>
+        /// Save client log event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ClientLogButton_Click(object sender, EventArgs e)
+        {
+            if (this.client_log_flag == false)
+            {
+                this.tcpFile.CreateLogFile("client_log.txt");
+                this.ClientLogButton.Text = "Start and Saving Log";
+                this.client_log_flag = true;
+            }
+            else
+            {
+                this.tcpFile.FinishLogFile();
+                this.ClientLogButton.Text = "Finish and Saved Log";
+                this.client_log_flag = false; 
+            }
+        }
+
+        private bool server_log_flag = false;
+
+        /// <summary>
+        /// Save Server log event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ServerLogButton_Click(object sender, EventArgs e)
+        {
+            if (this.server_log_flag == false)
+            {
+                this.tcpFile.CreateLogFile("server_log.txt");
+                this.ServerLogButton.Text = "Start and Saving Log";
+                this.server_log_flag = true;
+            }
+            else
+            {
+                this.tcpFile.FinishLogFile();
+                this.ServerLogButton.Text = "Finish and Saved Log";
+                this.server_log_flag = false;
+            }
+        }
+        #endregion
 
     }
 }

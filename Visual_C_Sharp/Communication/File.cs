@@ -5,6 +5,7 @@ namespace Communication
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.IO;
 
     public class File
     {
@@ -41,6 +42,7 @@ namespace Communication
         {
             this.lidarData = new List<int>();
             this.bodyData = new List<int>();
+            
         }
         
         #endregion
@@ -53,14 +55,14 @@ namespace Communication
         public string sendCmdToClient { get; set; }
 
         /// <summary>
-        /// gets or sets read count of lidar data
+        /// gets or sets read count received server
         /// </summary>
-        public int lidarReadCount { get; set; }
+        public int read_count_from_server { get; set; }
 
         /// <summary>
         /// gets or sets read count of body data
         /// </summary>
-        public int bodyReadCount { get; set; }
+        //public int bodyReadCount { get; set; }
 
         /// <summary>
         /// lidar data
@@ -75,9 +77,37 @@ namespace Communication
         public bool lidar_flag { get; set; }
         public bool body_flag { get; set; }
 
+        private StreamWriter data_log;
+
         #endregion
 
         #region methods
+
+        /// <summary>
+        /// Create log file
+        /// </summary>
+        /// <param name="_file_name"></param>
+        public void CreateLogFile(string _file_name)
+        {
+            this.data_log = new StreamWriter(_file_name);
+        }
+
+        /// <summary>
+        /// Add data to log file
+        /// </summary>
+        /// <param name="_data"></param>
+        public void AddLogData(string _data)
+        {
+            this.data_log.WriteLine(_data);
+        }
+
+        /// <summary>
+        /// Finish log file
+        /// </summary>
+        public void FinishLogFile()
+        {
+            this.data_log.Close();
+        }
 
         /// <summary>
         /// Add to String
@@ -88,7 +118,7 @@ namespace Communication
         public string AddToString(int _readCnt, List<int> _data)
         {
             string cmd = null;
-            cmd = _readCnt + " ";
+            //cmd = _readCnt + " ";
 
             for (int i = 0; i < _data.Count; i++)
             {
@@ -264,6 +294,7 @@ namespace Communication
             if (_receivedData != null)
             {
                 string[] lineArr = _receivedData.Split(' ');
+                this.read_count_from_server = Convert.ToInt32(lineArr[3]);
 
                 // CheckSum
                 if ((lineArr[0] == "<SOF>") && (lineArr[lineArr.Length - 1] == "<EOF>"))
@@ -275,8 +306,6 @@ namespace Communication
 
                         if (lineArr.Length > _lidarLength + 1)
                         {
-                            this.lidarReadCount = Convert.ToInt32(lineArr[3]);
-
                             for (int i = 0; i < _lidarLength; i++)
                             {
                                 this.lidarData.Add(Convert.ToInt32(lineArr[i + 4]));
@@ -324,20 +353,20 @@ namespace Communication
             }
             else
             {
-                index = 4;
+                index = 5;
             }
 
             if (_body_flag == true)
             {
-                if (lineArr.Length - index == _dataLength + 2)
+                if (lineArr.Length - index == _dataLength + 1)
                 {
-                    this.bodyReadCount = Convert.ToInt32(lineArr[index]);
+                    //this.bodyReadCount = Convert.ToInt32(lineArr[index]);
 
-                    int chkSum = Convert.ToInt32(lineArr[index + 1]);
+                    int chkSum = Convert.ToInt32(lineArr[index]);
 
                     if (chkSum == 205)
                     {
-                        for (int i = index + 1; i < index + 1 + _dataLength; i++)
+                        for (int i = index; i < index + _dataLength; i++)
                         {
                             this.bodyData.Add(Convert.ToInt32(lineArr[i]));
                         }

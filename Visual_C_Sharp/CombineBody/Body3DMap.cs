@@ -159,11 +159,22 @@ namespace CombineBody
         private List<double> lidarB;
         private List<double> auger_link_A;
 
+        public List<double> rHeaderA;
+        public List<double> rHeaderB;
+        public List<double> lHeaderA;
+        public List<double> lHeaderB;
+
         public body_pose _body_pose;
         public auger_received _auger_received;
         public header_right _header_right;
         public auger_pose _auger_pose;
         public auger_lidar_set _auger_lidar_set;
+        public int header_potentiometer { get; set; }
+        public double header_meter { get; set; }
+
+        private Vector3[] harvested_area_quad;
+        private int harvested_area_count { get; set; }
+        private bool harvested_area_point_reverse { get; set; }
 
         #endregion
 
@@ -191,6 +202,17 @@ namespace CombineBody
         /// </summary>
         private void InitializeMethod()
         {
+            this.header_potentiometer = -1;
+            this.header_meter = 0.0;
+            this.rHeaderA = new List<double>();
+            this.rHeaderB = new List<double>();
+            this.lHeaderA = new List<double>();
+            this.lHeaderB = new List<double>();
+
+            this.harvested_area_quad = new Vector3[4 * 50000];
+            this.harvested_area_count = 0;
+            this.harvested_area_point_reverse = false;
+
             if (this.is_used_auger == true)
             {
                 this.augerA = new List<double>();
@@ -220,9 +242,11 @@ namespace CombineBody
             List<double> arrowA = this.ConvertPoint(0.5, 1.5, this._body_pose.Angle);
             List<double> arrowB = this.ConvertPoint(-0.5, 1.5, this._body_pose.Angle);
 
-            // end of right header
-            List<double> rHeaderA = new List<double>();
-            List<double> rHeaderB = new List<double>();
+            // header
+            this.rHeaderA.Clear();
+            this.rHeaderB.Clear();
+            this.lHeaderA.Clear();
+            this.lHeaderB.Clear();
 
             if (this.is_used_auger == true)
             {
@@ -238,8 +262,12 @@ namespace CombineBody
                 double La = 0.45;
                 double Lc = 0.6;
                 double Lbe = 0.59 + 0.073;
+                double swath = 1.4;
                 rHeaderA = this.ConvertPoint(Lbe, La, this._body_pose.Angle);
                 rHeaderB = this.ConvertPoint(Lbe, La + Lc, this._body_pose.Angle);
+                lHeaderA = this.ConvertPoint(Lbe - swath, La, this._body_pose.Angle);
+                lHeaderB = this.ConvertPoint(Lbe - swath, La + Lc, this._body_pose.Angle);
+                this.header_meter = this.ConvertHeaderPotentiometer(this.body_model_index, this.header_potentiometer);
             }
 
             // VY446
@@ -248,8 +276,12 @@ namespace CombineBody
                 double La = 0.15;
                 double Lc = 0.83;
                 double Lbe = 0.79 + 0.038;
+                double swath = 1.4;
                 rHeaderA = this.ConvertPoint(Lbe, La, this._body_pose.Angle);
                 rHeaderB = this.ConvertPoint(Lbe, La + Lc, this._body_pose.Angle);
+                lHeaderA = this.ConvertPoint(Lbe - swath, La, this._body_pose.Angle);
+                lHeaderB = this.ConvertPoint(Lbe - swath, La + Lc, this._body_pose.Angle);
+                this.header_meter = this.ConvertHeaderPotentiometer(this.body_model_index, this.header_potentiometer);
 
                 if (this.is_used_auger == true)
                 {
@@ -284,8 +316,11 @@ namespace CombineBody
             this._header_right.X = this._body_pose.X + rHeaderB[0];
             this._header_right.Y = this._body_pose.Y + rHeaderB[1];
 
-            GL.Vertex3(this._body_pose.X + rHeaderA[0], this._body_pose.Y + rHeaderA[1], 0.0);
-            GL.Vertex3(this._body_pose.X + rHeaderB[0], this._body_pose.Y + rHeaderB[1], 0.0);
+            GL.Vertex3(this._body_pose.X + rHeaderA[0], this._body_pose.Y + rHeaderA[1], this.header_meter);
+            GL.Vertex3(this._body_pose.X + rHeaderB[0], this._body_pose.Y + rHeaderB[1], this.header_meter);
+
+            GL.Vertex3(this._body_pose.X + lHeaderA[0], this._body_pose.Y + lHeaderA[1], this.header_meter);
+            GL.Vertex3(this._body_pose.X + lHeaderB[0], this._body_pose.Y + lHeaderB[1], this.header_meter);
 
             GL.End();
 
@@ -357,13 +392,68 @@ namespace CombineBody
         }
 
         /// <summary>
+        /// Draw Harvested Area
+        /// </summary>
+        /// <param name="_ran_start"></param>
+        /// <param name="_ran_end"></param>
+        public void DrawHarvestedArea(bool _ran_start, bool _ran_end)
+        {
+            if ((_ran_start == true) && (_ran_end == false))
+            {
+                // add header position
+                if (this.harvested_area_point_reverse == false)
+                {
+                    this.harvested_area_quad[this.harvested_area_count] = new Vector3((float)this._body_pose.X + (float)this.lHeaderB[0], (float)this._body_pose.Y + (float)this.lHeaderB[1], (float)0.0);
+                    this.harvested_area_count++;
+                    this.harvested_area_quad[this.harvested_area_count] = new Vector3((float)this._body_pose.X + (float)this.rHeaderB[0], (float)this._body_pose.Y + (float)this.rHeaderB[1], (float)0.0);
+                    this.harvested_area_count++;
+                }
+                else
+                {
+                    this.harvested_area_quad[this.harvested_area_count] = new Vector3((float)this._body_pose.X + (float)this.rHeaderB[0], (float)this._body_pose.Y + (float)this.rHeaderB[1], (float)0.0);
+                    this.harvested_area_count++;
+                    this.harvested_area_quad[this.harvested_area_count] = new Vector3((float)this._body_pose.X + (float)this.lHeaderB[0], (float)this._body_pose.Y + (float)this.lHeaderB[1], (float)0.0);
+                    this.harvested_area_count++;
+                }
+
+                // reverse change
+                if (this.harvested_area_point_reverse == false)
+                {
+                    this.harvested_area_point_reverse = true;
+                }
+                else
+                {
+                    this.harvested_area_point_reverse = false;
+                }
+
+                // Draw area
+                if (this.harvested_area_count > 3)
+                {
+                    // Vertex array mode
+                    GL.EnableClientState(ArrayCap.VertexArray);
+                    GL.VertexPointer(3, VertexPointerType.Float, 0, this.harvested_area_quad);
+                    GL.Color3(Color.DarkBlue);
+                    GL.DrawArrays(BeginMode.Polygon, 0, this.harvested_area_count);
+                    GL.DisableClientState(ArrayCap.VertexArray);
+                }
+            }
+            else
+            {
+                // initialization
+                this.harvested_area_quad.Initialize();
+                this.harvested_area_count = 0;
+                this.harvested_area_point_reverse = false;
+            }
+        }
+
+        /// <summary>
         /// convert points using heading angle
         /// </summary>
         /// <param name="_x"></param>
         /// <param name="_y"></param>
         /// <param name="_angle"></param>
         /// <returns></returns>
-        private List<double> ConvertPoint(double _x, double _y, double _angle)
+        public List<double> ConvertPoint(double _x, double _y, double _angle)
         {
             List<double> points = new List<double>();
 
@@ -375,6 +465,36 @@ namespace CombineBody
             points.Add(rotY);
 
             return points;
+        }
+
+        /// <summary>
+        /// Convert potentiometer to meter of header height
+        /// </summary>
+        /// <param name="_body_model"></param>
+        /// <param name="_header_potentiometer"></param>
+        /// <returns></returns>
+        public double ConvertHeaderPotentiometer(int _body_model, int _header_potentiometer)
+        {
+            double convert_meter = 0.0;
+
+            if (_header_potentiometer == -1)
+            {
+                convert_meter = 0.0;
+            }
+            else
+            {
+                if (_body_model == 0)
+                {
+                    convert_meter = ((double)_header_potentiometer - 85.734) / 169.24;
+                }
+
+                else if (_body_model == 1)
+                {
+                    convert_meter = ((double)_header_potentiometer - 309.47) / 792.01;
+                }
+            }
+
+            return convert_meter;
         }
 
         #endregion
@@ -419,6 +539,105 @@ namespace CombineBody
             points.Add(rotZ);
 
             return points;
+        }
+
+        #endregion
+
+        #region Setting OpenGL methods
+
+        /// <summary>
+        /// Draw Initialize setting
+        /// </summary>
+        /// <param name="_transX"></param>
+        /// <param name="_transY"></param>
+        /// <param name="_transZ"></param>
+        /// <param name="_angle"></param>
+        public void DrawInitialize(float _transX, float _transY, float _transZ, double _angle)
+        {
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+
+            float eyeVal = 5.0f;
+            Matrix4 lookat = Matrix4.LookAt(-eyeVal * (float)Math.Sin(MathHelper.DegreesToRadians(135)), eyeVal, eyeVal, 0, 0, 0, 0, 1, 0);
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.LoadMatrix(ref lookat);
+
+            //GL.MatrixMode(MatrixMode.Modelview);
+            //GL.LoadIdentity();
+            GL.Rotate(-90.0f, 1.0f, 0.0f, 0.0f);
+            GL.Rotate(180.0f, 0.0f, 0.0f, 1.0f);
+
+            GL.Translate(_transX, _transY, _transZ);
+            GL.Rotate(_angle, 0.0f, 0.0f, 1.0f);
+        }
+
+        /// <summary>
+        /// Setup view port
+        /// </summary>
+        public void SetupViewport(GLControl _glControl)
+        {
+            int w = _glControl.Width;
+            int h = _glControl.Height;
+
+            // Use all of the glControl painting area
+            GL.Viewport(0, 0, w, h);
+
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadIdentity();
+
+            //float nRange = 100.0f;
+            double aspect_ratio = (double)w / (double)h;
+            //GL.Ortho(-nRange, nRange, -nRange * aspect_ratio, nRange * aspect_ratio, -nRange, nRange);
+
+            OpenTK.Matrix4 perspective = OpenTK.Matrix4.CreatePerspectiveFieldOfView(MathHelper.PiOver3, (float)aspect_ratio, 1, 100);
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadMatrix(ref perspective);
+        }
+
+        /// <summary>
+        /// Draw cartesian coordinates 
+        /// </summary>
+        public void DrawCoordinates()
+        {
+            GL.LineWidth(2.0f);
+            GL.Begin(BeginMode.Lines);
+            GL.Color3(Color.Red);
+            GL.Vertex3(0, 0, 0);
+            GL.Vertex3(2, 0, 0);
+
+            GL.Color3(Color.Green);
+            GL.Vertex3(0, 0, 0);
+            GL.Vertex3(0, 2, 0);
+
+            GL.Color3(Color.Blue);
+            GL.Vertex3(0, 0, 0);
+            GL.Vertex3(0, 0, 2);
+            GL.End();
+        }
+
+        /// <summary>
+        /// draw ground
+        /// </summary>
+        public void DrawGround()
+        {
+            GL.LineWidth(1.0f);
+            GL.Begin(BeginMode.Lines);
+            GL.Color3(Color.LightGray);
+            for (int i = 0; i <= 200; i++)
+            {
+                GL.Vertex3(-200, (float)i, 0);
+                GL.Vertex3(200, (float)i, 0);
+
+                GL.Vertex3(-200, -(float)i, 0);
+                GL.Vertex3(200, -(float)i, 0);
+
+                GL.Vertex3((float)i, 200, 0);
+                GL.Vertex3((float)i, -200, 0);
+
+                GL.Vertex3(-(float)i, 200, 0);
+                GL.Vertex3(-(float)i, -200, 0);
+
+            }
+            GL.End();
         }
 
         #endregion
