@@ -92,6 +92,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WControls">
+      <HintPath>..\Library Package\WControls_v1.0\WControls.dll</HintPath>
+    </Reference>
     <Reference Include="ZedGraph">
       <HintPath>..\Library Package\ZedGraph\ZedGraph.dll</HintPath>
     </Reference>

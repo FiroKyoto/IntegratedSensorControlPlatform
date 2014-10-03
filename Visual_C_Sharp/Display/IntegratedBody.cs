@@ -322,6 +322,14 @@ namespace Display
                 {
                     this.CombineOffLineMap(this._vy446.gps_Latitude, this._vy446.gps_Longitude, this._vy446.gps_Altitude);
                 }
+
+                // Speedometer display
+                this.SpeedGauge.Value = this._vy446.fSpeed * 100.0;
+                this.SpeedometerLabel.Text = this._vy446.fSpeed.ToString("N3") + " [m/s]";
+
+                // compass display
+                this.CompassGauge.Value = this._vy446.gps_Compass;
+                this.CompassLabel.Text = this._vy446.gps_Compass.ToString("N1") + " [deg]";
             }
         }
 

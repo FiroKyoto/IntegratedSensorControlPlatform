@@ -176,6 +176,13 @@ namespace Display
 
             if (_is_wheel == true)
             {
+                // vy446
+                if (this.BodyModelComboBox.SelectedIndex == 1)
+                {
+                    this.tcpFile.set_forward_HST = this._vy446.SetHstCmd(Convert.ToDouble(this.ClientSetForwardSpeedTxtBox.Text));
+                    this.tcpFile.set_backward_HST = this._vy446.SetHstCmd(Convert.ToDouble(this.ClientSetBackwardSpeedTxtBox.Text));
+                }
+
                 Communication.File.CmdFromClient wheel_command =
                     this.tcpFile.DivideWheelData(
                         this.g27.Controller().ToString(),
@@ -224,6 +231,9 @@ namespace Display
                 {
                     this.ClientControlFlagTxtBox.Text = "Sending";
                 }
+
+                // display steering gauge value
+                this.G27Gauge.Value = this.tcpFile.steer_gauge;
             }
 
             string command = null;

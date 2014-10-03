@@ -345,6 +345,7 @@
             this.groupBox20 = new System.Windows.Forms.GroupBox();
             this.zg4 = new ZedGraph.ZedGraphControl();
             this.tabPage9 = new System.Windows.Forms.TabPage();
+            this.ServerLogButton = new System.Windows.Forms.Button();
             this.groupBox22 = new System.Windows.Forms.GroupBox();
             this.ServerRedLampTxtBox = new System.Windows.Forms.TextBox();
             this.ServerBuzzerTxtBox = new System.Windows.Forms.TextBox();
@@ -359,6 +360,7 @@
             this.ServerControlFlagTxtBox = new System.Windows.Forms.TextBox();
             this.label104 = new System.Windows.Forms.Label();
             this.tabPage10 = new System.Windows.Forms.TabPage();
+            this.ClientLogButton = new System.Windows.Forms.Button();
             this.groupBox27 = new System.Windows.Forms.GroupBox();
             this.ClientTargetPathStartPoseYTxtBox = new System.Windows.Forms.TextBox();
             this.label117 = new System.Windows.Forms.Label();
@@ -388,8 +390,20 @@
             this.ClientSteerNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
             this.CommunicationTimer = new System.Windows.Forms.Timer(this.components);
-            this.ClientLogButton = new System.Windows.Forms.Button();
-            this.ServerLogButton = new System.Windows.Forms.Button();
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.tabPage11 = new System.Windows.Forms.TabPage();
+            this.CompassGroupBox = new System.Windows.Forms.GroupBox();
+            this.CompassLabel = new System.Windows.Forms.Label();
+            this.CompassGauge = new WControls.Gauges.CircularGauge();
+            this.groupBox28 = new System.Windows.Forms.GroupBox();
+            this.SpeedometerLabel = new System.Windows.Forms.Label();
+            this.SpeedGauge = new WControls.Gauges.CircularGauge();
+            this.G27Gauge = new WControls.Gauges.CircularGauge();
+            this.groupBox29 = new System.Windows.Forms.GroupBox();
+            this.label118 = new System.Windows.Forms.Label();
+            this.label119 = new System.Windows.Forms.Label();
+            this.ClientSetForwardSpeedTxtBox = new System.Windows.Forms.TextBox();
+            this.ClientSetBackwardSpeedTxtBox = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pBoxIpl1)).BeginInit();
@@ -435,6 +449,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.ClientHstNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ClientSteerNumericUpDown)).BeginInit();
             this.groupBox15.SuspendLayout();
+            this.tabControl2.SuspendLayout();
+            this.tabPage11.SuspendLayout();
+            this.CompassGroupBox.SuspendLayout();
+            this.groupBox28.SuspendLayout();
+            this.groupBox29.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -720,7 +739,7 @@
             this.toolStripStatusLabel6});
             this.statusStrip1.Location = new System.Drawing.Point(0, 558);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(867, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1110, 22);
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -3650,6 +3669,17 @@
             this.tabPage9.Text = "Server";
             this.tabPage9.UseVisualStyleBackColor = true;
             // 
+            // ServerLogButton
+            // 
+            this.ServerLogButton.BackColor = System.Drawing.Color.Yellow;
+            this.ServerLogButton.Location = new System.Drawing.Point(11, 203);
+            this.ServerLogButton.Name = "ServerLogButton";
+            this.ServerLogButton.Size = new System.Drawing.Size(190, 23);
+            this.ServerLogButton.TabIndex = 2;
+            this.ServerLogButton.Text = "Save Log";
+            this.ServerLogButton.UseVisualStyleBackColor = false;
+            this.ServerLogButton.Click += new System.EventHandler(this.ServerLogButton_Click);
+            // 
             // groupBox22
             // 
             this.groupBox22.Controls.Add(this.ServerRedLampTxtBox);
@@ -3775,6 +3805,7 @@
             // 
             // tabPage10
             // 
+            this.tabPage10.Controls.Add(this.groupBox29);
             this.tabPage10.Controls.Add(this.ClientLogButton);
             this.tabPage10.Controls.Add(this.groupBox27);
             this.tabPage10.Controls.Add(this.groupBox26);
@@ -3786,6 +3817,17 @@
             this.tabPage10.TabIndex = 9;
             this.tabPage10.Text = "Client";
             this.tabPage10.UseVisualStyleBackColor = true;
+            // 
+            // ClientLogButton
+            // 
+            this.ClientLogButton.BackColor = System.Drawing.Color.Yellow;
+            this.ClientLogButton.Location = new System.Drawing.Point(570, 427);
+            this.ClientLogButton.Name = "ClientLogButton";
+            this.ClientLogButton.Size = new System.Drawing.Size(262, 23);
+            this.ClientLogButton.TabIndex = 14;
+            this.ClientLogButton.Text = "Save Log";
+            this.ClientLogButton.UseVisualStyleBackColor = false;
+            this.ClientLogButton.Click += new System.EventHandler(this.ClientLogButton_Click);
             // 
             // groupBox27
             // 
@@ -3940,7 +3982,7 @@
             this.groupBox25.Controls.Add(this.ClientDebugTxtBox);
             this.groupBox25.Location = new System.Drawing.Point(3, 308);
             this.groupBox25.Name = "groupBox25";
-            this.groupBox25.Size = new System.Drawing.Size(561, 148);
+            this.groupBox25.Size = new System.Drawing.Size(265, 148);
             this.groupBox25.TabIndex = 11;
             this.groupBox25.TabStop = false;
             this.groupBox25.Text = "G27 device debug";
@@ -3951,13 +3993,14 @@
             this.ClientDebugTxtBox.Multiline = true;
             this.ClientDebugTxtBox.Name = "ClientDebugTxtBox";
             this.ClientDebugTxtBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.ClientDebugTxtBox.Size = new System.Drawing.Size(549, 124);
+            this.ClientDebugTxtBox.Size = new System.Drawing.Size(251, 124);
             this.ClientDebugTxtBox.TabIndex = 10;
             // 
             // groupBox23
             // 
             this.groupBox23.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("groupBox23.BackgroundImage")));
             this.groupBox23.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.groupBox23.Controls.Add(this.G27Gauge);
             this.groupBox23.Controls.Add(this.ClientControlFlagTxtBox);
             this.groupBox23.Controls.Add(this.button1);
             this.groupBox23.Controls.Add(this.ClientBuzzerTxtBox);
@@ -4132,33 +4175,184 @@
             // 
             this.CommunicationTimer.Tick += new System.EventHandler(this.CommunicationTimer_Tick);
             // 
-            // ClientLogButton
+            // tabControl2
             // 
-            this.ClientLogButton.BackColor = System.Drawing.Color.Yellow;
-            this.ClientLogButton.Location = new System.Drawing.Point(570, 427);
-            this.ClientLogButton.Name = "ClientLogButton";
-            this.ClientLogButton.Size = new System.Drawing.Size(262, 23);
-            this.ClientLogButton.TabIndex = 14;
-            this.ClientLogButton.Text = "Save Log";
-            this.ClientLogButton.UseVisualStyleBackColor = false;
-            this.ClientLogButton.Click += new System.EventHandler(this.ClientLogButton_Click);
+            this.tabControl2.Controls.Add(this.tabPage11);
+            this.tabControl2.Location = new System.Drawing.Point(864, 12);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(234, 538);
+            this.tabControl2.TabIndex = 12;
             // 
-            // ServerLogButton
+            // tabPage11
             // 
-            this.ServerLogButton.BackColor = System.Drawing.Color.Yellow;
-            this.ServerLogButton.Location = new System.Drawing.Point(11, 203);
-            this.ServerLogButton.Name = "ServerLogButton";
-            this.ServerLogButton.Size = new System.Drawing.Size(190, 23);
-            this.ServerLogButton.TabIndex = 2;
-            this.ServerLogButton.Text = "Save Log";
-            this.ServerLogButton.UseVisualStyleBackColor = false;
-            this.ServerLogButton.Click += new System.EventHandler(this.ServerLogButton_Click);
+            this.tabPage11.Controls.Add(this.CompassGroupBox);
+            this.tabPage11.Controls.Add(this.groupBox28);
+            this.tabPage11.Location = new System.Drawing.Point(4, 22);
+            this.tabPage11.Name = "tabPage11";
+            this.tabPage11.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage11.Size = new System.Drawing.Size(226, 512);
+            this.tabPage11.TabIndex = 0;
+            this.tabPage11.Text = "Information";
+            this.tabPage11.UseVisualStyleBackColor = true;
+            // 
+            // CompassGroupBox
+            // 
+            this.CompassGroupBox.Controls.Add(this.CompassLabel);
+            this.CompassGroupBox.Controls.Add(this.CompassGauge);
+            this.CompassGroupBox.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.CompassGroupBox.ForeColor = System.Drawing.Color.Red;
+            this.CompassGroupBox.Location = new System.Drawing.Point(6, 232);
+            this.CompassGroupBox.Name = "CompassGroupBox";
+            this.CompassGroupBox.Size = new System.Drawing.Size(214, 220);
+            this.CompassGroupBox.TabIndex = 2;
+            this.CompassGroupBox.TabStop = false;
+            this.CompassGroupBox.Text = "Compass";
+            // 
+            // CompassLabel
+            // 
+            this.CompassLabel.AutoSize = true;
+            this.CompassLabel.BackColor = System.Drawing.Color.DimGray;
+            this.CompassLabel.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.CompassLabel.ForeColor = System.Drawing.Color.Yellow;
+            this.CompassLabel.Location = new System.Drawing.Point(62, 131);
+            this.CompassLabel.Name = "CompassLabel";
+            this.CompassLabel.Size = new System.Drawing.Size(92, 16);
+            this.CompassLabel.TabIndex = 1;
+            this.CompassLabel.Text = "0.000 [deg]";
+            // 
+            // CompassGauge
+            // 
+            this.CompassGauge.Axis.AxisColor = System.Drawing.Color.GreenYellow;
+            this.CompassGauge.Axis.AxisLengthDegrees = 360;
+            this.CompassGauge.Axis.AxisStartDegrees = 0;
+            this.CompassGauge.Axis.LabelColor = System.Drawing.Color.Red;
+            this.CompassGauge.Axis.LabelFontSize = 10F;
+            this.CompassGauge.Axis.MajorTickDivision = 30;
+            this.CompassGauge.Axis.MaxValue = 360;
+            this.CompassGauge.Location = new System.Drawing.Point(6, 14);
+            this.CompassGauge.Name = "CompassGauge";
+            this.CompassGauge.Needle.Orientation = 90D;
+            this.CompassGauge.Shape = WControls.ControlShape.Circular;
+            this.CompassGauge.Size = new System.Drawing.Size(200, 200);
+            this.CompassGauge.TabIndex = 0;
+            // 
+            // groupBox28
+            // 
+            this.groupBox28.Controls.Add(this.SpeedometerLabel);
+            this.groupBox28.Controls.Add(this.SpeedGauge);
+            this.groupBox28.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.groupBox28.ForeColor = System.Drawing.Color.Red;
+            this.groupBox28.Location = new System.Drawing.Point(6, 6);
+            this.groupBox28.Name = "groupBox28";
+            this.groupBox28.Size = new System.Drawing.Size(214, 220);
+            this.groupBox28.TabIndex = 0;
+            this.groupBox28.TabStop = false;
+            this.groupBox28.Text = "Speedometer";
+            // 
+            // SpeedometerLabel
+            // 
+            this.SpeedometerLabel.AutoSize = true;
+            this.SpeedometerLabel.BackColor = System.Drawing.Color.DimGray;
+            this.SpeedometerLabel.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.SpeedometerLabel.ForeColor = System.Drawing.Color.Yellow;
+            this.SpeedometerLabel.Location = new System.Drawing.Point(62, 175);
+            this.SpeedometerLabel.Name = "SpeedometerLabel";
+            this.SpeedometerLabel.Size = new System.Drawing.Size(96, 16);
+            this.SpeedometerLabel.TabIndex = 1;
+            this.SpeedometerLabel.Text = "0.000 [m/s]";
+            // 
+            // SpeedGauge
+            // 
+            this.SpeedGauge.Axis.AxisColor = System.Drawing.Color.GreenYellow;
+            this.SpeedGauge.Axis.AxisLengthDegrees = 270;
+            this.SpeedGauge.Axis.AxisStartDegrees = 225;
+            this.SpeedGauge.Axis.LabelColor = System.Drawing.Color.Red;
+            this.SpeedGauge.Axis.LabelFontSize = 10F;
+            this.SpeedGauge.Axis.MajorTickDivision = 20;
+            this.SpeedGauge.Axis.MinValue = -100;
+            this.SpeedGauge.Location = new System.Drawing.Point(6, 14);
+            this.SpeedGauge.Name = "SpeedGauge";
+            this.SpeedGauge.Needle.Orientation = 90D;
+            this.SpeedGauge.Shape = WControls.ControlShape.Circular;
+            this.SpeedGauge.Size = new System.Drawing.Size(200, 200);
+            this.SpeedGauge.TabIndex = 0;
+            // 
+            // G27Gauge
+            // 
+            this.G27Gauge.Axis.AxisColor = System.Drawing.Color.GreenYellow;
+            this.G27Gauge.Axis.AxisLengthDegrees = 360;
+            this.G27Gauge.Axis.AxisStartDegrees = 270;
+            this.G27Gauge.Axis.LabelColor = System.Drawing.Color.Red;
+            this.G27Gauge.Axis.LabelFontSize = 10F;
+            this.G27Gauge.Axis.MajorTickDivision = 30;
+            this.G27Gauge.Axis.MaxValue = 180;
+            this.G27Gauge.Axis.MinValue = -180;
+            this.G27Gauge.BackgroundColor = System.Drawing.Color.Transparent;
+            this.G27Gauge.Location = new System.Drawing.Point(169, 40);
+            this.G27Gauge.Name = "G27Gauge";
+            this.G27Gauge.Needle.HubColor = System.Drawing.Color.Transparent;
+            this.G27Gauge.Needle.HubShadeColor = System.Drawing.Color.Transparent;
+            this.G27Gauge.Needle.Orientation = 90D;
+            this.G27Gauge.Shape = WControls.ControlShape.Circular;
+            this.G27Gauge.Size = new System.Drawing.Size(220, 220);
+            this.G27Gauge.TabIndex = 2;
+            // 
+            // groupBox29
+            // 
+            this.groupBox29.Controls.Add(this.ClientSetBackwardSpeedTxtBox);
+            this.groupBox29.Controls.Add(this.ClientSetForwardSpeedTxtBox);
+            this.groupBox29.Controls.Add(this.label119);
+            this.groupBox29.Controls.Add(this.label118);
+            this.groupBox29.Location = new System.Drawing.Point(274, 308);
+            this.groupBox29.Name = "groupBox29";
+            this.groupBox29.Size = new System.Drawing.Size(265, 148);
+            this.groupBox29.TabIndex = 12;
+            this.groupBox29.TabStop = false;
+            this.groupBox29.Text = "Set Travel Speed";
+            // 
+            // label118
+            // 
+            this.label118.AutoSize = true;
+            this.label118.Location = new System.Drawing.Point(6, 36);
+            this.label118.Name = "label118";
+            this.label118.Size = new System.Drawing.Size(133, 12);
+            this.label118.TabIndex = 0;
+            this.label118.Text = "1. forward Speed [m/s] : ";
+            // 
+            // label119
+            // 
+            this.label119.AutoSize = true;
+            this.label119.Location = new System.Drawing.Point(6, 70);
+            this.label119.Name = "label119";
+            this.label119.Size = new System.Drawing.Size(143, 12);
+            this.label119.TabIndex = 1;
+            this.label119.Text = "2. backward Speed [m/s] : ";
+            // 
+            // ClientSetForwardSpeedTxtBox
+            // 
+            this.ClientSetForwardSpeedTxtBox.BackColor = System.Drawing.Color.Yellow;
+            this.ClientSetForwardSpeedTxtBox.Location = new System.Drawing.Point(159, 33);
+            this.ClientSetForwardSpeedTxtBox.Name = "ClientSetForwardSpeedTxtBox";
+            this.ClientSetForwardSpeedTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.ClientSetForwardSpeedTxtBox.TabIndex = 2;
+            this.ClientSetForwardSpeedTxtBox.Text = "0.5";
+            // 
+            // ClientSetBackwardSpeedTxtBox
+            // 
+            this.ClientSetBackwardSpeedTxtBox.BackColor = System.Drawing.Color.Yellow;
+            this.ClientSetBackwardSpeedTxtBox.Location = new System.Drawing.Point(159, 67);
+            this.ClientSetBackwardSpeedTxtBox.Name = "ClientSetBackwardSpeedTxtBox";
+            this.ClientSetBackwardSpeedTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.ClientSetBackwardSpeedTxtBox.TabIndex = 3;
+            this.ClientSetBackwardSpeedTxtBox.Text = "-0.5";
             // 
             // IntegratedForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(867, 580);
+            this.ClientSize = new System.Drawing.Size(1110, 580);
+            this.Controls.Add(this.tabControl2);
             this.Controls.Add(this.groupBox15);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.statusStrip1);
@@ -4234,6 +4428,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.ClientSteerNumericUpDown)).EndInit();
             this.groupBox15.ResumeLayout(false);
             this.groupBox15.PerformLayout();
+            this.tabControl2.ResumeLayout(false);
+            this.tabPage11.ResumeLayout(false);
+            this.CompassGroupBox.ResumeLayout(false);
+            this.CompassGroupBox.PerformLayout();
+            this.groupBox28.ResumeLayout(false);
+            this.groupBox28.PerformLayout();
+            this.groupBox29.ResumeLayout(false);
+            this.groupBox29.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -4601,5 +4803,19 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel6;
         private System.Windows.Forms.Button ClientLogButton;
         private System.Windows.Forms.Button ServerLogButton;
+        private System.Windows.Forms.TabControl tabControl2;
+        private System.Windows.Forms.TabPage tabPage11;
+        private System.Windows.Forms.GroupBox groupBox28;
+        private System.Windows.Forms.Label SpeedometerLabel;
+        private WControls.Gauges.CircularGauge SpeedGauge;
+        private System.Windows.Forms.GroupBox CompassGroupBox;
+        private System.Windows.Forms.Label CompassLabel;
+        private WControls.Gauges.CircularGauge CompassGauge;
+        private WControls.Gauges.CircularGauge G27Gauge;
+        private System.Windows.Forms.GroupBox groupBox29;
+        private System.Windows.Forms.TextBox ClientSetBackwardSpeedTxtBox;
+        private System.Windows.Forms.TextBox ClientSetForwardSpeedTxtBox;
+        private System.Windows.Forms.Label label119;
+        private System.Windows.Forms.Label label118;
     }
 }

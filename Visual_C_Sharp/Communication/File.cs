@@ -79,6 +79,11 @@ namespace Communication
 
         private StreamWriter data_log;
 
+        public double steer_gauge { get; set; }
+
+        public int set_forward_HST { get; set; }
+        public int set_backward_HST { get; set; }
+
         #endregion
 
         #region methods
@@ -188,12 +193,12 @@ namespace Communication
                     else if (Convert.ToInt32(lineArr[4]) == 128)
                     {
                         // forward travel
-                        cmd.hst = 1700;
+                        cmd.hst = this.set_forward_HST;
                     }
                     else if (Convert.ToInt32(lineArr[5]) == 128)
                     {
                         // backward travel
-                        cmd.hst = 1100;
+                        cmd.hst = this.set_backward_HST;
                     }
 
                     // Header
@@ -232,6 +237,16 @@ namespace Communication
 
                     // steer
                     cmd.steer = Convert.ToInt32(Convert.ToDouble(lineArr[23]) / 182.0) + 250;
+
+                    if (Convert.ToDouble(lineArr[23]) == 32768)
+                    {
+                        this.steer_gauge = 0.0;
+                    }
+                    else
+                    {
+                        this.steer_gauge = (Convert.ToDouble(lineArr[23]) - 32768.0) / 182.0;
+                    }
+                    
 
                     // buzzer
                     if (Convert.ToDouble(lineArr[19]) == 128)

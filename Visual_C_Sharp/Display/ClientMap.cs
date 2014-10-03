@@ -133,6 +133,15 @@ namespace Display
 
                 // add new data points to the graph 
                 list.Add(right_divider_pose.x, right_divider_pose.y);
+
+                //--manually set the x axis range--//
+                double grid_offset = 1.0;
+                this.myPane.XAxis.Scale.Min = right_divider_pose.x - grid_offset;
+                this.myPane.XAxis.Scale.Max = right_divider_pose.x + grid_offset;
+
+                //--manually set the y axis range--//
+                this.myPane.YAxis.Scale.Min = right_divider_pose.y - grid_offset;
+                this.myPane.YAxis.Scale.Max = right_divider_pose.y + grid_offset;
             }
 
             // tell zedgraph to refigure the axes since the data have changed
