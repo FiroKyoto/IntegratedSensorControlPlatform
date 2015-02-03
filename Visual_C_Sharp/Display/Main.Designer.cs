@@ -32,20 +32,22 @@
             this.SteeringCheckBox = new System.Windows.Forms.CheckBox();
             this.NetworkCameraCheckBox = new System.Windows.Forms.CheckBox();
             this.DimagerCheckBox = new System.Windows.Forms.CheckBox();
-            this.IntegratedCheckBox = new System.Windows.Forms.CheckBox();
             this.GpsCheckBox = new System.Windows.Forms.CheckBox();
             this.BodyCheckBox = new System.Windows.Forms.CheckBox();
             this.MvCheckBox = new System.Windows.Forms.CheckBox();
             this.LrfCheckBox = new System.Windows.Forms.CheckBox();
+            this.IntegratedCheckBox = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.PanasonicLidarCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.PanasonicLidarCheckBox);
             this.groupBox1.Controls.Add(this.SteeringCheckBox);
             this.groupBox1.Controls.Add(this.NetworkCameraCheckBox);
             this.groupBox1.Controls.Add(this.DimagerCheckBox);
@@ -90,18 +92,6 @@
             this.DimagerCheckBox.Text = "D-Imager";
             this.DimagerCheckBox.UseVisualStyleBackColor = true;
             // 
-            // IntegratedCheckBox
-            // 
-            this.IntegratedCheckBox.AutoSize = true;
-            this.IntegratedCheckBox.Checked = true;
-            this.IntegratedCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.IntegratedCheckBox.Location = new System.Drawing.Point(7, 29);
-            this.IntegratedCheckBox.Name = "IntegratedCheckBox";
-            this.IntegratedCheckBox.Size = new System.Drawing.Size(155, 16);
-            this.IntegratedCheckBox.TabIndex = 7;
-            this.IntegratedCheckBox.Text = "Integrated Sensor Control";
-            this.IntegratedCheckBox.UseVisualStyleBackColor = true;
-            // 
             // GpsCheckBox
             // 
             this.GpsCheckBox.AutoSize = true;
@@ -142,6 +132,18 @@
             this.LrfCheckBox.Text = "Laser Range Finder";
             this.LrfCheckBox.UseVisualStyleBackColor = true;
             // 
+            // IntegratedCheckBox
+            // 
+            this.IntegratedCheckBox.AutoSize = true;
+            this.IntegratedCheckBox.Checked = true;
+            this.IntegratedCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.IntegratedCheckBox.Location = new System.Drawing.Point(7, 29);
+            this.IntegratedCheckBox.Name = "IntegratedCheckBox";
+            this.IntegratedCheckBox.Size = new System.Drawing.Size(155, 16);
+            this.IntegratedCheckBox.TabIndex = 7;
+            this.IntegratedCheckBox.Text = "Integrated Sensor Control";
+            this.IntegratedCheckBox.UseVisualStyleBackColor = true;
+            // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(12, 259);
@@ -172,6 +174,16 @@
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "ISCSP";
+            // 
+            // PanasonicLidarCheckBox
+            // 
+            this.PanasonicLidarCheckBox.AutoSize = true;
+            this.PanasonicLidarCheckBox.Location = new System.Drawing.Point(170, 85);
+            this.PanasonicLidarCheckBox.Name = "PanasonicLidarCheckBox";
+            this.PanasonicLidarCheckBox.Size = new System.Drawing.Size(101, 16);
+            this.PanasonicLidarCheckBox.TabIndex = 11;
+            this.PanasonicLidarCheckBox.Text = "Panasonic LRF";
+            this.PanasonicLidarCheckBox.UseVisualStyleBackColor = true;
             // 
             // Main
             // 
@@ -207,6 +219,7 @@
         private System.Windows.Forms.CheckBox NetworkCameraCheckBox;
         private System.Windows.Forms.CheckBox SteeringCheckBox;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.CheckBox PanasonicLidarCheckBox;
     }
 }
 

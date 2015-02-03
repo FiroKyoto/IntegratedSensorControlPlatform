@@ -468,7 +468,7 @@ namespace Display
             this.loaded = true;
 
             // Yey! .NET Colors can be used directly!
-            GL.ClearColor(Color.Black);
+            GL.ClearColor(Color.White);
             GL.Enable(EnableCap.DepthTest);
 
             this.SetupViewport();

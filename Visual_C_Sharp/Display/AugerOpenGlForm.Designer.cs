@@ -74,6 +74,8 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.GlProcessingTimeStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label32 = new System.Windows.Forms.Label();
             this.GlDestinationSimulatedAugerLengthTxtBox = new System.Windows.Forms.TextBox();
@@ -113,8 +115,20 @@
             this.GlSteerTravelDistanceTxtBox = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.SaveImageComboBox = new System.Windows.Forms.ComboBox();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.GlViolet = new System.Windows.Forms.TextBox();
+            this.label34 = new System.Windows.Forms.Label();
+            this.GlIndigo = new System.Windows.Forms.TextBox();
+            this.label35 = new System.Windows.Forms.Label();
+            this.GlBlue = new System.Windows.Forms.TextBox();
+            this.label36 = new System.Windows.Forms.Label();
+            this.GlGreen = new System.Windows.Forms.TextBox();
+            this.label37 = new System.Windows.Forms.Label();
+            this.label38 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -125,6 +139,10 @@
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.tabControl2.SuspendLayout();
+            this.tabPage4.SuspendLayout();
+            this.tabPage5.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // glControl1
@@ -132,7 +150,7 @@
             this.glControl1.BackColor = System.Drawing.Color.Black;
             this.glControl1.Location = new System.Drawing.Point(6, 6);
             this.glControl1.Name = "glControl1";
-            this.glControl1.Size = new System.Drawing.Size(532, 479);
+            this.glControl1.Size = new System.Drawing.Size(550, 550);
             this.glControl1.TabIndex = 0;
             this.glControl1.VSync = false;
             this.glControl1.Load += new System.EventHandler(this.glControl1_Load);
@@ -173,7 +191,7 @@
             this.groupBox2.Controls.Add(this.GlTmXTxtBox);
             this.groupBox2.Controls.Add(this.GlReadCntTxtBox);
             this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Location = new System.Drawing.Point(572, 34);
+            this.groupBox2.Location = new System.Drawing.Point(6, 6);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(200, 195);
             this.groupBox2.TabIndex = 4;
@@ -319,7 +337,7 @@
             this.groupBox3.Controls.Add(this.GlYawTxtBox);
             this.groupBox3.Controls.Add(this.GlAugerLengthTxtBox);
             this.groupBox3.Controls.Add(this.label1);
-            this.groupBox3.Location = new System.Drawing.Point(572, 235);
+            this.groupBox3.Location = new System.Drawing.Point(6, 207);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(200, 249);
             this.groupBox3.TabIndex = 5;
@@ -470,16 +488,17 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(554, 520);
+            this.tabControl1.Size = new System.Drawing.Size(785, 591);
             this.tabControl1.TabIndex = 6;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.groupBox5);
             this.tabPage1.Controls.Add(this.glControl1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(546, 494);
+            this.tabPage1.Size = new System.Drawing.Size(777, 565);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "3D Map";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -531,9 +550,9 @@
             // 
             this.button1.BackColor = System.Drawing.Color.Yellow;
             this.button1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button1.Location = new System.Drawing.Point(12, 538);
+            this.button1.Location = new System.Drawing.Point(12, 605);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(550, 23);
+            this.button1.Size = new System.Drawing.Size(781, 23);
             this.button1.TabIndex = 7;
             this.button1.Text = "Exit";
             this.button1.UseVisualStyleBackColor = false;
@@ -546,9 +565,9 @@
             this.GlProcessingTimeStatusLabel,
             this.toolStripStatusLabel2,
             this.toolStripStatusLabel3});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 578);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 642);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(990, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1057, 22);
             this.statusStrip1.TabIndex = 8;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -563,6 +582,18 @@
             this.GlProcessingTimeStatusLabel.Name = "GlProcessingTimeStatusLabel";
             this.GlProcessingTimeStatusLabel.Size = new System.Drawing.Size(41, 17);
             this.GlProcessingTimeStatusLabel.Text = "[m/s]";
+            // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(239, 17);
+            this.toolStripStatusLabel2.Text = "The upper quadrangle detection speed: ";
+            // 
+            // toolStripStatusLabel3
+            // 
+            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(41, 17);
+            this.toolStripStatusLabel3.Text = "[m/s]";
             // 
             // groupBox1
             // 
@@ -592,7 +623,7 @@
             this.groupBox1.Controls.Add(this.label18);
             this.groupBox1.Controls.Add(this.label17);
             this.groupBox1.Controls.Add(this.label16);
-            this.groupBox1.Location = new System.Drawing.Point(778, 34);
+            this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(200, 359);
             this.groupBox1.TabIndex = 9;
@@ -823,9 +854,9 @@
             // button2
             // 
             this.button2.BackColor = System.Drawing.Color.Yellow;
-            this.button2.Location = new System.Drawing.Point(568, 538);
+            this.button2.Location = new System.Drawing.Point(803, 605);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(410, 23);
+            this.button2.Size = new System.Drawing.Size(225, 23);
             this.button2.TabIndex = 10;
             this.button2.Text = "Auto Detection Start";
             this.button2.UseVisualStyleBackColor = false;
@@ -841,7 +872,7 @@
             this.groupBox4.Controls.Add(this.label29);
             this.groupBox4.Controls.Add(this.GlSteerAugerDistanceTxtBox);
             this.groupBox4.Controls.Add(this.GlSteerTravelDistanceTxtBox);
-            this.groupBox4.Location = new System.Drawing.Point(778, 399);
+            this.groupBox4.Location = new System.Drawing.Point(6, 371);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(200, 120);
             this.groupBox4.TabIndex = 11;
@@ -919,7 +950,7 @@
             // button3
             // 
             this.button3.BackColor = System.Drawing.Color.Yellow;
-            this.button3.Location = new System.Drawing.Point(661, 496);
+            this.button3.Location = new System.Drawing.Point(95, 533);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(111, 23);
             this.button3.TabIndex = 12;
@@ -940,40 +971,180 @@
             "Yellow",
             "Orange",
             "Red"});
-            this.SaveImageComboBox.Location = new System.Drawing.Point(572, 498);
+            this.SaveImageComboBox.Location = new System.Drawing.Point(6, 535);
             this.SaveImageComboBox.Name = "SaveImageComboBox";
             this.SaveImageComboBox.Size = new System.Drawing.Size(84, 20);
             this.SaveImageComboBox.TabIndex = 13;
             // 
-            // toolStripStatusLabel2
+            // tabControl2
             // 
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(239, 17);
-            this.toolStripStatusLabel2.Text = "The upper quadrangle detection speed: ";
+            this.tabControl2.Controls.Add(this.tabPage4);
+            this.tabControl2.Controls.Add(this.tabPage5);
+            this.tabControl2.Location = new System.Drawing.Point(803, 8);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(225, 595);
+            this.tabControl2.TabIndex = 14;
             // 
-            // toolStripStatusLabel3
+            // tabPage4
             // 
-            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(41, 17);
-            this.toolStripStatusLabel3.Text = "[m/s]";
+            this.tabPage4.Controls.Add(this.groupBox2);
+            this.tabPage4.Controls.Add(this.SaveImageComboBox);
+            this.tabPage4.Controls.Add(this.groupBox3);
+            this.tabPage4.Controls.Add(this.button3);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(217, 569);
+            this.tabPage4.TabIndex = 0;
+            this.tabPage4.Text = "Combine";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.groupBox1);
+            this.tabPage5.Controls.Add(this.groupBox4);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(217, 565);
+            this.tabPage5.TabIndex = 1;
+            this.tabPage5.Text = "Position";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox5.Controls.Add(this.label38);
+            this.groupBox5.Controls.Add(this.textBox1);
+            this.groupBox5.Controls.Add(this.label37);
+            this.groupBox5.Controls.Add(this.GlGreen);
+            this.groupBox5.Controls.Add(this.label36);
+            this.groupBox5.Controls.Add(this.GlBlue);
+            this.groupBox5.Controls.Add(this.label35);
+            this.groupBox5.Controls.Add(this.GlIndigo);
+            this.groupBox5.Controls.Add(this.label34);
+            this.groupBox5.Controls.Add(this.GlViolet);
+            this.groupBox5.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.groupBox5.Location = new System.Drawing.Point(562, 6);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(209, 210);
+            this.groupBox5.TabIndex = 1;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Ranges of Height";
+            // 
+            // GlViolet
+            // 
+            this.GlViolet.BackColor = System.Drawing.Color.Violet;
+            this.GlViolet.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.GlViolet.Location = new System.Drawing.Point(6, 35);
+            this.GlViolet.Multiline = true;
+            this.GlViolet.Name = "GlViolet";
+            this.GlViolet.Size = new System.Drawing.Size(49, 19);
+            this.GlViolet.TabIndex = 0;
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label34.Location = new System.Drawing.Point(69, 39);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(127, 14);
+            this.label34.TabIndex = 1;
+            this.label34.Text = "Violet (0.0m to 1.0m)";
+            // 
+            // GlIndigo
+            // 
+            this.GlIndigo.BackColor = System.Drawing.Color.Indigo;
+            this.GlIndigo.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.GlIndigo.Location = new System.Drawing.Point(6, 67);
+            this.GlIndigo.Multiline = true;
+            this.GlIndigo.Name = "GlIndigo";
+            this.GlIndigo.Size = new System.Drawing.Size(49, 19);
+            this.GlIndigo.TabIndex = 2;
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label35.Location = new System.Drawing.Point(70, 72);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(126, 14);
+            this.label35.TabIndex = 3;
+            this.label35.Text = "Indigo (1.0m to 2.0m)";
+            // 
+            // GlBlue
+            // 
+            this.GlBlue.BackColor = System.Drawing.Color.Blue;
+            this.GlBlue.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.GlBlue.Location = new System.Drawing.Point(6, 101);
+            this.GlBlue.Multiline = true;
+            this.GlBlue.Name = "GlBlue";
+            this.GlBlue.Size = new System.Drawing.Size(49, 19);
+            this.GlBlue.TabIndex = 4;
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label36.Location = new System.Drawing.Point(70, 106);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(127, 14);
+            this.label36.TabIndex = 5;
+            this.label36.Text = "Blue   (2.0m to 3.0m)";
+            // 
+            // GlGreen
+            // 
+            this.GlGreen.BackColor = System.Drawing.Color.Green;
+            this.GlGreen.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.GlGreen.Location = new System.Drawing.Point(6, 135);
+            this.GlGreen.Multiline = true;
+            this.GlGreen.Name = "GlGreen";
+            this.GlGreen.Size = new System.Drawing.Size(49, 19);
+            this.GlGreen.TabIndex = 6;
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label37.Location = new System.Drawing.Point(69, 140);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(129, 14);
+            this.label37.TabIndex = 7;
+            this.label37.Text = "Green (3.0m to 4.0m)";
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label38.Location = new System.Drawing.Point(69, 172);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(130, 14);
+            this.label38.TabIndex = 9;
+            this.label38.Text = "Yellow (4.0m to 5.0m)";
+            // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.Color.Yellow;
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox1.Location = new System.Drawing.Point(6, 167);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(49, 19);
+            this.textBox1.TabIndex = 8;
             // 
             // AugerOpenGlForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(990, 600);
-            this.Controls.Add(this.SaveImageComboBox);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.groupBox4);
+            this.ClientSize = new System.Drawing.Size(1057, 664);
+            this.Controls.Add(this.tabControl2);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
             this.Name = "AugerOpenGlForm";
-            this.Text = "3D Grain Tank Map";
+            this.Text = "Three Dimensional Mapping for Autonomous Unloading Auger";
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -989,6 +1160,11 @@
             this.groupBox1.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.tabControl2.ResumeLayout(false);
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage5.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1082,5 +1258,19 @@
         private System.Windows.Forms.ComboBox SaveImageComboBox;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
+        private System.Windows.Forms.TabControl tabControl2;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.TextBox GlIndigo;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.TextBox GlViolet;
+        private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.TextBox GlGreen;
+        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.TextBox GlBlue;
+        private System.Windows.Forms.Label label35;
     }
 }

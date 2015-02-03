@@ -323,13 +323,40 @@ namespace Display
                     this.CombineOffLineMap(this._vy446.gps_Latitude, this._vy446.gps_Longitude, this._vy446.gps_Altitude);
                 }
 
-                // Speedometer display
-                this.SpeedGauge.Value = this._vy446.fSpeed * 100.0;
-                this.SpeedometerLabel.Text = this._vy446.fSpeed.ToString("N3") + " [m/s]";
+                //// Speedometer display
+                //this.SpeedGauge.Value = this._vy446.fSpeed * 100.0;
+                //this.SpeedometerLabel.Text = this._vy446.fSpeed.ToString("N3") + " [m/s]";
 
-                // compass display
-                this.CompassGauge.Value = this._vy446.gps_Compass;
-                this.CompassLabel.Text = this._vy446.gps_Compass.ToString("N1") + " [deg]";
+                //// compass display
+                //this.CompassGauge.Value = this._vy446.gps_Compass;
+                //this.CompassLabel.Text = this._vy446.gps_Compass.ToString("N1") + " [deg]";
+
+                // Speedometer, Compass UI
+                this.GaugeUserInterface(this._vy446.fSpeed, this._vy446.gps_Compass);
+            }
+        }
+
+        /// <summary>
+        /// Draw speed, compass information on the UI.
+        /// </summary>
+        /// <param name="speed"></param>
+        /// <param name="compass"></param>
+        private void GaugeUserInterface(double speed, double compass)
+        {
+            double converted_speed = speed * 100.0;
+
+            if ((converted_speed > -100.0) && (converted_speed < 200.0))
+            {
+                // Speedometer display
+                this.SpeedGauge.Value = converted_speed;
+                this.SpeedometerLabel.Text = speed.ToString("N3") + " [m/s]";
+            }
+
+            if ((compass >= 0) && (compass <= 360))
+            {
+                // Compass display
+                this.CompassGauge.Value = compass;
+                this.CompassLabel.Text = compass.ToString("N1") + " [deg]";
             }
         }
 

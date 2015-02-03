@@ -297,7 +297,7 @@ namespace CombineBody
 
             GL.LineWidth(3.0f);
             GL.Begin(BeginMode.Lines);
-            GL.Color3(Color.Yellow);
+            GL.Color3(Color.Black);
 
             // arrow
             GL.Vertex3(this._body_pose.X, this._body_pose.Y, 0.0);
@@ -328,7 +328,7 @@ namespace CombineBody
             {
                 GL.LineWidth(3.0f);
                 GL.Begin(BeginMode.Lines);
-                GL.Color3(Color.YellowGreen);
+                GL.Color3(Color.Black);
 
                 // auger position
                 this._auger_pose.Origin_X = this._body_pose.X + this.augerA[0];
@@ -379,7 +379,7 @@ namespace CombineBody
             // GPS circle
             GL.LineWidth(3.0f);
             GL.Begin(BeginMode.LineLoop);
-            GL.Color3(Color.Yellow);
+            GL.Color3(Color.Black);
             for (int i = 0; i <= 300; i++)
             {
                 double radius = 0.1;
@@ -389,6 +389,41 @@ namespace CombineBody
                 GL.Vertex3(this._body_pose.X + x, this._body_pose.Y + y, 2.5);
             }
             GL.End();
+        }
+
+        public double harvested_quad_area { get; set; }
+        public int harvested_quad_index { get; set; }
+
+        /// <summary>
+        /// 2014-10-04, Wonjae Cho
+        /// http://darkpgmr.tistory.com/86
+        /// Calculate harvested area
+        /// </summary>
+        private void CalculateHarvestedArea()
+        {
+            if ((this.harvested_area_count % 2) == 0)
+            {
+                this.harvested_quad_index = this.harvested_area_count - 1;
+
+                double x1x0 = this.harvested_area_quad[harvested_quad_index - 2].X - this.harvested_area_quad[harvested_quad_index - 3].X;
+                double y3y0 = this.harvested_area_quad[harvested_quad_index].Y - this.harvested_area_quad[harvested_quad_index - 3].Y;
+                double x3x0 = this.harvested_area_quad[harvested_quad_index].X - this.harvested_area_quad[harvested_quad_index - 3].X;
+                double y1y0 = this.harvested_area_quad[harvested_quad_index - 2].Y - this.harvested_area_quad[harvested_quad_index - 3].Y;
+
+                double triangle1 = Math.Abs((x1x0 * y3y0) - (x3x0 * y1y0)) / 2.0;
+                this.harvested_quad_area += triangle1;
+
+                double x2x1 = this.harvested_area_quad[harvested_quad_index - 1].X - this.harvested_area_quad[harvested_quad_index - 2].X;
+                double y3y1 = this.harvested_area_quad[harvested_quad_index].Y - this.harvested_area_quad[harvested_quad_index - 2].Y;
+                double x3x1 = this.harvested_area_quad[harvested_quad_index].X - this.harvested_area_quad[harvested_quad_index - 2].X;
+                double y2y1 = this.harvested_area_quad[harvested_quad_index - 1].Y - this.harvested_area_quad[harvested_quad_index - 2].Y;
+
+                double triangle2 = Math.Abs((x2x1 * y3y1) - (x3x1 * y2y1)) / 2.0;
+                this.harvested_quad_area += triangle2;
+            }
+            else
+            {
+            }
         }
 
         /// <summary>
@@ -429,10 +464,13 @@ namespace CombineBody
                 // Draw area
                 if (this.harvested_area_count > 3)
                 {
+                    // calculate haravested area
+                    this.CalculateHarvestedArea();
+
                     // Vertex array mode
                     GL.EnableClientState(ArrayCap.VertexArray);
                     GL.VertexPointer(3, VertexPointerType.Float, 0, this.harvested_area_quad);
-                    GL.Color3(Color.DarkBlue);
+                    GL.Color3(Color.Orange);
                     GL.DrawArrays(BeginMode.Polygon, 0, this.harvested_area_count);
                     GL.DisableClientState(ArrayCap.VertexArray);
                 }

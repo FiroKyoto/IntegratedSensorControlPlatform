@@ -60,6 +60,12 @@ namespace Display
                 SteeringForm steeringForm = new SteeringForm();
                 steeringForm.Show();
             }
+
+            if (this.PanasonicLidarCheckBox.Checked == true)
+            {
+                PanasonicLidarForm panasonicLidarForm = new PanasonicLidarForm();
+                panasonicLidarForm.Show();
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)

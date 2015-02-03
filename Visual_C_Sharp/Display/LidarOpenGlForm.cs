@@ -316,7 +316,7 @@ namespace Display
             // Vertex array mode
             GL.EnableClientState(ArrayCap.VertexArray);
             GL.VertexPointer(3, VertexPointerType.Float, 0, idealPathPoints);
-            GL.Color3(Color.Orange);
+            GL.Color3(Color.Navy);
             //GL.DrawArrays(BeginMode.Lines, 0, this.edgeOffset - 1);
             GL.DrawArrays(BeginMode.Lines, 0, 3);
             GL.DisableClientState(ArrayCap.VertexArray);
@@ -545,6 +545,11 @@ namespace Display
         private double ran_distance_between_points { get; set; }
 
         /// <summary>
+        /// gets or sets harvested area
+        /// </summary>
+        private double harvested_area { get; set; }
+
+        /// <summary>
         /// ransac state debug method
         /// </summary>
         /// <param name="_ran_start"></param>
@@ -564,6 +569,9 @@ namespace Display
 
             this.GlHarvestDistanceTxtBox.Text = _ran_distance_between_points.ToString("N3");
             this.ran_distance_between_points = _ran_distance_between_points;
+
+            this.GlHarvestedAreaTxtBox.Text = this._map.harvested_quad_area.ToString("N3");
+            this.harvested_area = this._map.harvested_quad_area;
 
             if (this.ran_start == true)
             {
@@ -719,7 +727,7 @@ namespace Display
             this.loaded = true;
 
             // Yey! .NET Colors can be used directly!
-            GL.ClearColor(Color.Black);
+            GL.ClearColor(Color.White);
             GL.Enable(EnableCap.DepthTest);
 
             this._map.SetupViewport(glControl1);

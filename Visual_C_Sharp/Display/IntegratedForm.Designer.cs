@@ -360,6 +360,11 @@
             this.ServerControlFlagTxtBox = new System.Windows.Forms.TextBox();
             this.label104 = new System.Windows.Forms.Label();
             this.tabPage10 = new System.Windows.Forms.TabPage();
+            this.groupBox29 = new System.Windows.Forms.GroupBox();
+            this.ClientSetBackwardSpeedTxtBox = new System.Windows.Forms.TextBox();
+            this.ClientSetForwardSpeedTxtBox = new System.Windows.Forms.TextBox();
+            this.label119 = new System.Windows.Forms.Label();
+            this.label118 = new System.Windows.Forms.Label();
             this.ClientLogButton = new System.Windows.Forms.Button();
             this.groupBox27 = new System.Windows.Forms.GroupBox();
             this.ClientTargetPathStartPoseYTxtBox = new System.Windows.Forms.TextBox();
@@ -379,6 +384,7 @@
             this.groupBox25 = new System.Windows.Forms.GroupBox();
             this.ClientDebugTxtBox = new System.Windows.Forms.TextBox();
             this.groupBox23 = new System.Windows.Forms.GroupBox();
+            this.G27Gauge = new WControls.Gauges.CircularGauge();
             this.ClientControlFlagTxtBox = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.ClientBuzzerTxtBox = new System.Windows.Forms.TextBox();
@@ -398,12 +404,6 @@
             this.groupBox28 = new System.Windows.Forms.GroupBox();
             this.SpeedometerLabel = new System.Windows.Forms.Label();
             this.SpeedGauge = new WControls.Gauges.CircularGauge();
-            this.G27Gauge = new WControls.Gauges.CircularGauge();
-            this.groupBox29 = new System.Windows.Forms.GroupBox();
-            this.label118 = new System.Windows.Forms.Label();
-            this.label119 = new System.Windows.Forms.Label();
-            this.ClientSetForwardSpeedTxtBox = new System.Windows.Forms.TextBox();
-            this.ClientSetBackwardSpeedTxtBox = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pBoxIpl1)).BeginInit();
@@ -441,6 +441,7 @@
             this.tabPage9.SuspendLayout();
             this.groupBox22.SuspendLayout();
             this.tabPage10.SuspendLayout();
+            this.groupBox29.SuspendLayout();
             this.groupBox27.SuspendLayout();
             this.groupBox26.SuspendLayout();
             this.groupBox25.SuspendLayout();
@@ -453,7 +454,6 @@
             this.tabPage11.SuspendLayout();
             this.CompassGroupBox.SuspendLayout();
             this.groupBox28.SuspendLayout();
-            this.groupBox29.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -3818,6 +3818,55 @@
             this.tabPage10.Text = "Client";
             this.tabPage10.UseVisualStyleBackColor = true;
             // 
+            // groupBox29
+            // 
+            this.groupBox29.Controls.Add(this.ClientSetBackwardSpeedTxtBox);
+            this.groupBox29.Controls.Add(this.ClientSetForwardSpeedTxtBox);
+            this.groupBox29.Controls.Add(this.label119);
+            this.groupBox29.Controls.Add(this.label118);
+            this.groupBox29.Location = new System.Drawing.Point(274, 308);
+            this.groupBox29.Name = "groupBox29";
+            this.groupBox29.Size = new System.Drawing.Size(265, 148);
+            this.groupBox29.TabIndex = 12;
+            this.groupBox29.TabStop = false;
+            this.groupBox29.Text = "Set Travel Speed";
+            // 
+            // ClientSetBackwardSpeedTxtBox
+            // 
+            this.ClientSetBackwardSpeedTxtBox.BackColor = System.Drawing.Color.Yellow;
+            this.ClientSetBackwardSpeedTxtBox.Location = new System.Drawing.Point(159, 67);
+            this.ClientSetBackwardSpeedTxtBox.Name = "ClientSetBackwardSpeedTxtBox";
+            this.ClientSetBackwardSpeedTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.ClientSetBackwardSpeedTxtBox.TabIndex = 3;
+            this.ClientSetBackwardSpeedTxtBox.Text = "-0.5";
+            // 
+            // ClientSetForwardSpeedTxtBox
+            // 
+            this.ClientSetForwardSpeedTxtBox.BackColor = System.Drawing.Color.Yellow;
+            this.ClientSetForwardSpeedTxtBox.Location = new System.Drawing.Point(159, 33);
+            this.ClientSetForwardSpeedTxtBox.Name = "ClientSetForwardSpeedTxtBox";
+            this.ClientSetForwardSpeedTxtBox.Size = new System.Drawing.Size(100, 19);
+            this.ClientSetForwardSpeedTxtBox.TabIndex = 2;
+            this.ClientSetForwardSpeedTxtBox.Text = "0.5";
+            // 
+            // label119
+            // 
+            this.label119.AutoSize = true;
+            this.label119.Location = new System.Drawing.Point(6, 70);
+            this.label119.Name = "label119";
+            this.label119.Size = new System.Drawing.Size(143, 12);
+            this.label119.TabIndex = 1;
+            this.label119.Text = "2. backward Speed [m/s] : ";
+            // 
+            // label118
+            // 
+            this.label118.AutoSize = true;
+            this.label118.Location = new System.Drawing.Point(6, 36);
+            this.label118.Name = "label118";
+            this.label118.Size = new System.Drawing.Size(133, 12);
+            this.label118.TabIndex = 0;
+            this.label118.Text = "1. forward Speed [m/s] : ";
+            // 
             // ClientLogButton
             // 
             this.ClientLogButton.BackColor = System.Drawing.Color.Yellow;
@@ -4016,6 +4065,26 @@
             this.groupBox23.TabIndex = 3;
             this.groupBox23.TabStop = false;
             this.groupBox23.Text = "Sending G27 wheel ";
+            // 
+            // G27Gauge
+            // 
+            this.G27Gauge.Axis.AxisColor = System.Drawing.Color.GreenYellow;
+            this.G27Gauge.Axis.AxisLengthDegrees = 360;
+            this.G27Gauge.Axis.AxisStartDegrees = 270;
+            this.G27Gauge.Axis.LabelColor = System.Drawing.Color.Red;
+            this.G27Gauge.Axis.LabelFontSize = 10F;
+            this.G27Gauge.Axis.MajorTickDivision = 30;
+            this.G27Gauge.Axis.MaxValue = 180;
+            this.G27Gauge.Axis.MinValue = -180;
+            this.G27Gauge.BackgroundColor = System.Drawing.Color.Transparent;
+            this.G27Gauge.Location = new System.Drawing.Point(169, 40);
+            this.G27Gauge.Name = "G27Gauge";
+            this.G27Gauge.Needle.HubColor = System.Drawing.Color.Transparent;
+            this.G27Gauge.Needle.HubShadeColor = System.Drawing.Color.Transparent;
+            this.G27Gauge.Needle.Orientation = 90D;
+            this.G27Gauge.Shape = WControls.ControlShape.Circular;
+            this.G27Gauge.Size = new System.Drawing.Size(220, 220);
+            this.G27Gauge.TabIndex = 2;
             // 
             // ClientControlFlagTxtBox
             // 
@@ -4270,82 +4339,14 @@
             this.SpeedGauge.Axis.LabelColor = System.Drawing.Color.Red;
             this.SpeedGauge.Axis.LabelFontSize = 10F;
             this.SpeedGauge.Axis.MajorTickDivision = 20;
-            this.SpeedGauge.Axis.MinValue = -100;
+            this.SpeedGauge.Axis.MaxValue = 200;
+            this.SpeedGauge.Axis.MinValue = -200;
             this.SpeedGauge.Location = new System.Drawing.Point(6, 14);
             this.SpeedGauge.Name = "SpeedGauge";
             this.SpeedGauge.Needle.Orientation = 90D;
             this.SpeedGauge.Shape = WControls.ControlShape.Circular;
             this.SpeedGauge.Size = new System.Drawing.Size(200, 200);
             this.SpeedGauge.TabIndex = 0;
-            // 
-            // G27Gauge
-            // 
-            this.G27Gauge.Axis.AxisColor = System.Drawing.Color.GreenYellow;
-            this.G27Gauge.Axis.AxisLengthDegrees = 360;
-            this.G27Gauge.Axis.AxisStartDegrees = 270;
-            this.G27Gauge.Axis.LabelColor = System.Drawing.Color.Red;
-            this.G27Gauge.Axis.LabelFontSize = 10F;
-            this.G27Gauge.Axis.MajorTickDivision = 30;
-            this.G27Gauge.Axis.MaxValue = 180;
-            this.G27Gauge.Axis.MinValue = -180;
-            this.G27Gauge.BackgroundColor = System.Drawing.Color.Transparent;
-            this.G27Gauge.Location = new System.Drawing.Point(169, 40);
-            this.G27Gauge.Name = "G27Gauge";
-            this.G27Gauge.Needle.HubColor = System.Drawing.Color.Transparent;
-            this.G27Gauge.Needle.HubShadeColor = System.Drawing.Color.Transparent;
-            this.G27Gauge.Needle.Orientation = 90D;
-            this.G27Gauge.Shape = WControls.ControlShape.Circular;
-            this.G27Gauge.Size = new System.Drawing.Size(220, 220);
-            this.G27Gauge.TabIndex = 2;
-            // 
-            // groupBox29
-            // 
-            this.groupBox29.Controls.Add(this.ClientSetBackwardSpeedTxtBox);
-            this.groupBox29.Controls.Add(this.ClientSetForwardSpeedTxtBox);
-            this.groupBox29.Controls.Add(this.label119);
-            this.groupBox29.Controls.Add(this.label118);
-            this.groupBox29.Location = new System.Drawing.Point(274, 308);
-            this.groupBox29.Name = "groupBox29";
-            this.groupBox29.Size = new System.Drawing.Size(265, 148);
-            this.groupBox29.TabIndex = 12;
-            this.groupBox29.TabStop = false;
-            this.groupBox29.Text = "Set Travel Speed";
-            // 
-            // label118
-            // 
-            this.label118.AutoSize = true;
-            this.label118.Location = new System.Drawing.Point(6, 36);
-            this.label118.Name = "label118";
-            this.label118.Size = new System.Drawing.Size(133, 12);
-            this.label118.TabIndex = 0;
-            this.label118.Text = "1. forward Speed [m/s] : ";
-            // 
-            // label119
-            // 
-            this.label119.AutoSize = true;
-            this.label119.Location = new System.Drawing.Point(6, 70);
-            this.label119.Name = "label119";
-            this.label119.Size = new System.Drawing.Size(143, 12);
-            this.label119.TabIndex = 1;
-            this.label119.Text = "2. backward Speed [m/s] : ";
-            // 
-            // ClientSetForwardSpeedTxtBox
-            // 
-            this.ClientSetForwardSpeedTxtBox.BackColor = System.Drawing.Color.Yellow;
-            this.ClientSetForwardSpeedTxtBox.Location = new System.Drawing.Point(159, 33);
-            this.ClientSetForwardSpeedTxtBox.Name = "ClientSetForwardSpeedTxtBox";
-            this.ClientSetForwardSpeedTxtBox.Size = new System.Drawing.Size(100, 19);
-            this.ClientSetForwardSpeedTxtBox.TabIndex = 2;
-            this.ClientSetForwardSpeedTxtBox.Text = "0.5";
-            // 
-            // ClientSetBackwardSpeedTxtBox
-            // 
-            this.ClientSetBackwardSpeedTxtBox.BackColor = System.Drawing.Color.Yellow;
-            this.ClientSetBackwardSpeedTxtBox.Location = new System.Drawing.Point(159, 67);
-            this.ClientSetBackwardSpeedTxtBox.Name = "ClientSetBackwardSpeedTxtBox";
-            this.ClientSetBackwardSpeedTxtBox.Size = new System.Drawing.Size(100, 19);
-            this.ClientSetBackwardSpeedTxtBox.TabIndex = 3;
-            this.ClientSetBackwardSpeedTxtBox.Text = "-0.5";
             // 
             // IntegratedForm
             // 
@@ -4415,6 +4416,8 @@
             this.groupBox22.ResumeLayout(false);
             this.groupBox22.PerformLayout();
             this.tabPage10.ResumeLayout(false);
+            this.groupBox29.ResumeLayout(false);
+            this.groupBox29.PerformLayout();
             this.groupBox27.ResumeLayout(false);
             this.groupBox27.PerformLayout();
             this.groupBox26.ResumeLayout(false);
@@ -4434,8 +4437,6 @@
             this.CompassGroupBox.PerformLayout();
             this.groupBox28.ResumeLayout(false);
             this.groupBox28.PerformLayout();
-            this.groupBox29.ResumeLayout(false);
-            this.groupBox29.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

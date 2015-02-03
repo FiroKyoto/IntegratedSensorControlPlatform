@@ -49,9 +49,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CsvFile.cs" />
     <Compile Include="File.cs" />
     <Compile Include="Graph.cs" />
+    <Compile Include="HiPerfTimer.cs" />
     <Compile Include="Hokuyo.cs" />
+    <Compile Include="MicroTimer.cs" />
+    <Compile Include="Panasonic.cs" />
     <Compile Include="SickLidar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
